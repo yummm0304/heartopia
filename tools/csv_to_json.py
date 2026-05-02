@@ -48,6 +48,7 @@ heartopia/
   # 특정 타입만 변환
   python tools/csv_to_json.py fish
   python tools/csv_to_json.py gather
+  python tools/csv_to_json.py recipe
   python tools/csv_to_json.py insect bird
   python tools/csv_to_json.py fish insect bird recipe crops shop gather
 

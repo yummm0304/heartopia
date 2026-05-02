@@ -277,6 +277,66 @@
       "image": "food_9226"
     },
     {
+      "name": "몰티즈 카눌레",
+      "price": 910,
+      "stamina": 45,
+      "ingredients": [
+        "달걀",
+        "우유",
+        "밀",
+        "딸기"
+      ],
+      "image": "food_9227"
+    },
+    {
+      "name": "리트리버 카눌레",
+      "price": 590,
+      "stamina": 35,
+      "ingredients": [
+        "달걀",
+        "우유",
+        "밀",
+        "커피 원두"
+      ],
+      "image": "food_9228"
+    },
+    {
+      "name": "몰티즈 콘파나",
+      "price": 520,
+      "stamina": 45,
+      "ingredients": [
+        "우유",
+        "우유",
+        "우유",
+        "커피"
+      ],
+      "image": "food_9229"
+    },
+    {
+      "name": "리트리버 콘파나",
+      "price": 520,
+      "stamina": 45,
+      "ingredients": [
+        "우유",
+        "우유",
+        "커피 원두",
+        "커피"
+      ],
+      "image": "food_9230"
+    },
+    {
+      "name": "하트 강아지",
+      "price": 1220,
+      "stamina": 85,
+      "ingredients": [
+        "우유",
+        "우유",
+        "커피",
+        "커피"
+      ],
+      "image": "food_9231"
+    },
+    {
       "name": "잔디 케이크",
       "price": 690,
       "stamina": 50,
