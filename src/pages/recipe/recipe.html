@@ -440,7 +440,7 @@
                 <option value="profit-desc">순이익 높은순</option>
                 <option value="roi-desc">수익률 높은순</option>
                 <option value="price-desc">판매가 높은순</option>
-                <option value="stamGold-desc">골드/체력 높은순</option>
+                <option value="stamGold-desc">체력/골드 높은순</option>
                 <option value="stamina-desc">체력 높은순</option>
                 <option value="name-asc">이름순</option>
                 <option value="profit-asc">순이익 낮은순</option>
@@ -611,14 +611,17 @@ function processRecipe(item, recipes) {
 
 // ── 등급 적용 계산 ──
 function calcForGrade(r, grade) {
-    const gMul = recipeData.gradeMultipliers[String(grade)] || 1;
-    const sMul = recipeData.staminaMultipliers[String(grade)] || 1;
-    const price   = Math.round(r.price * gMul);
-    const stamina = Math.round(r.stamina * sMul);
-    const profit  = price - r.baseCost;
-    const roi     = r.baseCost > 0 ? ((profit / r.baseCost) * 100) : 0;
-    const goldPerStam = stamina > 0 ? (price / stamina) : 0;
-    return { price, stamina, profit, roi, goldPerStam, baseCost: r.baseCost };
+    const gMul     = recipeData.gradeMultipliers[String(grade)] || 1;
+    const sMul     = recipeData.staminaMultipliers[String(grade)] || 1;
+    const servings = r.servings || 1;           // 섭취 횟수 (JSON에 없으면 기본값 1)
+    const price    = Math.round(r.price * gMul);
+    // 체력은 섭취 횟수를 곱한 총 획득량으로 계산 (1회 체력 × 섭취 횟수)
+    const stamina  = Math.round(r.stamina * sMul * servings);
+    const profit   = price - r.baseCost;
+    const roi      = r.baseCost > 0 ? ((profit / r.baseCost) * 100) : 0;
+    // 체력/골드: 골드 1G당 얻는 체력 (기존 골드/체력의 역수로 변경)
+    const stamPerGold = price > 0 ? (stamina / price) : 0;
+    return { price, stamina, servings, profit, roi, stamPerGold, baseCost: r.baseCost };
 }
 
 // ── 효율 등급 ──
@@ -660,7 +663,7 @@ function updateStats() {
     const bestROI = calced.reduce((a, b) => a.roi > b.roi ? a : b);
     document.getElementById('statBestROI').textContent = bestROI.name;
 
-    const bestStam = calced.reduce((a, b) => a.goldPerStam > b.goldPerStam ? a : b);
+    const bestStam = calced.reduce((a, b) => a.stamPerGold > b.stamPerGold ? a : b);
     document.getElementById('statBestStam').textContent = bestStam.name;
 
     const maxPrice = Math.max(...calced.map(r => r.price));
@@ -689,7 +692,7 @@ function applyFilters() {
         if (field === 'profit')   { va = a.profit;       vb = b.profit; }
         else if (field === 'roi') { va = a.roi;           vb = b.roi; }
         else if (field === 'price')    { va = a.price;        vb = b.price; }
-        else if (field === 'stamGold') { va = a.goldPerStam;  vb = b.goldPerStam; }
+        else if (field === 'stamGold') { va = a.stamPerGold;  vb = b.stamPerGold; }
         else if (field === 'stamina')  { va = a.stamina;       vb = b.stamina; }
         else if (field === 'name')     { return dir === 'asc' ? a.name.localeCompare(b.name, 'ko') : b.name.localeCompare(a.name, 'ko'); }
         else { va = 0; vb = 0; }
@@ -698,7 +701,7 @@ function applyFilters() {
 
     // 최대값 (바 그래프 계산용)
     const maxROI    = Math.max(...list.map(r => r.roi), 1);
-    const maxGPS    = Math.max(...list.map(r => r.goldPerStam), 1);
+    const maxGPS    = Math.max(...list.map(r => r.stamPerGold), 1);
 
     const area = document.getElementById('resultArea');
     if (!list.length) {
@@ -726,7 +729,7 @@ function renderCard(r, maxROI, maxGPS) {
     const badge    = getEfficiencyBadge(r.roi);
     const profitCls = r.profit >= 0 ? 'profit-pos' : 'profit-neg';
     const roiPct   = Math.max(0, Math.min(100, (r.roi / maxROI) * 100));
-    const gpsPct   = Math.max(0, Math.min(100, (r.goldPerStam / maxGPS) * 100));
+    const gpsPct   = Math.max(0, Math.min(100, (r.stamPerGold / maxGPS) * 100));
 
     const ingHTML = r.ingDetails.map(ing => {
         const typeCls = ing.type === 'recipe' ? 'recipe' :
@@ -782,8 +785,8 @@ function renderCard(r, maxROI, maxGPS) {
                 <div class="metric-value ${profitCls}">${r.profit >= 0 ? '+' : ''}${r.profit.toLocaleString()} G</div>
             </div>
             <div class="metric">
-                <div class="metric-label">⚡ 체력</div>
-                <div class="metric-value">${r.stamina}</div>
+                <div class="metric-label">⚡ 체력${r.servings > 1 ? ` (×${r.servings}회)` : ''}</div>
+                <div class="metric-value">${r.stamina}${r.servings > 1 ? `<span style="font-size:0.75em;color:var(--color-text-muted)"> (1회 ${Math.round(r.stamina / r.servings)})</span>` : ''}</div>
             </div>
         </div>
         <div class="metric-bar-wrap">
@@ -797,8 +800,8 @@ function renderCard(r, maxROI, maxGPS) {
         </div>
         <div class="metric-bar-wrap" style="margin-top:6px">
             <div class="metric-bar-label">
-                <span>골드/체력</span>
-                <span>${r.goldPerStam.toFixed(1)}</span>
+                <span>체력/골드</span>
+                <span>${r.stamPerGold.toFixed(2)}</span>
             </div>
             <div class="metric-bar">
                 <div class="metric-bar-fill bar-stam" style="width:${gpsPct}%"></div>
@@ -840,8 +843,8 @@ function renderTable(list, area) {
             <td>${r.baseCost.toLocaleString()} G</td>
             <td class="profit-cell ${profitCls}">${r.profit >= 0 ? '+' : ''}${r.profit.toLocaleString()} G</td>
             <td>${r.roi.toFixed(0)}%</td>
-            <td>${r.stamina}</td>
-            <td>${r.goldPerStam.toFixed(1)}</td>
+            <td>${r.stamina}${r.servings > 1 ? `<span style="font-size:0.75em;color:var(--color-text-muted)"> ×${r.servings}회</span>` : ''}</td>
+            <td>${r.stamPerGold.toFixed(2)}</td>
             <td class="buff-cell">${buffCellHTML}</td>
             <td><span class="table-badge ${badge.cls}">${badge.label}</span></td>
         </tr>`;
@@ -858,8 +861,8 @@ function renderTable(list, area) {
                     <th onclick="setSort('baseCost')">재료비</th>
                     <th onclick="setSort('profit')">순이익</th>
                     <th onclick="setSort('roi')">수익률 ROI</th>
-                    <th onclick="setSort('stamina')">체력</th>
-                    <th onclick="setSort('stamGold')">골드/체력</th>
+                    <th onclick="setSort('stamina')">체력 (총)</th>
+                    <th onclick="setSort('stamGold')">체력/골드</th>
                     <th>버프</th>
                     <th>효율 등급</th>
                 </tr>

@@ -64,6 +64,30 @@
 
         /* 정렬 방향 표시 */
         .sort-indicator { font-size: 0.75rem; margin-left: 4px; }
+
+        /* 채집 아이템 이미지 */
+        .gather-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            vertical-align: middle;
+            border-radius: 6px;
+        }
+        /* 이미지 없는 경우 대체 아이콘 셀 */
+        .img-cell {
+            width: 52px;
+            text-align: center;
+        }
+        .img-fallback {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 20px;
+            background: var(--color-surface-light);
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
@@ -225,17 +249,31 @@
             return `<span class="sort-indicator">${sortDir === 'asc' ? '▲' : '▼'}</span>`;
         };
 
-        const rows = data.map(item => `
+        // 이미지 경로 기준: public/images/gather_img/{image}.webp
+        const IMG_BASE = '../../../public/images/gather_img/';
+
+        const rows = data.map(item => {
+            // 이미지 셀: image 필드가 있으면 <img>, 없으면 이모지 아이콘
+            const imgCell = item.image
+                ? `<img class="gather-img"
+                        src="${IMG_BASE}${item.image}.webp"
+                        alt="${item.name}"
+                        onerror="this.outerHTML='<span class=\\'img-fallback\\'>🌿</span>'">`
+                : `<span class="img-fallback">🌿</span>`;
+
+            return `
             <tr>
+                <td class="img-cell">${imgCell}</td>
                 <td>${item.name}</td>
                 <td class="price">${item.sellPrice != null ? item.sellPrice + 'G' : '-'}</td>
-            </tr>`
-        ).join('');
+            </tr>`;
+        }).join('');
 
         document.getElementById('content').innerHTML = `
             <table class="gather-table">
                 <thead>
                     <tr>
+                        <th class="img-cell"></th>
                         <th onclick="setSort('name')">아이템명 ${arrow('name')}</th>
                         <th class="price" onclick="setSort('sellPrice')">판매가 ${arrow('sellPrice')}</th>
                     </tr>

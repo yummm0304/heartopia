@@ -25,6 +25,7 @@
         "버터"
       ],
       "image": "food_9201",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -38,6 +39,7 @@
         "버터"
       ],
       "image": "food_9202",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -50,6 +52,7 @@
         "살사 소스"
       ],
       "image": "food_9203",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -61,6 +64,7 @@
         "살사 소스 웨이브 감자칩"
       ],
       "image": "food_9204",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -72,6 +76,7 @@
         "살사 소스 웨이브 감자칩"
       ],
       "image": "food_9205",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -85,6 +90,7 @@
         "달걀"
       ],
       "image": "food_9206",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -97,6 +103,7 @@
         "로메인 타코"
       ],
       "image": "food_9207",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -109,6 +116,7 @@
         "로메인 타코"
       ],
       "image": "food_9208",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -121,6 +129,7 @@
         "로메인 타코"
       ],
       "image": "food_9209",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -133,6 +142,7 @@
         "로메인 타코"
       ],
       "image": "food_9210",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -145,6 +155,7 @@
         "로메인 타코"
       ],
       "image": "food_9211",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -158,6 +169,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9212",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -171,6 +183,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9213",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -184,6 +197,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9214",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -197,6 +211,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9215",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -210,6 +225,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9216",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -223,6 +239,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9217",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -236,6 +253,7 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9218",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -249,10 +267,11 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9219",
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
-      "name": "화려한 관람 세트",
+      "name": "디럭스 관람 세트",
       "price": 1960,
       "stamina": 60,
       "ingredients": [
@@ -262,6 +281,8 @@
       ],
       "image": "food_9220",
       "buff": "원기 왕성",
+      "servings": 3,
+      "feedable": false,
       "special": "꿈의 명암"
     },
     {
@@ -276,6 +297,8 @@
       ],
       "image": "food_9221",
       "buff": "활력 충만",
+      "servings": 4,
+      "feedable": false,
       "special": "꿈의 명암"
     }
   ]

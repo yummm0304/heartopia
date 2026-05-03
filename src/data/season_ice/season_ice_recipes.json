@@ -25,6 +25,7 @@
         "커피 원두"
       ],
       "image": "icecoffee",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -38,6 +39,7 @@
         "우유"
       ],
       "image": "icelatte",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -50,7 +52,7 @@
         "버터",
         "무"
       ],
-      "image": "adishmeat",
+      "image": "radishmeat",
       "special": "빙설"
     },
     {
@@ -77,6 +79,7 @@
         "블루베리"
       ],
       "image": "food_9104",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -90,6 +93,7 @@
         "블루베리"
       ],
       "image": "food_9105",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -103,6 +107,7 @@
         "라즈베리"
       ],
       "image": "food_9106",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -116,6 +121,7 @@
         "사과"
       ],
       "image": "food_9107",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -129,6 +135,7 @@
         "오렌지"
       ],
       "image": "food_9108",
+      "feedable": false,
       "special": "빙설"
     },
     {
@@ -142,6 +149,8 @@
         "사과 슈가파우더 팬케이크"
       ],
       "image": "food_9109",
+      "servings": 4,
+      "feedable": false,
       "special": "빙설"
     }
   ]

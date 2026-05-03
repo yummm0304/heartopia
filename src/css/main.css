@@ -39,7 +39,7 @@
 /* ── 카드 그리드 ── */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);   /* 카드 9개 → 3x3 고정 */
     gap: 20px;        /* 기존 30px → 20px */
     margin-top: 24px; /* 기존 40px → 24px */
 }

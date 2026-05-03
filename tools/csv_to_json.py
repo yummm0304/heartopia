@@ -298,10 +298,11 @@ def convert_recipe_row(row: dict[str, str]) -> dict[str, Any] | None:
 
     CSV 컬럼: 이름, 판매가(1등급), 체력(1등급),
               재료1, 재료2, 재료3, 재료4,
-              이미지, 시즌, 버프,
+              이미지, 시즌, 버프, 섭취 횟수, 먹이 가능,
               (빈 열), 등급, 판매 배수, 체력 배수
 
-    JSON 필드: name, price, stamina, ingredients, image(선택), buff(선택)
+    JSON 필드: name, price, stamina, ingredients, image(선택), buff(선택),
+               servings(선택, 기본값 1 → 저장 안 함), feedable(선택, false일 때만 저장)
 
     이미지: food_img/ 폴더의 텍스트 파일명 사용 (예: acupcake.webp)
 
@@ -360,6 +361,18 @@ def convert_recipe_row(row: dict[str, str]) -> dict[str, Any] | None:
     buff = str(row.get("버프", "")).strip()
     if buff:
         obj["buff"] = buff
+
+    # 섭취 횟수: 비어 있거나 1이면 기본값이므로 저장 안 함 (JSON 크기 최적화)
+    # 2 이상일 때만 "servings" 키를 추가
+    servings = parse_int(row.get("섭취 횟수", ""))
+    if servings is not None and servings > 1:
+        obj["servings"] = servings
+
+    # 먹이 가능: "False" / "FALSE" / "false" 일 때만 feedable: false 저장
+    # True 또는 비어 있으면 기본값(먹일 수 있음)이므로 키 생략
+    feedable_raw = str(row.get("먹이 가능", "")).strip().lower()
+    if feedable_raw == "false":
+        obj["feedable"] = False
 
     return obj
 
@@ -661,10 +674,11 @@ def convert_gather_row(row: dict[str, str]) -> dict[str, Any] | None:
     """
     CSV 한 행을 채집 아이템 JSON 객체로 변환.
 
-    CSV 컬럼: 이름, 판매가, 숨김
-    JSON 필드: name, sellPrice, hidden(optional)
+    CSV 컬럼: 이름, 판매가, 숨김, 이미지
+    JSON 필드: name, sellPrice, hidden(optional), image(optional)
 
     채집 아이템은 시즌 구분이 없으며 gather.json 단일 파일에 저장됩니다.
+    이미지 경로: public/images/gather_img/{image}.webp
     """
     name = str(row.get("이름", "")).strip()
     if not name:
@@ -685,6 +699,12 @@ def convert_gather_row(row: dict[str, str]) -> dict[str, Any] | None:
     hidden = str(row.get("숨김", "")).strip()
     if hidden:
         obj["hidden"] = hidden.lower() == "true"
+
+    # 이미지: gather_img/{image}.webp 형태로 사용됨 (텍스트 파일명)
+    # 엑셀에 이미지 컬럼이 추가된 경우에만 저장
+    image = str(row.get("이미지", "")).strip()
+    if image:
+        obj["image"] = image
 
     return obj
 

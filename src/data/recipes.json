@@ -25,6 +25,18 @@
       "image": "salad"
     },
     {
+      "name": "믹스드 잼",
+      "price": 160,
+      "stamina": 22,
+      "ingredients": [
+        "블루베리",
+        "블루베리",
+        "블루베리",
+        "블루베리"
+      ],
+      "image": "mixjam"
+    },
+    {
       "name": "라즈베리 잼",
       "price": 250,
       "stamina": 30,
@@ -82,7 +94,8 @@
         "오렌지",
         "오렌지"
       ],
-      "image": "orangejam"
+      "image": "orangejam",
+      "feedable": false
     },
     {
       "name": "딸기 잼",
@@ -106,7 +119,8 @@
         "파인애플",
         "파인애플"
       ],
-      "image": "pjam"
+      "image": "pjam",
+      "feedable": false
     },
     {
       "name": "포도 잼",
@@ -118,7 +132,8 @@
         "포도",
         "포도"
       ],
-      "image": "gjam"
+      "image": "gjam",
+      "feedable": false
     },
     {
       "name": "피시 앤 칩스",
@@ -130,7 +145,8 @@
         "감자",
         "감자"
       ],
-      "image": "fishchip"
+      "image": "fishchip",
+      "feedable": false
     },
     {
       "name": "치즈케이크",
@@ -141,7 +157,8 @@
         "우유",
         "밀"
       ],
-      "image": "cheesecake"
+      "image": "cheesecake",
+      "feedable": false
     },
     {
       "name": "오리지널 롤케이크",
@@ -153,7 +170,8 @@
         "사탕(150)",
         "사탕(150)"
       ],
-      "image": "roll"
+      "image": "roll",
+      "feedable": false
     },
     {
       "name": "롤케이크150",
@@ -165,7 +183,8 @@
         "사탕(150)",
         "사탕(150)"
       ],
-      "image": "broll"
+      "image": "broll",
+      "feedable": false
     },
     {
       "name": "롤케이크200",
@@ -177,7 +196,8 @@
         "사탕(200)",
         "사탕(200)"
       ],
-      "image": "rroll"
+      "image": "rroll",
+      "feedable": false
     },
     {
       "name": "버섯 파이",
@@ -190,6 +210,55 @@
         "달걀"
       ],
       "image": "mushroompie"
+    },
+    {
+      "name": "느타리버섯 파이",
+      "price": 500,
+      "stamina": 35,
+      "ingredients": [
+        "느타리버섯",
+        "느타리버섯",
+        "밀",
+        "달걀"
+      ],
+      "image": "pleurotuspie"
+    },
+    {
+      "name": "표고버섯 파이",
+      "price": 500,
+      "stamina": 35,
+      "ingredients": [
+        "표고버섯",
+        "표고버섯",
+        "밀",
+        "달걀"
+      ],
+      "image": "shiitakepie"
+    },
+    {
+      "name": "양송이버섯 파이",
+      "price": 500,
+      "stamina": 35,
+      "ingredients": [
+        "양송이버섯",
+        "양송이버섯",
+        "밀",
+        "달걀"
+      ],
+      "image": "tricholomapie"
+    },
+    {
+      "name": "그물버섯 파이",
+      "price": 500,
+      "stamina": 35,
+      "ingredients": [
+        "그물버섯",
+        "그물버섯",
+        "밀",
+        "달걀"
+      ],
+      "image": "boletuspie",
+      "feedable": false
     },
     {
       "name": "검은 트러플 파이",
@@ -216,13 +285,63 @@
       "image": "bakemushroom"
     },
     {
+      "name": "구운 느타리버섯",
+      "price": 180,
+      "stamina": 15,
+      "ingredients": [
+        "느타리버섯",
+        "느타리버섯",
+        "느타리버섯",
+        "느타리버섯"
+      ],
+      "image": "bakepleurotus"
+    },
+    {
+      "name": "구운 표고버섯",
+      "price": 180,
+      "stamina": 15,
+      "ingredients": [
+        "표고버섯",
+        "표고버섯",
+        "표고버섯",
+        "표고버섯"
+      ],
+      "image": "bakeshiitake"
+    },
+    {
+      "name": "구운 양송이버섯",
+      "price": 180,
+      "stamina": 15,
+      "ingredients": [
+        "양송이버섯",
+        "양송이버섯",
+        "양송이버섯",
+        "양송이버섯"
+      ],
+      "image": "baketricholoma"
+    },
+    {
+      "name": "구운 그물버섯",
+      "price": 180,
+      "stamina": 15,
+      "ingredients": [
+        "그물버섯",
+        "그물버섯",
+        "그물버섯",
+        "그물버섯"
+      ],
+      "image": "bakeboletus",
+      "feedable": false
+    },
+    {
       "name": "온천란",
       "price": 130,
       "stamina": 15,
       "ingredients": [
         "멸균란"
       ],
-      "image": "egg"
+      "image": "egg",
+      "feedable": false
     },
     {
       "name": "부활절 달걀",
@@ -232,7 +351,8 @@
         "달걀",
         "우유"
       ],
-      "image": "food_9222"
+      "image": "food_9222",
+      "feedable": false
     },
     {
       "name": "부활절 보라 달걀",
@@ -242,7 +362,8 @@
         "달걀",
         "포도"
       ],
-      "image": "food_9223"
+      "image": "food_9223",
+      "feedable": false
     },
     {
       "name": "부활절 초록 달걀",
@@ -252,7 +373,8 @@
         "달걀",
         "양상추"
       ],
-      "image": "food_9224"
+      "image": "food_9224",
+      "feedable": false
     },
     {
       "name": "부활절 주황 달걀",
@@ -262,7 +384,8 @@
         "달걀",
         "사과"
       ],
-      "image": "food_9225"
+      "image": "food_9225",
+      "feedable": false
     },
     {
       "name": "부활절 이스터에그 파티",
@@ -274,7 +397,9 @@
         "부활절 초록 달걀",
         "부활절 주황 달걀"
       ],
-      "image": "food_9226"
+      "image": "food_9226",
+      "servings": 3,
+      "feedable": false
     },
     {
       "name": "몰티즈 카눌레",
@@ -286,7 +411,8 @@
         "밀",
         "딸기"
       ],
-      "image": "food_9227"
+      "image": "whcanneles",
+      "feedable": false
     },
     {
       "name": "리트리버 카눌레",
@@ -298,7 +424,8 @@
         "밀",
         "커피 원두"
       ],
-      "image": "food_9228"
+      "image": "gcanneles",
+      "feedable": false
     },
     {
       "name": "몰티즈 콘파나",
@@ -310,7 +437,8 @@
         "우유",
         "커피"
       ],
-      "image": "food_9229"
+      "image": "whcoffee",
+      "feedable": false
     },
     {
       "name": "리트리버 콘파나",
@@ -322,7 +450,8 @@
         "커피 원두",
         "커피"
       ],
-      "image": "food_9230"
+      "image": "gcoffee",
+      "feedable": false
     },
     {
       "name": "하트 강아지",
@@ -334,7 +463,8 @@
         "커피",
         "커피"
       ],
-      "image": "food_9231"
+      "image": "fcoffee",
+      "feedable": false
     },
     {
       "name": "잔디 케이크",
@@ -346,7 +476,8 @@
         "말차가루",
         "잔디"
       ],
-      "image": "greengrasscake"
+      "image": "greengrasscake",
+      "feedable": false
     },
     {
       "name": "커피",
@@ -358,7 +489,8 @@
         "커피 원두",
         "커피 원두"
       ],
-      "image": "bcoffee"
+      "image": "bcoffee",
+      "feedable": false
     },
     {
       "name": "카페라떼",
@@ -370,7 +502,8 @@
         "우유",
         "우유"
       ],
-      "image": "latte"
+      "image": "latte",
+      "feedable": false
     },
     {
       "name": "훈제 연어 베이글",
@@ -382,7 +515,8 @@
         "토마토",
         "밀"
       ],
-      "image": "bagel"
+      "image": "bagel",
+      "feedable": false
     },
     {
       "name": "씨푸드 덮밥",
@@ -407,7 +541,8 @@
         "물고기(100)"
       ],
       "image": "seapizza",
-      "buff": "활력 충만"
+      "buff": "활력 충만",
+      "feedable": false
     },
     {
       "name": "티라미수",
@@ -466,7 +601,8 @@
         "달걀",
         "버터"
       ],
-      "image": "applepie"
+      "image": "applepie",
+      "feedable": false
     },
     {
       "name": "당근 케이크",
@@ -478,7 +614,8 @@
         "달걀",
         "밀"
       ],
-      "image": "cacake"
+      "image": "cacake",
+      "feedable": false
     },
     {
       "name": "콘스프",
@@ -516,7 +653,9 @@
         "피시 앤 칩스"
       ],
       "image": "camping",
-      "buff": "무한한 힘"
+      "buff": "무한한 힘",
+      "servings": 4,
+      "feedable": false
     },
     {
       "name": "잉글리시 애프터눈 티",
@@ -526,7 +665,9 @@
         "티라미수",
         "블루베리"
       ],
-      "image": "aftertea"
+      "image": "aftertea",
+      "servings": 4,
+      "feedable": false
     },
     {
       "name": "미트버거",
@@ -550,7 +691,9 @@
         "가재",
         "양상추"
       ],
-      "image": "pcocktail"
+      "image": "pcocktail",
+      "servings": 3,
+      "feedable": false
     },
     {
       "name": "북유럽파란가재 냉채",
@@ -562,7 +705,9 @@
         "북유럽파란가재",
         "양상추"
       ],
-      "image": "bpcocktail"
+      "image": "bpcocktail",
+      "servings": 3,
+      "feedable": false
     },
     {
       "name": "미트소스 가지 그라탱",
@@ -587,7 +732,9 @@
         "씨푸드 덮밥",
         "티라미수"
       ],
-      "image": "cdinner"
+      "image": "cdinner",
+      "servings": 4,
+      "feedable": false
     },
     {
       "name": "킹크랩찜",

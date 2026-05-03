@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RXTDCP8G1V');
+    </script>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>펫 먹이 선호도 - 두근두근타운</title>
+    <link href="../../css/common.css" rel="stylesheet">
+    <script src="../../../src/js/tracker.js"></script>
+
+    <style>
+        /* ============================================================
+           펫 먹이 선호도 페이지 전용 스타일
+           ─ common.css의 디자인 토큰(CSS 변수)을 최대한 재사용
+           ─ 카드 상태: 기본 / tried(흐림) / liked(핀) / tried+liked
+        ============================================================ */
+
+        /* ── localStorage 안내 배너 ─────────────────────────────── */
+        .storage-notice {
+            max-width: 1100px;
+            margin: 12px auto 0;
+            padding: 0 16px;
+        }
+        .storage-notice-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fffbea;
+            border: 1px solid #f5d76e;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #7a6000;
+            line-height: 1.5;
+        }
+        .storage-notice-inner .notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+        .storage-notice-dismiss {
+            margin-left: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #b8980a;
+            font-size: 14px;
+            padding: 0 0 0 8px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .storage-notice-dismiss:hover { color: #7a6000; }
+
+        /* ── 펫 탭 영역 ─────────────────────────────────────────── */
+        .pet-tab-area {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .pet-tab-bar {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 16px 0 0;
+        }
+
+        /* 개별 펫 탭 */
+        .pet-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            padding: 8px 14px;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: 'LaundryGothic', sans-serif;
+            font-size: 14px;
+            color: var(--color-text-soft);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+            max-width: 220px;
+        }
+
+        /* 탭 첫 줄: 아이콘 + 이름 + 삭제 */
+        .tab-top-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .tab-name { font-weight: 700; }
+
+        /* 탭 둘째 줄: 좋아하는 것 목록 (핀 뱃지) */
+        .tab-liked-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            max-width: 200px;
+        }
+
+        .tab-liked-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+            background: #fff0f5;
+            border: 1px solid var(--color-primary-light);
+            color: var(--color-primary);
+            border-radius: 10px;
+            padding: 1px 6px;
+            white-space: nowrap;
+        }
+
+        /* 활성 탭 */
+        .pet-tab.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-primary-surface);
+        }
+
+        /* 탭 삭제 버튼 */
+        .tab-delete {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 11px;
+            padding: 0 0 0 4px;
+            line-height: 1;
+            transition: color 0.2s;
+            margin-left: auto;
+        }
+        .tab-delete:hover { color: #e74c3c; }
+
+        /* 펫 추가 버튼 */
+        .add-pet-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: 'BMJUA', sans-serif;
+            font-size: 14px;
+            transition: background 0.2s, transform 0.1s;
+            align-self: flex-start;
+        }
+        .add-pet-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* ── 펫 에디터 영역 ─────────────────────────────────────── */
+        .pet-editor {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* 펫 이름 + 종류 선택 바 */
+        .pet-info-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--color-border);
+        }
+
+        /* 이름 입력란 */
+        .pet-name-edit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .pet-edit-icon { font-size: 28px; line-height: 1; }
+
+        .pet-name-input {
+            font-family: 'BMJUA', sans-serif;
+            font-size: 18px;
+            color: var(--color-text-strong);
+            border: none;
+            border-bottom: 2px solid var(--color-border);
+            background: transparent;
+            outline: none;
+            padding: 4px 6px;
+            width: 160px;
+            transition: border-color 0.2s;
+        }
+        .pet-name-input:focus { border-bottom-color: var(--color-primary); }
+
+        /* 고양이/강아지 토글 */
+        .pet-type-toggle { display: flex; gap: 8px; }
+
+        .type-btn {
+            padding: 7px 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 20px;
+            background: var(--color-surface);
+            color: var(--color-text-soft);
+            font-family: 'BMJUA', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .type-btn:hover { border-color: var(--color-primary-light); color: var(--color-primary); }
+        .type-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: white; }
+
+        /* ── 진행도 표시 ─────────────────────────────────────────── */
+        .progress-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 16px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .progress-stat-group { display: flex; gap: 16px; align-items: center; }
+
+        .progress-stat {
+            font-size: 13px;
+            color: var(--color-text-soft);
+        }
+        .progress-stat strong {
+            font-family: 'BMJUA', sans-serif;
+            font-size: 15px;
+        }
+        /* 먹여봄 카운트: 회색 */
+        .stat-tried strong { color: var(--color-text-muted); }
+        /* 좋아함 카운트: 핑크 */
+        .stat-liked strong { color: var(--color-primary); }
+
+        .progress-track {
+            height: 8px;
+            background: var(--color-surface-dim);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* tried 진행 (회색 바) */
+        .progress-fill-tried {
+            position: absolute;
+            left: 0; top: 0; height: 100%;
+            background: var(--color-surface-dim);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            /* tried 바는 배경과 대비되도록 살짝 어둡게 */
+            background: #ccc;
+        }
+
+        /* liked 진행 (핑크 바, tried 위에 겹침) */
+        .progress-fill-liked {
+            position: absolute;
+            left: 0; top: 0; height: 100%;
+            background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* 전체 해제 버튼 */
+        .clear-btn {
+            background: none;
+            border: 1px solid var(--color-border-soft);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-family: 'LaundryGothic', sans-serif;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .clear-btn:hover { border-color: #e74c3c; color: #e74c3c; }
+
+        /* ── 아이템 그리드 ──────────────────────────────────────── */
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+        }
+
+        /* 개별 아이템 카드
+           ─ 기본: 선명한 상태
+           ─ .tried: opacity 낮춤 + grayscale (먹여봤다)
+           ─ .liked: 핑크 테두리 + 밝은 배경 (좋아함)
+           ─ .tried.liked: 흐리지 않고 liked 스타일 우선 적용
+        */
+        .item-card {
+            position: relative;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 10px 6px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s, filter 0.2s, border-color 0.15s, background 0.15s, transform 0.1s;
+            user-select: none;
+        }
+
+        .item-card:hover { transform: translateY(-2px); }
+
+        /* tried 상태: 흐리게 + 회색조 */
+        .item-card.tried {
+            opacity: 0.38;
+            filter: grayscale(60%);
+            border-color: transparent;
+        }
+        .item-card.tried:hover {
+            opacity: 0.6;
+            filter: grayscale(30%);
+        }
+
+        /* liked 상태: tried 덮어쓰기, 선명하게 + 핑크 강조 */
+        .item-card.liked {
+            opacity: 1 !important;
+            filter: none !important;
+            background: var(--color-primary-surface);
+            border-color: var(--color-primary);
+        }
+
+        /* ❤️ 핀 버튼 (카드 우상단) */
+        .btn-like {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 2px;
+            color: var(--color-text-faint);
+            transition: color 0.15s, transform 0.1s;
+            z-index: 1;
+        }
+        .btn-like:hover { transform: scale(1.2); }
+        /* 좋아함 상태일 때 빨간 하트 */
+        .item-card.liked .btn-like { color: #e74c3c; }
+
+        /* 먹여봄 체크 뱃지 (카드 좌상단) */
+        .tried-mark {
+            position: absolute;
+            top: 5px;
+            left: 6px;
+            font-size: 10px;
+            color: var(--color-text-faint);
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        .item-card.tried .tried-mark { opacity: 1; }
+
+        /* 아이템 이미지 */
+        .item-img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            pointer-events: none; /* 하트 버튼 클릭을 방해하지 않도록 */
+        }
+
+        /* 이미지 없을 때 대체 아이콘 */
+        .item-img-fallback {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: var(--color-surface-light);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        /* 아이템 이름 */
+        .item-name {
+            font-size: 11px;
+            color: var(--color-text);
+            text-align: center;
+            line-height: 1.3;
+            word-break: keep-all;
+            pointer-events: none;
+        }
+        .item-card.liked .item-name {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* ── 모바일 대응 ─────────────────────────────────────────── */
+        @media (max-width: 600px) {
+            .pet-info-bar { flex-direction: column; align-items: flex-start; }
+            .item-grid { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+            .item-img { width: 44px; height: 44px; }
+            .progress-stat-group { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<main>
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>🐾 펫 먹이 선호도</h1>
+        <p>하나씩 먹여보고 좋아하는 걸 ❤️ 로 표시해두세요</p>
+    </div>
+
+    <!-- localStorage 안내 배너 -->
+    <div class="storage-notice" id="storageNotice">
+        <div class="storage-notice-inner">
+            <span class="notice-icon">⚠️</span>
+            <span>
+                기록은 <strong>이 브라우저의 로컬 저장소(localStorage)</strong>에 저장돼요.
+                브라우저의 <strong>캐시·사이트 데이터 삭제</strong> 또는 <strong>시크릿 모드</strong>에서는 기록이 사라질 수 있어요.
+                중요한 기록은 따로 메모해두는 걸 권장해요.
+            </span>
+            <button class="storage-notice-dismiss" onclick="dismissNotice()" title="닫기">✕</button>
+        </div>
+    </div>
+
+    <!-- 펫 탭 + 추가 버튼 -->
+    <div class="pet-tab-area">
+        <div class="pet-tab-bar" id="petTabBar">
+            <!-- JS로 동적 생성 -->
+        </div>
+    </div>
+
+    <!-- 펫 콘텐츠 (이름 편집 + 체크리스트) -->
+    <div id="petContent">
+        <!-- JS로 동적 생성 -->
+    </div>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<!-- 공통 스크립트 (헤더·푸터 로드, BASE 변수 정의) -->
+<script src="../../../src/js/common.js"></script>
+
+<script>
+    /* ============================================================
+       펫 먹이 선호도 — 메인 스크립트
+       ─ localStorage 키: heartopia_pet_preferences
+
+       아이템 소스 구분:
+         _src: 'fish'   → fish_img/fish_{image}.webp
+         _src: 'recipe' → food_img/{image}.webp
+         _src: 'gather' → gather_img/{image}.webp (image 없으면 fallback 이모지)
+
+       고양이 목록: 어류 전체 + 고양이 사료 + 동물 공용 음식 (gather)
+       강아지 목록: 레시피(feedable != false) + 시즌 레시피
+                   + 사과·느타리버섯·표고버섯·양송이버섯·강아지 사료·동물 공용 음식 (gather)
+
+       카드 상태 2가지 (독립적으로 저장):
+         tried  : 먹여봤다 → 카드 흐리게 (opacity + grayscale)
+         liked  : 좋아한다 → 핑크 강조, 탭에 이름 표시
+    ============================================================ */
+
+    // ── 상수 ────────────────────────────────────────────────────
+    const STORAGE_KEY        = 'heartopia_pet_preferences';
+    const NOTICE_DISMISS_KEY = 'heartopia_pet_notice_dismissed';
+
+    // 강아지가 먹을 수 있는 채집 아이템 이름 목록 (gather.json에서 이 이름만 추출)
+    const DOG_GATHER_NAMES = new Set(['사과', '느타리버섯', '표고버섯', '양송이버섯', '강아지 사료', '동물 공용 음식']);
+    // 고양이가 먹을 수 있는 채집 아이템 이름 목록
+    const CAT_GATHER_NAMES = new Set(['고양이 사료', '동물 공용 음식']);
+
+    // ── 상태 ────────────────────────────────────────────────────
+    let pets         = [];   // 펫 목록
+    let fishData     = [];   // 기본 어류
+    let recipeData   = [];   // 레시피 전체 (일반 + 시즌, feedable != false만)
+    let gatherData   = [];   // 채집 아이템 전체 (hidden 포함, 이름으로 필터링)
+    let activePetIdx = 0;    // 현재 선택된 펫 인덱스
+
+    // ── 초기화 ──────────────────────────────────────────────────
+    async function init() {
+        // 배너 닫힘 여부 복원
+        if (localStorage.getItem(NOTICE_DISMISS_KEY) === '1') {
+            const notice = document.getElementById('storageNotice');
+            if (notice) notice.style.display = 'none';
+        }
+
+        try {
+            // 모든 데이터 병렬 로드
+            // 시즌 레시피도 강아지 목록에 포함하므로 함께 로드
+            const [fishRes, recipeRes, gatherRes, iceRes, dlRes] = await Promise.all([
+                fetch(`${BASE}/src/data/fish_data.json`),
+                fetch(`${BASE}/src/data/recipes.json`),
+                fetch(`${BASE}/src/data/gather.json`),
+                fetch(`${BASE}/src/data/season_ice/season_ice_recipes.json`).catch(() => null),
+                fetch(`${BASE}/src/data/season_dreamlight/season_dreamlight_recipes.json`).catch(() => null),
+            ]);
+
+            fishData   = await fishRes.json();
+            gatherData = await gatherRes.json();   // hidden 포함 전체 (이름으로 필터)
+
+            // 레시피: 일반 + 시즌 합산, feedable=false 제외
+            const rj = await recipeRes.json();
+            let allRecipes = [...rj.items];
+            if (iceRes?.ok) {
+                const ij = await iceRes.json();
+                allRecipes = allRecipes.concat(ij.items || []);
+            }
+            if (dlRes?.ok) {
+                const dj = await dlRes.json();
+                allRecipes = allRecipes.concat(dj.items || []);
+            }
+            // feedable: false 인 항목 제외 (명시적으로 false일 때만 제외, 없으면 먹을 수 있음)
+            recipeData = allRecipes.filter(r => r.feedable !== false);
+
+        } catch (e) {
+            console.error('데이터 로드 실패:', e);
+        }
+
+        loadPets();
+        render();
+    }
+
+    // ── 펫 타입별 아이템 목록 반환 ──────────────────────────────
+    // 각 아이템에 _src 필드를 추가해 이미지 경로 분기에 사용
+    function getPetItems(pet) {
+        if (pet.type === 'cat') {
+            // 어류 전체
+            // 고양이는 10레벨 이하 어류만 표시 (11레벨 이상은 숨김)
+            const fish = fishData.filter(f => (f.level ?? 0) <= 10).map(f => ({ ...f, _src: 'fish' }));
+            // gather에서 고양이 전용 아이템
+            const catGather = gatherData
+                .filter(g => CAT_GATHER_NAMES.has(g.name))
+                .map(g => ({ ...g, _src: 'gather' }));
+            return [...fish, ...catGather];
+        } else {
+            // 레시피 전체 (이미 feedable 필터링됨)
+            const recipes = recipeData.map(r => ({ ...r, _src: 'recipe' }));
+            // gather에서 강아지 전용 아이템
+            const dogGather = gatherData
+                .filter(g => DOG_GATHER_NAMES.has(g.name))
+                .map(g => ({ ...g, _src: 'gather' }));
+            return [...recipes, ...dogGather];
+        }
+    }
+
+    // ── 아이템 고유 ID 생성 ─────────────────────────────────────
+    // fish / recipe 는 image 키 사용, gather 는 name 사용 (image가 없을 수 있음)
+    function getItemId(item) {
+        if (item._src === 'fish')   return `fish_${item.image}`;
+        if (item._src === 'recipe') return `recipe_${item.image}`;
+        return `gather_${item.name}`;   // gather 아이템
+    }
+
+    // ── 배너 닫기 ───────────────────────────────────────────────
+    function dismissNotice() {
+        // 닫힘 상태를 localStorage에 기억 (페이지 재방문 시 숨김 유지)
+        localStorage.setItem(NOTICE_DISMISS_KEY, '1');
+        const notice = document.getElementById('storageNotice');
+        if (notice) notice.style.display = 'none';
+    }
+
+    // ── localStorage 입출력 ─────────────────────────────────────
+    function loadPets() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try { pets = JSON.parse(saved); } catch { pets = []; }
+        }
+        // 기존 데이터 하위호환: checked 키만 있으면 tried로 마이그레이션
+        pets = (pets || []).map(p => ({
+            ...p,
+            tried: p.tried || p.checked || {},   // 이전 버전 checked → tried
+            liked: p.liked || {}
+        }));
+        // 삭제: 불필요해진 checked 키
+        pets.forEach(p => { delete p.checked; });
+
+        if (pets.length === 0) {
+            pets = [makePet('냥이', 'cat')];
+            savePets();
+        }
+    }
+
+    function savePets() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(pets));
+    }
+
+    // ── 펫 생성 헬퍼 ────────────────────────────────────────────
+    function makePet(name, type) {
+        return {
+            id: Date.now().toString() + Math.random().toString(36).slice(2),
+            name: name,
+            type: type,   // 'cat' | 'dog'
+            tried: {},    // { itemId: true } — 먹여본 것
+            liked: {}     // { itemId: true } — 좋아하는 것
+        };
+    }
+
+    // ── 펫 CRUD ─────────────────────────────────────────────────
+    function addPet() {
+        pets.push(makePet(`펫 ${pets.length + 1}`, 'cat'));
+        activePetIdx = pets.length - 1;
+        savePets();
+        render();
+    }
+
+    function removePet(idx) {
+        if (pets.length === 1) { alert('최소 1마리의 펫이 필요해요!'); return; }
+        if (!confirm(`"${pets[idx].name}"을(를) 삭제할까요?\n모든 기록이 함께 사라져요.`)) return;
+        pets.splice(idx, 1);
+        if (activePetIdx >= pets.length) activePetIdx = pets.length - 1;
+        savePets();
+        render();
+    }
+
+    function setActivePet(idx) {
+        activePetIdx = idx;
+        render();
+    }
+
+    // ── 펫 속성 업데이트 ────────────────────────────────────────
+    function updatePetName(idx, value) {
+        pets[idx].name = value;
+        savePets();
+        // 탭 이름만 부분 업데이트 (전체 re-render 없이)
+        const tabNameEls = document.querySelectorAll('.tab-name');
+        if (tabNameEls[idx]) tabNameEls[idx].textContent = value || '이름 없음';
+    }
+
+    function updatePetType(idx, type) {
+        if (pets[idx].type === type) return;
+        const ok = confirm(`종류를 바꾸면 "${pets[idx].name}"의 모든 기록이 초기화돼요. 계속할까요?`);
+        if (!ok) return;
+        pets[idx].type  = type;
+        pets[idx].tried = {};
+        pets[idx].liked = {};
+        savePets();
+        render();
+    }
+
+    // ── tried 토글 (카드 본체 클릭) ─────────────────────────────
+    function toggleTried(petIdx, itemId) {
+        const pet = pets[petIdx];
+        if (pet.tried[itemId]) {
+            delete pet.tried[itemId];
+        } else {
+            pet.tried[itemId] = true;
+        }
+        savePets();
+
+        // 해당 카드 클래스만 업데이트 (DOM 전체 재생성 없이 성능 최적화)
+        const card = document.querySelector(`[data-item-id="${CSS.escape(itemId)}"]`);
+        if (card) {
+            card.classList.toggle('tried', !!pet.tried[itemId]);
+        }
+        refreshProgress();
+    }
+
+    // ── liked 토글 (❤️ 버튼 클릭) ──────────────────────────────
+    function toggleLiked(petIdx, itemId, event) {
+        event.stopPropagation(); // 카드 클릭(tried)이 함께 발동하지 않도록 차단
+
+        const pet = pets[petIdx];
+        if (pet.liked[itemId]) {
+            delete pet.liked[itemId];
+        } else {
+            pet.liked[itemId] = true;
+        }
+        savePets();
+
+        // 카드 liked 클래스 토글
+        const card = document.querySelector(`[data-item-id="${CSS.escape(itemId)}"]`);
+        if (card) {
+            card.classList.toggle('liked', !!pet.liked[itemId]);
+        }
+
+        // 탭의 좋아함 뱃지 부분만 업데이트
+        refreshTabLiked(petIdx);
+        refreshProgress();
+    }
+
+    // ── 탭 liked 뱃지 업데이트 ─────────────────────────────────
+    function refreshTabLiked(petIdx) {
+        const tabEl = document.querySelectorAll('.pet-tab')[petIdx];
+        if (!tabEl) return;
+
+        const pet   = pets[petIdx];
+        const items = getPetItems(pet);
+
+        // liked된 아이템 이름 목록 추출
+        const likedNames = items
+            .filter(item => !!pet.liked[getItemId(item)])
+            .map(item => item.name);
+
+        let rowEl = tabEl.querySelector('.tab-liked-row');
+        if (!rowEl) {
+            rowEl = document.createElement('div');
+            rowEl.className = 'tab-liked-row';
+            tabEl.appendChild(rowEl);
+        }
+
+        if (likedNames.length === 0) {
+            rowEl.innerHTML = '';
+        } else {
+            rowEl.innerHTML = likedNames.map(n =>
+                `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`
+            ).join('');
+        }
+    }
+
+    // ── 전체 기록 초기화 ────────────────────────────────────────
+    function clearAll(petIdx) {
+        if (!confirm('먹여봄 · 좋아함 기록을 모두 초기화할까요?')) return;
+        pets[petIdx].tried = {};
+        pets[petIdx].liked = {};
+        savePets();
+        // 카드 클래스 전부 제거 (re-render 없이)
+        document.querySelectorAll('.item-card').forEach(el => {
+            el.classList.remove('tried', 'liked');
+        });
+        refreshTabLiked(petIdx);
+        refreshProgress();
+    }
+
+    // ── 진행도 갱신 ─────────────────────────────────────────────
+    function refreshProgress() {
+        const pet        = pets[activePetIdx];
+        const total      = getPetItems(pet).length;    // 고양이/강아지별 실제 목록 수
+        const triedCount = Object.keys(pet.tried).length;
+        const likedCount = Object.keys(pet.liked).length;
+
+        const triedEl  = document.getElementById('statTried');
+        const likedEl  = document.getElementById('statLiked');
+        const barTried = document.getElementById('barTried');
+        const barLiked = document.getElementById('barLiked');
+
+        if (triedEl)  triedEl.textContent  = `${triedCount} / ${total}`;
+        if (likedEl)  likedEl.textContent  = `${likedCount}`;
+        if (barTried && total > 0) barTried.style.width = `${(triedCount / total) * 100}%`;
+        if (barLiked && total > 0) barLiked.style.width = `${(likedCount / total) * 100}%`;
+    }
+
+    // ── 렌더링 ──────────────────────────────────────────────────
+    function render() {
+        renderTabs();
+        renderContent();
+    }
+
+    /* 탭 바 전체 렌더 */
+    function renderTabs() {
+        const bar = document.getElementById('petTabBar');
+
+        const tabsHtml = pets.map((pet, i) => {
+            // getPetItems를 사용해 고양이/강아지 전체 목록에서 liked 추출
+            const items      = getPetItems(pet);
+            const likedNames = items
+                .filter(item => !!pet.liked[getItemId(item)])
+                .map(item => item.name);
+
+            const likedBadgesHtml = likedNames.length > 0
+                ? `<div class="tab-liked-row">
+                       ${likedNames.map(n => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('')}
+                   </div>`
+                : '';
+
+            return `
+                <div class="pet-tab ${i === activePetIdx ? 'active' : ''}"
+                     onclick="setActivePet(${i})">
+                    <div class="tab-top-row">
+                        <span>${pet.type === 'cat' ? '🐱' : '🐶'}</span>
+                        <span class="tab-name">${escHtml(pet.name || '이름 없음')}</span>
+                        <button class="tab-delete"
+                                onclick="event.stopPropagation(); removePet(${i})"
+                                title="펫 삭제">✕</button>
+                    </div>
+                    ${likedBadgesHtml}
+                </div>
+            `;
+        }).join('');
+
+        bar.innerHTML = tabsHtml + `
+            <button class="add-pet-btn" onclick="addPet()">＋ 펫 추가</button>
+        `;
+    }
+
+    /* 콘텐츠 영역 렌더 */
+    function renderContent() {
+        const pet        = pets[activePetIdx];
+        const items      = getPetItems(pet);    // 고양이/강아지별 전체 목록
+        const total      = items.length;
+        const triedCount = Object.keys(pet.tried).length;
+        const likedCount = Object.keys(pet.liked).length;
+        // 섹션 제목: 고양이 = 어류+사료, 강아지 = 레시피+채집물
+        const sectionLabel = pet.type === 'cat' ? '🐟 어류 & 사료' : '🍳 레시피 & 먹거리';
+
+        document.getElementById('petContent').innerHTML = `
+            <div class="pet-editor">
+
+                <!-- 펫 이름 + 종류 선택 -->
+                <div class="pet-info-bar">
+                    <div class="pet-name-edit">
+                        <span class="pet-edit-icon">${pet.type === 'cat' ? '🐱' : '🐶'}</span>
+                        <input type="text"
+                               class="pet-name-input"
+                               value="${escHtml(pet.name)}"
+                               maxlength="12"
+                               placeholder="펫 이름"
+                               oninput="updatePetName(${activePetIdx}, this.value)">
+                    </div>
+                    <div class="pet-type-toggle">
+                        <button class="type-btn ${pet.type === 'cat' ? 'active' : ''}"
+                                onclick="updatePetType(${activePetIdx}, 'cat')">🐱 고양이</button>
+                        <button class="type-btn ${pet.type === 'dog' ? 'active' : ''}"
+                                onclick="updatePetType(${activePetIdx}, 'dog')">🐶 강아지</button>
+                    </div>
+                </div>
+
+                <!-- 진행도 바 -->
+                <div class="progress-section">
+                    <div class="progress-stats">
+                        <div class="progress-stat-group">
+                            <div class="progress-stat stat-tried">
+                                ${sectionLabel} 먹여봄 <strong id="statTried">${triedCount} / ${total}</strong>
+                            </div>
+                            <div class="progress-stat stat-liked">
+                                좋아함 ❤️ <strong id="statLiked">${likedCount}</strong>
+                            </div>
+                        </div>
+                        <button class="clear-btn" onclick="clearAll(${activePetIdx})">전체 초기화</button>
+                    </div>
+                    <!-- tried(회색) 위에 liked(핑크)가 겹쳐서 표시됨 -->
+                    <div class="progress-track">
+                        <div class="progress-fill-tried" id="barTried"
+                             style="width: ${total > 0 ? (triedCount / total) * 100 : 0}%"></div>
+                        <div class="progress-fill-liked" id="barLiked"
+                             style="width: ${total > 0 ? (likedCount / total) * 100 : 0}%"></div>
+                    </div>
+                </div>
+
+                <!-- 아이템 그리드 -->
+                <div class="item-grid">
+                    ${items.map(item => renderItemCard(pet, item)).join('')}
+                </div>
+
+            </div>
+        `;
+    }
+
+    /* 개별 아이템 카드 HTML 생성
+       ─ item._src 에 따라 이미지 경로와 fallback 아이콘이 달라짐
+         'fish'   → fish_img/fish_{image}.webp
+         'recipe' → food_img/{image}.webp
+         'gather' → gather_img/{image}.webp (image 없으면 이모지 fallback)
+    */
+    function renderItemCard(pet, item) {
+        const itemId  = getItemId(item);
+        const isTried = !!pet.tried[itemId];
+        const isLiked = !!pet.liked[itemId];
+
+        // CSS 클래스 조합 (.liked가 .tried의 opacity를 CSS에서 덮어씀)
+        const cls = [isTried ? 'tried' : '', isLiked ? 'liked' : ''].filter(Boolean).join(' ');
+
+        // 소스별 이미지 경로 & fallback 아이콘 결정
+        let imgSrc = null;
+        let fallbackIcon = '🌿';
+        if (item._src === 'fish' && item.image) {
+            imgSrc = `${BASE}/public/images/fish_img/fish_${item.image}.webp`;
+            fallbackIcon = '🐟';
+        } else if (item._src === 'recipe' && item.image) {
+            imgSrc = `${BASE}/public/images/food_img/${item.image}.webp`;
+            fallbackIcon = '🍳';
+        } else if (item._src === 'gather' && item.image) {
+            imgSrc = `${BASE}/public/images/gather_img/${item.image}.webp`;
+            fallbackIcon = '🌿';
+        }
+
+        // imgSrc가 null이면 바로 fallback div 사용, 있으면 img 태그 (로드 실패 시 fallback)
+        const imgEl = imgSrc
+            ? `<img src="${imgSrc}"
+                    alt="${escHtml(item.name)}"
+                    class="item-img"
+                    onerror="this.outerHTML='<div class=\\'item-img-fallback\\'>${fallbackIcon}</div>'">`
+            : `<div class="item-img-fallback">${fallbackIcon}</div>`;
+
+        return `
+            <div class="item-card ${cls}"
+                 data-item-id="${escHtml(itemId)}"
+                 onclick="toggleTried(${activePetIdx}, '${itemId}')">
+                <span class="tried-mark">✓</span>
+                <button class="btn-like"
+                        onclick="toggleLiked(${activePetIdx}, '${itemId}', event)"
+                        title="${isLiked ? '좋아함 해제' : '좋아함 표시'}"
+                >${isLiked ? '❤️' : '🤍'}</button>
+                ${imgEl}
+                <span class="item-name">${escHtml(item.name)}</span>
+            </div>
+        `;
+    }
+
+    // ── 유틸 ────────────────────────────────────────────────────
+    /* XSS 방지용 HTML 이스케이프 */
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // ── 실행 ────────────────────────────────────────────────────
+    init();
+</script>
+
+</body>
+</html>

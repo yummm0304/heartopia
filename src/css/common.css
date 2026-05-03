@@ -137,6 +137,7 @@ header {
 nav ul {
     list-style: none;
     display: flex;
+    align-items: center; /* 아이콘 포함 항목 수직 정렬 */
     gap: 16px; /* 기존 20px → 16px */
 }
 
