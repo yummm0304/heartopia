@@ -117,6 +117,18 @@
             padding: 1px 6px;
             white-space: nowrap;
         }
+        .tab-disliked-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+            background: #fff8f0;
+            border: 1px solid #f0a070;
+            color: #e67e22;
+            border-radius: 10px;
+            padding: 1px 6px;
+            white-space: nowrap;
+        }
 
         /* 활성 탭 */
         .pet-tab.active {
@@ -205,6 +217,22 @@
         }
         .pet-name-input:focus { border-bottom-color: var(--color-primary); }
 
+        /* 좋아함 / 싫어함 요약 뱃지 영역 (이름 입력과 종류 버튼 사이) */
+        .pet-pref-summary {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            flex: 1;           /* 남은 공간 채우기 */
+            min-width: 0;
+        }
+        /* 뱃지가 없을 때 placeholder 텍스트 */
+        .pet-pref-summary:empty::before {
+            content: '좋아하거나 싫어하는 걸 ❤️💔 로 표시해보세요';
+            font-size: 12px;
+            color: var(--color-text-faint);
+        }
+
         /* 고양이/강아지 토글 */
         .pet-type-toggle { display: flex; gap: 8px; }
 
@@ -254,6 +282,8 @@
         .stat-tried strong { color: var(--color-text-muted); }
         /* 좋아함 카운트: 핑크 */
         .stat-liked strong { color: var(--color-primary); }
+        /* 싫어함 카운트: 주황 */
+        .stat-disliked strong { color: #e67e22; }
 
         .progress-track {
             height: 8px;
@@ -274,14 +304,7 @@
             background: #ccc;
         }
 
-        /* liked 진행 (핑크 바, tried 위에 겹침) */
-        .progress-fill-liked {
-            position: absolute;
-            left: 0; top: 0; height: 100%;
-            background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
+        /* liked / disliked 바는 제거 — tried(먹여봄) 바만 진행도로 표시 */
 
         /* 전체 해제 버튼 */
         .clear-btn {
@@ -346,6 +369,14 @@
             border-color: var(--color-primary);
         }
 
+        /* disliked 상태: 선명하게 + 주황 강조 */
+        .item-card.disliked {
+            opacity: 1 !important;
+            filter: none !important;
+            background: #fff8f0;
+            border-color: #e67e22;
+        }
+
         /* ❤️ 핀 버튼 (카드 우상단) */
         .btn-like {
             position: absolute;
@@ -365,17 +396,27 @@
         /* 좋아함 상태일 때 빨간 하트 */
         .item-card.liked .btn-like { color: #e74c3c; }
 
-        /* 먹여봄 체크 뱃지 (카드 좌상단) */
-        .tried-mark {
+        /* 먹여봄 체크 뱃지 — tried 상태는 카드 흐려짐으로만 표현하므로 숨김 */
+        .tried-mark { display: none; }
+
+        /* 💔 싫어함 버튼 (카드 좌상단) */
+        .btn-dislike {
             position: absolute;
             top: 5px;
-            left: 6px;
-            font-size: 10px;
+            left: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 2px;
             color: var(--color-text-faint);
-            opacity: 0;
-            transition: opacity 0.15s;
+            transition: color 0.15s, transform 0.1s;
+            z-index: 1;
         }
-        .item-card.tried .tried-mark { opacity: 1; }
+        .btn-dislike:hover { transform: scale(1.2); }
+        /* 싫어함 상태일 때 주황 하트 */
+        .item-card.disliked .btn-dislike { color: #e67e22; }
 
         /* 아이템 이미지 */
         .item-img {
@@ -409,6 +450,10 @@
         }
         .item-card.liked .item-name {
             color: var(--color-primary);
+            font-weight: 700;
+        }
+        .item-card.disliked .item-name {
+            color: #e67e22;
             font-weight: 700;
         }
 
@@ -590,8 +635,9 @@
         // 기존 데이터 하위호환: checked 키만 있으면 tried로 마이그레이션
         pets = (pets || []).map(p => ({
             ...p,
-            tried: p.tried || p.checked || {},   // 이전 버전 checked → tried
-            liked: p.liked || {}
+            tried:    p.tried    || p.checked || {},  // 이전 버전 checked → tried
+            liked:    p.liked    || {},
+            disliked: p.disliked || {}                // 이전 버전 없으면 빈 객체로 초기화
         }));
         // 삭제: 불필요해진 checked 키
         pets.forEach(p => { delete p.checked; });
@@ -611,9 +657,10 @@
         return {
             id: Date.now().toString() + Math.random().toString(36).slice(2),
             name: name,
-            type: type,   // 'cat' | 'dog'
-            tried: {},    // { itemId: true } — 먹여본 것
-            liked: {}     // { itemId: true } — 좋아하는 것
+            type: type,      // 'cat' | 'dog'
+            tried: {},       // { itemId: true } — 먹여본 것
+            liked: {},       // { itemId: true } — 좋아하는 것
+            disliked: {}     // { itemId: true } — 싫어하는 것
         };
     }
 
@@ -652,9 +699,10 @@
         if (pets[idx].type === type) return;
         const ok = confirm(`종류를 바꾸면 "${pets[idx].name}"의 모든 기록이 초기화돼요. 계속할까요?`);
         if (!ok) return;
-        pets[idx].type  = type;
-        pets[idx].tried = {};
-        pets[idx].liked = {};
+        pets[idx].type     = type;
+        pets[idx].tried    = {};
+        pets[idx].liked    = {};
+        pets[idx].disliked = {};  // 종류 변경 시 싫어함도 초기화
         savePets();
         render();
     }
@@ -683,35 +731,75 @@
 
         const pet = pets[petIdx];
         if (pet.liked[itemId]) {
+            // 이미 좋아함 → 해제
             delete pet.liked[itemId];
         } else {
+            // 좋아함 설정 → 싫어함과 상호 배타적이므로 싫어함 해제
             pet.liked[itemId] = true;
+            delete pet.disliked[itemId];
         }
         savePets();
 
-        // 카드 liked 클래스 토글
+        // 카드 클래스 및 버튼 아이콘 동기화
         const card = document.querySelector(`[data-item-id="${CSS.escape(itemId)}"]`);
         if (card) {
-            card.classList.toggle('liked', !!pet.liked[itemId]);
+            card.classList.toggle('liked',    !!pet.liked[itemId]);
+            card.classList.toggle('disliked', !!pet.disliked[itemId]);
+            const btnLike    = card.querySelector('.btn-like');
+            const btnDislike = card.querySelector('.btn-dislike');
+            if (btnLike)    btnLike.textContent    = pet.liked[itemId]    ? '❤️' : '🤍';
+            if (btnDislike) btnDislike.textContent = pet.disliked[itemId] ? '💔' : '🩶';
         }
 
-        // 탭의 좋아함 뱃지 부분만 업데이트
-        refreshTabLiked(petIdx);
+        // 탭 뱃지 + info-bar 요약 업데이트
+        refreshTabBadges(petIdx);
+        refreshPrefSummary(petIdx);
         refreshProgress();
     }
 
-    // ── 탭 liked 뱃지 업데이트 ─────────────────────────────────
-    function refreshTabLiked(petIdx) {
+    // ── disliked 토글 (💔 버튼 클릭) ─────────────────────────
+    function toggleDisliked(petIdx, itemId, event) {
+        event.stopPropagation(); // 카드 클릭(tried)이 함께 발동하지 않도록 차단
+
+        const pet = pets[petIdx];
+        if (pet.disliked[itemId]) {
+            // 이미 싫어함 → 해제
+            delete pet.disliked[itemId];
+        } else {
+            // 싫어함 설정 → 좋아함과 상호 배타적이므로 좋아함 해제
+            pet.disliked[itemId] = true;
+            delete pet.liked[itemId];
+        }
+        savePets();
+
+        // 카드 클래스 및 버튼 아이콘 동기화
+        const card = document.querySelector(`[data-item-id="${CSS.escape(itemId)}"]`);
+        if (card) {
+            card.classList.toggle('liked',    !!pet.liked[itemId]);
+            card.classList.toggle('disliked', !!pet.disliked[itemId]);
+            const btnLike    = card.querySelector('.btn-like');
+            const btnDislike = card.querySelector('.btn-dislike');
+            if (btnLike)    btnLike.textContent    = pet.liked[itemId]    ? '❤️' : '🤍';
+            if (btnDislike) btnDislike.textContent = pet.disliked[itemId] ? '💔' : '🩶';
+        }
+
+        // 탭 뱃지 + info-bar 요약 업데이트
+        refreshTabBadges(petIdx);
+        refreshPrefSummary(petIdx);
+        refreshProgress();
+    }
+
+    // ── 탭 뱃지 업데이트 (liked + disliked) ───────────────────
+    function refreshTabBadges(petIdx) {
         const tabEl = document.querySelectorAll('.pet-tab')[petIdx];
         if (!tabEl) return;
 
         const pet   = pets[petIdx];
         const items = getPetItems(pet);
 
-        // liked된 아이템 이름 목록 추출
-        const likedNames = items
-            .filter(item => !!pet.liked[getItemId(item)])
-            .map(item => item.name);
+        // liked / disliked된 아이템 이름 목록 각각 추출
+        const likedNames    = items.filter(item => !!pet.liked[getItemId(item)]).map(item => item.name);
+        const dislikedNames = items.filter(item => !!pet.disliked[getItemId(item)]).map(item => item.name);
 
         let rowEl = tabEl.querySelector('.tab-liked-row');
         if (!rowEl) {
@@ -720,45 +808,68 @@
             tabEl.appendChild(rowEl);
         }
 
-        if (likedNames.length === 0) {
-            rowEl.innerHTML = '';
-        } else {
-            rowEl.innerHTML = likedNames.map(n =>
-                `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`
-            ).join('');
-        }
+        // ❤️ 좋아함 뱃지 + 💔 싫어함 뱃지 합산 렌더
+        const likedHtml    = likedNames.map(n    => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('');
+        const dislikedHtml = dislikedNames.map(n => `<span class="tab-disliked-badge">💔 ${escHtml(n)}</span>`).join('');
+        rowEl.innerHTML = likedHtml + dislikedHtml;
+    }
+    // 구버전 코드 호환용 별칭
+    function refreshTabLiked(petIdx) { refreshTabBadges(petIdx); }
+
+    // ── pet-info-bar 내 좋아함/싫어함 요약 뱃지 업데이트 ─────
+    function refreshPrefSummary(petIdx) {
+        // 현재 활성 펫이 아닌 경우 렌더 불필요
+        if (petIdx !== activePetIdx) return;
+        const el = document.getElementById('petPrefSummary');
+        if (!el) return;
+
+        const pet   = pets[petIdx];
+        const items = getPetItems(pet);
+
+        // liked / disliked 이름 목록 추출
+        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => i.name);
+        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => i.name);
+
+        // 뱃지 HTML 렌더 (없으면 빈 문자열 → CSS :empty 로 placeholder 표시)
+        el.innerHTML =
+            likedNames.map(n    => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('') +
+            dislikedNames.map(n => `<span class="tab-disliked-badge">💔 ${escHtml(n)}</span>`).join('');
     }
 
     // ── 전체 기록 초기화 ────────────────────────────────────────
     function clearAll(petIdx) {
-        if (!confirm('먹여봄 · 좋아함 기록을 모두 초기화할까요?')) return;
-        pets[petIdx].tried = {};
-        pets[petIdx].liked = {};
+        if (!confirm('먹여봄 · 좋아함 · 싫어함 기록을 모두 초기화할까요?')) return;
+        pets[petIdx].tried    = {};
+        pets[petIdx].liked    = {};
+        pets[petIdx].disliked = {};
         savePets();
         // 카드 클래스 전부 제거 (re-render 없이)
         document.querySelectorAll('.item-card').forEach(el => {
-            el.classList.remove('tried', 'liked');
+            el.classList.remove('tried', 'liked', 'disliked');
         });
-        refreshTabLiked(petIdx);
+        refreshTabBadges(petIdx);
         refreshProgress();
     }
 
     // ── 진행도 갱신 ─────────────────────────────────────────────
     function refreshProgress() {
-        const pet        = pets[activePetIdx];
-        const total      = getPetItems(pet).length;    // 고양이/강아지별 실제 목록 수
-        const triedCount = Object.keys(pet.tried).length;
-        const likedCount = Object.keys(pet.liked).length;
+        const pet           = pets[activePetIdx];
+        const total         = getPetItems(pet).length;    // 고양이/강아지별 실제 목록 수
+        const triedCount    = Object.keys(pet.tried).length;
+        const likedCount    = Object.keys(pet.liked).length;
+        const dislikedCount = Object.keys(pet.disliked).length;
 
-        const triedEl  = document.getElementById('statTried');
-        const likedEl  = document.getElementById('statLiked');
-        const barTried = document.getElementById('barTried');
-        const barLiked = document.getElementById('barLiked');
+        const triedEl    = document.getElementById('statTried');
+        const likedEl    = document.getElementById('statLiked');
+        const dislikedEl = document.getElementById('statDisliked');
+        const barTried   = document.getElementById('barTried');
 
-        if (triedEl)  triedEl.textContent  = `${triedCount} / ${total}`;
-        if (likedEl)  likedEl.textContent  = `${likedCount}`;
+        // 카운트 텍스트 업데이트
+        if (triedEl)    triedEl.textContent    = `${triedCount} / ${total}`;
+        if (likedEl)    likedEl.textContent    = `${likedCount}`;
+        if (dislikedEl) dislikedEl.textContent = `${dislikedCount}`;
+        // tried 바만 진행도로 표시 (liked/disliked는 숫자로만)
         if (barTried && total > 0) barTried.style.width = `${(triedCount / total) * 100}%`;
-        if (barLiked && total > 0) barLiked.style.width = `${(likedCount / total) * 100}%`;
     }
 
     // ── 렌더링 ──────────────────────────────────────────────────
@@ -778,9 +889,16 @@
                 .filter(item => !!pet.liked[getItemId(item)])
                 .map(item => item.name);
 
-            const likedBadgesHtml = likedNames.length > 0
+            // 싫어하는 아이템 이름 목록 추출
+            const dislikedNames = items
+                .filter(item => !!pet.disliked[getItemId(item)])
+                .map(item => item.name);
+
+            // liked + disliked 뱃지 합산 (둘 다 있을 수 있음)
+            const likedBadgesHtml = (likedNames.length > 0 || dislikedNames.length > 0)
                 ? `<div class="tab-liked-row">
-                       ${likedNames.map(n => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('')}
+                       ${likedNames.map(n    => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('')}
+                       ${dislikedNames.map(n => `<span class="tab-disliked-badge">💔 ${escHtml(n)}</span>`).join('')}
                    </div>`
                 : '';
 
@@ -808,9 +926,13 @@
     function renderContent() {
         const pet        = pets[activePetIdx];
         const items      = getPetItems(pet);    // 고양이/강아지별 전체 목록
-        const total      = items.length;
-        const triedCount = Object.keys(pet.tried).length;
-        const likedCount = Object.keys(pet.liked).length;
+        const total         = items.length;
+        const triedCount    = Object.keys(pet.tried).length;
+        const likedCount    = Object.keys(pet.liked).length;
+        const dislikedCount = Object.keys(pet.disliked).length;
+        // pet-info-bar 요약에 표시할 이름 목록
+        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => i.name);
+        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => i.name);
         // 섹션 제목: 고양이 = 어류+사료, 강아지 = 레시피+채집물
         const sectionLabel = pet.type === 'cat' ? '🐟 어류 & 사료' : '🍳 레시피 & 먹거리';
 
@@ -828,6 +950,12 @@
                                placeholder="펫 이름"
                                oninput="updatePetName(${activePetIdx}, this.value)">
                     </div>
+                    <!-- 좋아함 / 싫어함 요약 뱃지 (이름↔종류 사이 공간 활용) -->
+                    <div class="pet-pref-summary" id="petPrefSummary">
+                        ${likedNames.map(n    => `<span class="tab-liked-badge">❤️ ${escHtml(n)}</span>`).join('')}
+                        ${dislikedNames.map(n => `<span class="tab-disliked-badge">💔 ${escHtml(n)}</span>`).join('')}
+                    </div>
+
                     <div class="pet-type-toggle">
                         <button class="type-btn ${pet.type === 'cat' ? 'active' : ''}"
                                 onclick="updatePetType(${activePetIdx}, 'cat')">🐱 고양이</button>
@@ -846,15 +974,16 @@
                             <div class="progress-stat stat-liked">
                                 좋아함 ❤️ <strong id="statLiked">${likedCount}</strong>
                             </div>
+                            <div class="progress-stat stat-disliked">
+                                싫어함 💔 <strong id="statDisliked">${dislikedCount}</strong>
+                            </div>
                         </div>
                         <button class="clear-btn" onclick="clearAll(${activePetIdx})">전체 초기화</button>
                     </div>
-                    <!-- tried(회색) 위에 liked(핑크)가 겹쳐서 표시됨 -->
+                    <!-- tried(먹여봄) 진행 바만 표시 -->
                     <div class="progress-track">
                         <div class="progress-fill-tried" id="barTried"
                              style="width: ${total > 0 ? (triedCount / total) * 100 : 0}%"></div>
-                        <div class="progress-fill-liked" id="barLiked"
-                             style="width: ${total > 0 ? (likedCount / total) * 100 : 0}%"></div>
                     </div>
                 </div>
 
@@ -874,12 +1003,13 @@
          'gather' → gather_img/{image}.webp (image 없으면 이모지 fallback)
     */
     function renderItemCard(pet, item) {
-        const itemId  = getItemId(item);
-        const isTried = !!pet.tried[itemId];
-        const isLiked = !!pet.liked[itemId];
+        const itemId     = getItemId(item);
+        const isTried    = !!pet.tried[itemId];
+        const isLiked    = !!pet.liked[itemId];
+        const isDisliked = !!pet.disliked[itemId];
 
-        // CSS 클래스 조합 (.liked가 .tried의 opacity를 CSS에서 덮어씀)
-        const cls = [isTried ? 'tried' : '', isLiked ? 'liked' : ''].filter(Boolean).join(' ');
+        // CSS 클래스 조합 (.liked/.disliked가 .tried의 opacity를 CSS에서 덮어씀)
+        const cls = [isTried ? 'tried' : '', isLiked ? 'liked' : '', isDisliked ? 'disliked' : ''].filter(Boolean).join(' ');
 
         // 소스별 이미지 경로 & fallback 아이콘 결정
         let imgSrc = null;
@@ -907,7 +1037,12 @@
             <div class="item-card ${cls}"
                  data-item-id="${escHtml(itemId)}"
                  onclick="toggleTried(${activePetIdx}, '${itemId}')">
-                <span class="tried-mark">✓</span>
+                <!-- 💔 싫어함 버튼 (좌상단) -->
+                <button class="btn-dislike"
+                        onclick="toggleDisliked(${activePetIdx}, '${itemId}', event)"
+                        title="${isDisliked ? '싫어함 해제' : '싫어함 표시'}"
+                >${isDisliked ? '💔' : '🩶'}</button>
+                <!-- ❤️ 좋아함 버튼 (우상단) -->
                 <button class="btn-like"
                         onclick="toggleLiked(${activePetIdx}, '${itemId}', event)"
                         title="${isLiked ? '좋아함 해제' : '좋아함 표시'}"
