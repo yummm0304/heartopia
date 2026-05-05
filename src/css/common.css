@@ -4,10 +4,12 @@
 ======================================== */
 
 /* BMJUA: 타이틀 전용 (h1·h2·h3·로고·대형 표시 텍스트) */
+/* 상대경로 사용: common.css(src/css/) → public/font/ */
+/* 절대경로(/heartopia/...)는 GitHub Pages 전용이라 다른 호스팅에서 깨짐 */
 @font-face {
     font-family: 'BMJUA';
-    src: url('/heartopia/public/font/BMJUA.woff2') format('woff2'),
-    url('/heartopia/public/font/BMJUA.woff') format('woff');
+    src: url('../../public/font/BMJUA.woff2') format('woff2'),
+         url('../../public/font/BMJUA.woff') format('woff');
     font-weight: 100 900; /* 단일 파일이 전체 굵기 범위를 담당 → 브라우저 합성 굵기 방지 */
     font-style: normal;
     font-display: swap;
@@ -16,7 +18,7 @@
 /* 런드리 고딕 Regular: 본문 전용 */
 @font-face {
     font-family: 'LaundryGothic';
-    src: url('/heartopia/public/font/LaundryGothic_Regular.woff') format('woff');
+    src: url('../../public/font/LaundryGothic_Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -25,7 +27,7 @@
 /* 런드리 고딕 Bold: 본문 강조 */
 @font-face {
     font-family: 'LaundryGothic';
-    src: url('/heartopia/public/font/LaundryGothic_Bold.woff') format('woff');
+    src: url('../../public/font/LaundryGothic_Bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
