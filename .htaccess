@@ -1,5 +1,0 @@
-# 404 에러 페이지 설정
-ErrorDocument 404 /heartopia/404.html
-
-# 또는 절대 경로로
-ErrorDocument 404 https://polarprince.dothome.co.kr/heartopia/404.html
