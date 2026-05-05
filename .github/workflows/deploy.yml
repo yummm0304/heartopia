@@ -26,6 +26,8 @@ jobs:
 
       - name: Pages 설정
         uses: actions/configure-pages@v5
+        with:
+          enablement: true   # GitHub Pages가 미설정 상태여도 자동으로 GitHub Actions 소스로 활성화
 
       - name: 빌드 결과물 업로드
         uses: actions/upload-pages-artifact@v3
