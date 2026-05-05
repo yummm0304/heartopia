@@ -2,9 +2,14 @@
 // 공통 설정
 // ============================================================
 
-// 사이트 루트 URL (도메인이 바뀌어도 여기 한 줄만 수정하면 됨)
-// window.location.origin 을 사용하면 localhost / GitHub Pages 양쪽에서 자동으로 동작함
-const BASE = window.location.origin + '/heartopia';
+// 사이트 루트 URL — 배포 위치에 관계없이 자동 계산
+// common.js는 항상 {PROJECT_ROOT}/src/js/common.js 에 위치하므로,
+// 자신의 스크립트 URL에서 '/src/js/common.js' 부분을 제거하면 루트를 역산할 수 있음
+// 예) https://domain.com/src/js/common.js           → https://domain.com
+// 예) https://domain.com/heartopia/src/js/common.js → https://domain.com/heartopia
+// 예) http://localhost:8080/heartopia/src/js/common.js → http://localhost:8080/heartopia
+const BASE = (document.currentScript?.src || '')
+    .replace(/\/src\/js\/common\.js(\?.*)?$/, '');
 
 
 // ============================================================
@@ -17,7 +22,7 @@ async function loadComponent(elementId, fileName) {
 
         let html = await response.text();
 
-        // header.html 내 [BASE] 플레이스홀더를 실제 BASE URL로 치환
+        // header.html 내 {{BASE}} 플레이스홀더를 실제 BASE URL로 치환
         // → 새 페이지가 추가되어도 이 로직은 수정할 필요 없음
         html = html.replaceAll('[BASE]', BASE);
 
