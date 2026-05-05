@@ -166,7 +166,7 @@
         displayAllbirds();
     }
 
-    /** @type {{column: string, order: string}} 현재 정렬 기준 */
+    /** @type {Object} 현재 정렬 기준 {column, order} */
     let currentSort = {column: 'price', order: 'desc'};
 
     /** @type {Set<string>} 로드된 시즌 파일명 집합 (중복 방지) */

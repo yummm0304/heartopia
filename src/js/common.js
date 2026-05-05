@@ -17,7 +17,7 @@ async function loadComponent(elementId, fileName) {
 
         let html = await response.text();
 
-        // header.html 내 {{BASE}} 플레이스홀더를 실제 BASE URL로 치환
+        // header.html 내 [BASE] 플레이스홀더를 실제 BASE URL로 치환
         // → 새 페이지가 추가되어도 이 로직은 수정할 필요 없음
         html = html.replaceAll('[BASE]', BASE);
 
