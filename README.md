@@ -1,0 +1,64 @@
+# 🏝️ 두근두근타운 데이터 허브
+
+두근두근타운(Cozy Bay: Town) 게임의 데이터를 한눈에 확인할 수 있는 비공식 팬 정보 사이트입니다.
+
+🔗 **[사이트 바로가기](https://polaris6000.github.io/heartopia/)**
+
+---
+
+## 📋 주요 기능
+
+| 카테고리 | 내용 |
+|---|---|
+| 🎣 낚시 | 어류 도감, 물고기 찾기 |
+| 🦋 곤충 채집 | 곤충 도감, 벌레 찾기 |
+| 🐦 새 관찰 | 조류 도감, 새 찾기 |
+| 🍳 요리 레시피 | 레시피 목록, 재료별 검색 |
+| 🌱 작물 | 작물 도감 |
+| 🛍️ 상점 | 상점 아이템 목록 |
+| 🌿 채집 | 채집 아이템 정보 |
+| 🐾 펫 | 펫 먹이 선호도 체크리스트 |
+
+---
+
+## 🗂️ 프로젝트 구조
+
+```
+heartopia/
+├── index.html                  # 진입점 (메인으로 리다이렉트)
+├── 404.html                    # 404 페이지
+├── public/
+│   ├── images/                 # 게임 이미지 리소스
+│   └── font/                   # 웹폰트 (BMJUA, LaundryGothic)
+└── src/
+    ├── components/             # 공통 헤더 · 푸터
+    ├── css/                    # 공통 스타일시트
+    ├── data/                   # JSON 데이터
+    │   ├── fish_data.json
+    │   ├── insect_data.json
+    │   ├── bird_data.json
+    │   ├── recipes.json
+    │   ├── gather.json
+    │   ├── crops.json
+    │   ├── shop.json
+    │   ├── season_ice/         # 시즌: 얼음 축제 데이터
+    │   └── season_dreamlight/  # 시즌: 드림라이트 데이터
+    ├── js/                     # 공통 스크립트
+    └── pages/                  # 각 페이지 HTML
+```
+
+---
+
+## ⚙️ 기술 스택
+
+- **Vanilla HTML / CSS / JavaScript** (프레임워크 없음)
+- **GitHub Pages** 로 정적 호스팅
+- 데이터는 JSON 파일로 관리, 런타임에 `fetch`로 로드
+
+---
+
+## ⚠️ 저작권 안내
+
+본 사이트는 팬이 자발적으로 제작한 비공식 정보 사이트로, **XD Interactive Entertainment Co., Ltd.** 와 무관합니다.
+사이트 내 사용된 게임 이미지 및 관련 데이터의 저작권은 XD Interactive Entertainment Co., Ltd. 에 있으며, 팬 활동 목적으로만 사용됩니다.
+저작권자의 요청 시 해당 콘텐츠는 즉시 삭제됩니다.
