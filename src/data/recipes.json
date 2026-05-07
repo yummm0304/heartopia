@@ -270,7 +270,8 @@
         "밀",
         "달걀"
       ],
-      "image": "trufflepie"
+      "image": "trufflepie",
+      "feedable": false
     },
     {
       "name": "구운 버섯",
@@ -577,7 +578,8 @@
         "밀",
         "우유"
       ],
-      "image": "trufflenoodles"
+      "image": "trufflenoodles",
+      "feedable": false
     },
     {
       "name": "미트소스 파스타",
