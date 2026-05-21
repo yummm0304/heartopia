@@ -573,7 +573,7 @@ async function loadAll() {
 
     // 레시피 자체를 재료로 쓰는 경우 (1등급 기준)
     for (const item of recipes.items) {
-        costMap[item.name] = { cost: item.price * recipes.gradeMultipliers['1'], type: 'recipe' };
+        costMap[item.name] = { cost: item.sellPrice * recipes.gradeMultipliers['1'], type: 'recipe' };
     }
 
     // 레시피 처리
@@ -613,7 +613,7 @@ function calcForGrade(r, grade) {
     const gMul     = recipeData.gradeMultipliers[String(grade)] || 1;
     const sMul     = recipeData.staminaMultipliers[String(grade)] || 1;
     const servings = r.servings || 1;           // 섭취 횟수 (JSON에 없으면 기본값 1)
-    const price    = Math.round(r.price * gMul);
+    const price    = Math.round(r.sellPrice * gMul);
     // 체력은 섭취 횟수를 곱한 총 획득량으로 계산 (1회 체력 × 섭취 횟수)
     const stamina  = Math.round(r.stamina * sMul * servings);
     const profit   = price - r.baseCost;
@@ -919,7 +919,7 @@ async function loadSeasonData(season) {
         // gradeMultipliers 키가 '1.0' 형태일 수 있으므로 둘 다 시도
         const grade1Mul = json.gradeMultipliers?.['1'] ?? json.gradeMultipliers?.['1.0'] ?? 1;
         for (const item of json.items) {
-            costMap[item.name] = { cost: item.price * grade1Mul, type: 'recipe' };
+            costMap[item.name] = { cost: item.sellPrice * grade1Mul, type: 'recipe' };
         }
 
         // 시즌 아이템 처리 후 기존 목록과 병합 (이름 중복 제거)
