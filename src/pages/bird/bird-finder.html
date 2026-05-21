@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
     <script>
         // Google Analytics 4 초기화
         window.dataLayer = window.dataLayer || [];
@@ -96,6 +94,7 @@
             <button class="filter-btn season-ice-btn"        id="btnIceAdd"        onclick="loadSeasonData('season_ice/season_ice_bird.json', 'ice')">❄️ 빙설 추가</button>
             <!-- 꿈의 명암 새 데이터가 생기면 아래 주석을 해제 -->
              <button class="filter-btn season-dreamlight-btn" id="btnDreamlightAdd" onclick="loadSeasonData('season_dreamlight/season_dreamlight_bird.json', 'dreamlight')">🌙 꿈의 명암 추가</button>
+            <button class="filter-btn season-blocktown-btn" id="btnBlocktownAdd"    onclick="loadSeasonData('season_blocktown/season_blocktown_bird.json', 'blocktown')">🧱 블록 시가지 추가</button>
             <button class="filter-btn-reset"                 id="btnSeasonRemove"  onclick="removeSeasonData()">🗑️ 시즌 제거</button>
         </div>
     </div>
@@ -285,7 +284,7 @@
             loadedSeasons.clear();
 
             // 모든 추가 버튼을 다시 활성화
-            ['btnIceAdd', 'btnDreamlightAdd'].forEach(id => {
+            ['btnIceAdd', 'btnDreamlightAdd', 'btnBlocktownAdd'].forEach(id => {
                 const btn = document.getElementById(id);
                 if (btn) btn.disabled = false;
             });

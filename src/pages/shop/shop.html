@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
-    <script>
-        // Google Analytics 4 초기화
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RXTDCP8G1V');
-    </script>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>상점 - 두근두근타운</title>
@@ -58,6 +49,8 @@
         .season-filter-btn.ice.active        { background: #1565c0; border-color: #1565c0; color: #fff; }
         /* 꿈의 명암 active */
         .season-filter-btn.dreamlight.active { background: #4527a0; border-color: #4527a0; color: #fff; }
+        /* 블록 시가지 active */
+        .season-filter-btn.blocktown.active  { background: #e65100; border-color: #e65100; color: #fff; }
         /* 특별한 날씨 active */
         .season-filter-btn.special.active    { background: #b94040; border-color: #b94040; color: #fff; }
 
@@ -99,6 +92,7 @@
         .shop-badge.always      { background: #e8f5e9; color: #2e7d32; } /* 항상 */
         .shop-badge.ice         { background: #e3f2fd; color: #1565c0; } /* 빙설 */
         .shop-badge.dreamlight  { background: #ede7f6; color: #4527a0; } /* 꿈의 명암 */
+        .shop-badge.blocktown   { background: #fff3e0; color: #e65100; } /* 블록 시가지 */
         .shop-badge.special     { background: #fce4ec; color: #880e4f; } /* 특별한 날씨 */
 
         /* 검색창 */
@@ -163,6 +157,7 @@
                 <button class="season-filter-btn"        data-season="always"   onclick="setSeasonFilter('always')">항상 구매 가능</button>
                 <button class="season-filter-btn ice"    data-season="빙설"     onclick="setSeasonFilter('빙설')">❄️ 빙설 시즌</button>
                 <button class="season-filter-btn dreamlight" data-season="꿈의 명암" onclick="setSeasonFilter('꿈의 명암')">🌙 꿈의 명암</button>
+                <button class="season-filter-btn blocktown"   data-season="블록 시가지" onclick="setSeasonFilter('블록 시가지')">🧱 블록 시가지</button>
                 <button class="season-filter-btn special" data-season="특별한 날씨" onclick="setSeasonFilter('특별한 날씨')">⚡ 특별한 날씨</button>
             </div>
         </div>
@@ -191,6 +186,7 @@
     const SEASON_BADGE_MAP = {
         '빙설':       { label: '❄️ 빙설',       cssClass: 'ice',        emoji: '❄️' },
         '꿈의 명암':   { label: '🌙 꿈의 명암',   cssClass: 'dreamlight', emoji: '🌙' },
+        '블록 시가지':  { label: '🧱 블록 시가지',  cssClass: 'blocktown',  emoji: '🧱' },
         '특별한 날씨': { label: '⚡ 특별한 날씨', cssClass: 'special',    emoji: '⚡' },
     };
 

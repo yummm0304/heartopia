@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RXTDCP8G1V');
-    </script>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>펫 먹이 선호도 - 두근두근타운</title>
@@ -560,6 +552,7 @@
                 fetch(`${BASE}/src/data/gather.json`),
                 fetch(`${BASE}/src/data/season_ice/season_ice_recipes.json`).catch(() => null),
                 fetch(`${BASE}/src/data/season_dreamlight/season_dreamlight_recipes.json`).catch(() => null),
+                fetch(`${BASE}/src/data/season_blocktown/season_blocktown_recipes.json`).catch(() => null),
             ]);
 
             fishData   = await fishRes.json();

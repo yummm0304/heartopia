@@ -8,8 +8,7 @@
 /* 절대경로(/heartopia/...)는 GitHub Pages 전용이라 다른 호스팅에서 깨짐 */
 @font-face {
     font-family: 'BMJUA';
-    src: url('../../public/font/BMJUA.woff2') format('woff2'),
-         url('../../public/font/BMJUA.woff') format('woff');
+    src: url('../../public/font/BMJUA.woff2') format('woff2');
     font-weight: 100 900; /* 단일 파일이 전체 굵기 범위를 담당 → 브라우저 합성 굵기 방지 */
     font-style: normal;
     font-display: swap;
@@ -18,7 +17,7 @@
 /* 런드리 고딕 Regular: 본문 전용 */
 @font-face {
     font-family: 'LaundryGothic';
-    src: url('../../public/font/LaundryGothic_Regular.woff') format('woff');
+    src: url('../../public/font/TTLaundryGothicR.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -27,7 +26,26 @@
 /* 런드리 고딕 Bold: 본문 강조 */
 @font-face {
     font-family: 'LaundryGothic';
-    src: url('../../public/font/LaundryGothic_Bold.woff') format('woff');
+    src: url('../../public/font/TTLaundryGothicB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* 학교안심 둥근미소 Regular: 보조 본문 폰트 */
+@font-face {
+    font-family: 'DunggeunMiso';
+    src: url('../../public/font/HakgyoansimDunggeunmisoTTF-R.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 학교안심 둥근미소 Bold: 보조 본문 강조 */
+@font-face {
+    font-family: 'DunggeunMiso';
+    src: url('../../public/font/HakgyoansimDunggeunmisoTTF-B.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -644,10 +662,16 @@ footer {
     color: #1565c0 !important;
 }
 
-/* 꿈의 명암 시즌 버튼 — 새 시즌이 추가되면 아래에 같은 패턴으로 추가하면 됩니다 */
+/* 꿈의 명암 시즌 버튼 */
 .season-dreamlight-btn {
     background-color: #ede7f6 !important;
     color: #4527a0 !important;
+}
+
+/* 블록 시가지 시즌 버튼 */
+.season-blocktown-btn {
+    background-color: #fff3e0 !important;
+    color: #e65100 !important;
 }
 
 
@@ -1201,63 +1225,3 @@ th.motion-cell {
     }
 
     .filter-btn,
-    .filter-btn-reset {
-        /* 모바일에서도 flex 나열하되 최소 너비만 보장 */
-        min-width: 80px;
-    }
-
-    /* 서식지 */
-    .habitat-header {
-        padding: 10px 14px;
-        font-size: 1.1em;
-    }
-
-    /* 입력 */
-    .input-section {
-        padding: 16px;
-        margin-bottom: 16px;
-    }
-
-    .input-group {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    button {
-        padding: 10px 20px;
-    }
-
-    /* 테이블 */
-    th, td {
-        padding: 8px 6px;
-        font-size: 0.85em;
-    }
-
-    /* 결과 */
-    .results {
-        margin-top: 14px;
-    }
-
-    .no-results,
-    .loading,
-    .error {
-        padding: 24px 16px;
-    }
-
-    /* 푸터 */
-    footer {
-        margin-top: 20px;
-        padding: 14px 0;
-    }
-}
-
-
-/* ========================================
-   반응형 디자인 - 태블릿 (600px 이상)
-======================================== */
-/* filter-groups 는 flex wrap 레이아웃 사용 — grid 미디어 쿼리 불필요 */
-
-
-/* ========================================
-   반응형 디자인 - PC (1024px 이상)
-======================================== */

@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
-    <script>
-        // Google Analytics 4 초기화
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RXTDCP8G1V');
-    </script>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>작물 도감 - 두근두근타운</title>
@@ -143,6 +134,7 @@
                 <!-- 꿈의 명암 시즌: season_dreamlight/season_dreamlight_crops.json 을 목록에 병합 -->
                 <button class="filter-btn season-dreamlight-btn" onclick="loadSeasonData('dreamlight')">🌙 꿈의 명암 추가</button>
                 <!-- 로드된 모든 시즌 데이터를 제거하고 기본 데이터로 복원 -->
+                <button class="filter-btn season-blocktown-btn" onclick="loadSeasonData('blocktown')">🧱 블록 시가지 추가</button>
                 <button class="filter-btn-reset" onclick="removeSeasonData()">🗑️ 시즌 데이터 제거</button>
                 <button class="filter-btn-reset" onclick="resetFilters()">필터 초기화</button>
                 <!-- 수집 완료 항목 숨기기/보이기 토글 버튼 -->
@@ -217,6 +209,7 @@
     const seasonLoaded = {
         ice:        false,  // 빙설 시즌
         dreamlight: false,  // 꿈의 명암 시즌
+        blocktown:  false,  // 블록 시가지 시즌
     };
 
     // 시즌 설정 테이블 — 새 시즌 추가 시 여기에만 항목 추가
@@ -230,6 +223,11 @@
             label:    '꿈의 명암 시즌',
             emoji:    '🌙',
             jsonPath: '../../data/season_dreamlight/season_dreamlight_crops.json',
+        },
+        blocktown: {
+            label:    '블록 시가지 시즌',
+            emoji:    '🧱',
+            jsonPath: '../../data/season_blocktown/season_blocktown_crops.json',
         },
     };
     let currentSort = { column: 'sellPrice', order: 'desc' };

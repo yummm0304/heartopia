@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RXTDCP8G1V"></script>
-    <script>
-        // Google Analytics 4 초기화
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RXTDCP8G1V');
-    </script>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>곤충 도감 - 두근두근타운</title>
@@ -109,6 +100,8 @@
                 <button class="filter-btn season-ice-btn" onclick="loadSeasonData('season_ice/season_ice_insect.json')">❄️ 빙설 시즌 추가</button>
                 <!-- 꿈의 명암 시즌: season_dreamlight/season_dreamlight_insect.json 을 현재 목록에 병합 -->
                 <button class="filter-btn season-dreamlight-btn" onclick="loadSeasonData('season_dreamlight/season_dreamlight_insect.json')">🌙 꿈의 명암 추가</button>
+                <!-- 블록 시가지 시즌 -->
+                <button class="filter-btn season-blocktown-btn" onclick="loadSeasonData('season_blocktown/season_blocktown_insect.json')">🧱 블록 시가지 추가</button>
                 <!-- 로드된 모든 시즌 데이터를 제거하고 기본 데이터로 복원 -->
                 <button class="filter-btn-reset" onclick="removeSeasonData()">🗑️ 시즌 데이터 제거</button>
                 <button class="filter-btn" onclick="selectAllTime()">시간 전체선택</button>
@@ -519,6 +512,7 @@
             '빙설':      '❄️',
             '빙설 시즌': '❄️',  // 구버전 데이터 호환
             '꿈의 명암': '🌙',
+            '블록 시가지': '🧱',
         }
         return icons[special] || '';
     }
