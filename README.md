@@ -21,34 +21,6 @@
 
 ---
 
-## 🗂️ 프로젝트 구조
-
-```
-heartopia/
-├── index.html                  # 진입점 (메인으로 리다이렉트)
-├── 404.html                    # 404 페이지
-├── public/
-│   ├── images/                 # 게임 이미지 리소스
-│   └── font/                   # 웹폰트 (BMJUA, LaundryGothic)
-└── src/
-    ├── components/             # 공통 헤더 · 푸터
-    ├── css/                    # 공통 스타일시트
-    ├── data/                   # JSON 데이터
-    │   ├── fish_data.json
-    │   ├── insect_data.json
-    │   ├── bird_data.json
-    │   ├── recipes.json
-    │   ├── gather.json
-    │   ├── crops.json
-    │   ├── shop.json
-    │   ├── season_ice/         # 시즌: 얼음 축제 데이터
-    │   └── season_dreamlight/  # 시즌: 드림라이트 데이터
-    ├── js/                     # 공통 스크립트
-    └── pages/                  # 각 페이지 HTML
-```
-
----
-
 ## ⚙️ 기술 스택
 
 - **Vanilla HTML / CSS / JavaScript** (프레임워크 없음)
