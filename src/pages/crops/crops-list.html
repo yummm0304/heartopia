@@ -204,7 +204,8 @@
         localStorage.removeItem(CROPS_COLLECTED_KEY);
         displayAllCrops();
     }
-    let gradeMultipliers = {};  // crops.json에서 읽어온 성급 배율
+    // 등급 배수 상수 (게임 고정값 — 시트에서 읽지 않음)
+    const GRADE_SELL_MUL = { '1': 1.0, '2': 1.5, '3': 2.0, '4': 4.0, '5': 8.0 };
     // 시즌별 로드 여부 추적 — 새 시즌 추가 시 키만 늘리면 됩니다
     const seasonLoaded = {
         ice:        false,  // 빙설 시즌
@@ -242,7 +243,7 @@
             if (!response.ok) throw new Error('crops.json을 찾을 수 없습니다.');
 
             const json = await response.json();
-            gradeMultipliers = json.gradeMultipliers; // 배율 저장
+            // 등급 배수는 GRADE_SELL_MUL 상수 사용
             baseData   = json.items;
             cropsData  = [...baseData];
 
@@ -515,7 +516,7 @@
     ======================================================== */
     function updatePrice(baseSellPrice, seedPrice, harvestMinutes, selectEl) {
         const star         = parseInt(selectEl.value);
-        const multiplier   = gradeMultipliers[star] ?? 1;
+        const multiplier   = GRADE_SELL_MUL[star] ?? 1;
         const adjusted     = Math.floor(baseSellPrice * multiplier);
         const profit       = adjusted - seedPrice;
         const profitSign   = profit >= 0 ? '+' : '';

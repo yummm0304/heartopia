@@ -10,7 +10,6 @@
         .page-header {
             text-align: center;
             margin-bottom: 32px;
-        }
         .page-header h1 { font-size: 2rem; color: var(--color-primary); margin-bottom: 8px; }
         .page-header p  { color: var(--color-text-soft); }
         .page-header nav { margin-bottom: 12px; }
@@ -505,6 +504,10 @@
 <script src="../../js/common.js"></script>
 <script>
 // ── 전역 상태 ──
+// ── 등급 배수 상수 (게임 고정값 — 시트에서 읽지 않음) ──
+const GRADE_SELL_MUL = { '1': 1.0, '2': 1.5, '3': 2.0, '4': 4.0, '5': 8.0 };
+const GRADE_STAM_MUL = { '1': 1.0, '2': 1.2, '3': 1.4, '4': 1.6, '5': 2.0 };
+
 let recipeData   = null;
 let allProcessed = [];    // 계산 완료된 레시피 목록
 let baseProcessed = [];   // 시즌 추가 전 원본 레시피 목록 (제거 시 복원용)
@@ -533,15 +536,10 @@ async function loadAll() {
 
     recipeData = recipes;
 
-    // gradeMultipliers / staminaMultipliers 키를 '1.0' → '1' 형태로 정규화.
+    // 등급 배수는 GRADE_SELL_MUL / GRADE_STAM_MUL 상수 사용 (시트 의존 제거)
     // csv_to_json.py 에서 소수점 키로 저장될 수 있어 String(grade) 조회가 실패하는 버그 방지.
-    ['gradeMultipliers', 'staminaMultipliers'].forEach(field => {
-        const normalized = {};
-        for (const [k, v] of Object.entries(recipeData[field] || {})) {
-            normalized[String(Math.round(parseFloat(k)))] = v;
+    // (정규화 코드 제거됨)
         }
-        recipeData[field] = normalized;
-    });
 
     // 작물 (기회비용 = sellPrice)
     for (const c of crops.items) {
@@ -573,7 +571,7 @@ async function loadAll() {
 
     // 레시피 자체를 재료로 쓰는 경우 (1등급 기준)
     for (const item of recipes.items) {
-        costMap[item.name] = { cost: item.sellPrice * recipes.gradeMultipliers['1'], type: 'recipe' };
+        costMap[item.name] = { cost: item.sellPrice * GRADE_SELL_MUL['1'], type: 'recipe' };
     }
 
     // 레시피 처리
@@ -610,8 +608,8 @@ function processRecipe(item, recipes) {
 
 // ── 등급 적용 계산 ──
 function calcForGrade(r, grade) {
-    const gMul     = recipeData.gradeMultipliers[String(grade)] || 1;
-    const sMul     = recipeData.staminaMultipliers[String(grade)] || 1;
+    const gMul     = GRADE_SELL_MUL[String(grade)] ?? 1;
+    const sMul     = GRADE_STAM_MUL[String(grade)] ?? 1;
     const servings = r.servings || 1;           // 섭취 횟수 (JSON에 없으면 기본값 1)
     const price    = Math.round(r.sellPrice * gMul);
     // 체력은 섭취 횟수를 곱한 총 획득량으로 계산 (1회 체력 × 섭취 횟수)
@@ -916,8 +914,8 @@ async function loadSeasonData(season) {
         const json = await res.json();
 
         // 시즌 레시피를 costMap에 등록 (다른 시즌 레시피가 재료로 쓰일 때 대비)
-        // gradeMultipliers 키가 '1.0' 형태일 수 있으므로 둘 다 시도
-        const grade1Mul = json.gradeMultipliers?.['1'] ?? json.gradeMultipliers?.['1.0'] ?? 1;
+        // 1등급 판매 배수 (상수)
+        const grade1Mul = GRADE_SELL_MUL['1'];
         for (const item of json.items) {
             costMap[item.name] = { cost: item.sellPrice * grade1Mul, type: 'recipe' };
         }
