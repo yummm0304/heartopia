@@ -658,4 +658,24 @@ def main():
             continue
 
         if not rows:
-            print("  데이터 없음, 스킵
+            print("  데이터 없음, 스킵")
+            continue
+
+        # 탭 타입 감지 (첫 번째 행 헤더 기준)
+        tab_type = detect_type(rows[0])
+        if not tab_type:
+            print(f"  알 수 없는 형식 (헤더: {rows[0][:4]}), 스킵")
+            continue
+
+        print(f"  → 타입: {tab_type}")
+
+        # 빈 행 기준으로 내부 테이블 분리 후 핸들러 호출
+        tables = split_tables(rows)
+        HANDLERS[tab_type](tables)
+        processed += 1
+
+    print(f"\n✅ 완료! ({processed}/{len(sheets_meta)} 탭 처리됨)")
+
+
+if __name__ == "__main__":
+    main()
