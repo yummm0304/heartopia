@@ -112,19 +112,19 @@
   {
     "name": "고양이 사료",
     "sellPrice": 150,
-    "hidden": true,
-    "image": "cat_food"
+    "image": "cat_food",
+    "hidden": true
   },
   {
     "name": "강아지 사료",
     "sellPrice": 150,
-    "hidden": true,
-    "image": "dog_food"
+    "image": "dog_food",
+    "hidden": true
   },
   {
     "name": "동물 공용 음식",
     "sellPrice": 150,
-    "hidden": true,
-    "image": "universal_animal_food"
+    "image": "universal_animal_food",
+    "hidden": true
   }
 ]

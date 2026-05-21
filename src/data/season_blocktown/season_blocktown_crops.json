@@ -1,11 +1,11 @@
 {
   "items": [
     {
-      "name": "무",
+      "name": "레몬 버베나",
       "seedPrice": 10,
       "harvestMinutes": 15,
       "sellPrice": 30,
-      "image": "whiteradish"
+      "image": "crop_9301"
     }
   ]
 }

@@ -1,0 +1,326 @@
+{
+  "items": [
+    {
+      "name": "브릭 그릇 프루티 빙수",
+      "sellPrice": 220,
+      "stamina": 20,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "블루베리",
+        "블루베리"
+      ],
+      "image": "food_9301",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 사과 빙수",
+      "sellPrice": 260,
+      "stamina": 25,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "사과",
+        "사과"
+      ],
+      "image": "food_9302",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 오렌지 빙수",
+      "sellPrice": 260,
+      "stamina": 25,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "오렌지",
+        "오렌지"
+      ],
+      "image": "food_9303",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 블루베리 빙수",
+      "sellPrice": 220,
+      "stamina": 20,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "블루베리",
+        "블루베리"
+      ],
+      "image": "food_9304",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 라즈베리 빙수",
+      "sellPrice": 260,
+      "stamina": 25,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "라즈베리",
+        "라즈베리"
+      ],
+      "image": "food_9305",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 딸기 빙수",
+      "sellPrice": 900,
+      "stamina": 65,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "딸기",
+        "딸기"
+      ],
+      "image": "food_9306",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 포도 빙수",
+      "sellPrice": 1110,
+      "stamina": 80,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "포도",
+        "포도"
+      ],
+      "image": "food_9307",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 그릇 파인애플 빙수",
+      "sellPrice": 620,
+      "stamina": 25,
+      "ingredients": [
+        "연유",
+        "브릭 얼음",
+        "파인애플",
+        "파인애플"
+      ],
+      "image": "food_9308",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "프루티 버베나 스페셜 파이",
+      "sellPrice": 360,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "블루베리"
+      ],
+      "image": "food_9309",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "사과 버베나 스페셜 파이",
+      "sellPrice": 360,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "사과"
+      ],
+      "image": "food_9310",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "오렌지 버베나 스페셜 파이",
+      "sellPrice": 360,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "오렌지"
+      ],
+      "image": "food_9311",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "블루베리 버베나 스페셜 파이",
+      "sellPrice": 360,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "블루베리"
+      ],
+      "image": "food_9312",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "라즈베리 버베나 스페셜 파이",
+      "sellPrice": 360,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "라즈베리"
+      ],
+      "image": "food_9313",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "딸기 버베나 스페셜 파이",
+      "sellPrice": 710,
+      "stamina": 55,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "딸기"
+      ],
+      "image": "food_9314",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "포도 버베나 스페셜 파이",
+      "sellPrice": 810,
+      "stamina": 60,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "포도"
+      ],
+      "image": "food_9315",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "파인애플 버베나 스페셜 파이",
+      "sellPrice": 380,
+      "stamina": 30,
+      "ingredients": [
+        "버터",
+        "달걀",
+        "레몬 버베나",
+        "파인애플"
+      ],
+      "image": "food_9316",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 머쉬룸 버거",
+      "sellPrice": 450,
+      "stamina": 40,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "느타리버섯",
+        "느타리버섯"
+      ],
+      "image": "food_9317",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 느타리버섯 버거",
+      "sellPrice": 450,
+      "stamina": 40,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "느타리버섯",
+        "느타리버섯"
+      ],
+      "image": "food_9318",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 표고버섯 버거",
+      "sellPrice": 450,
+      "stamina": 40,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "표고버섯",
+        "표고버섯"
+      ],
+      "image": "food_9319",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 양송이버섯 버거",
+      "sellPrice": 450,
+      "stamina": 40,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "양송이버섯",
+        "양송이버섯"
+      ],
+      "image": "food_9320",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 그물버섯 버거",
+      "sellPrice": 450,
+      "stamina": 40,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "그물버섯",
+        "그물버섯"
+      ],
+      "image": "food_9321",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 패티 검은 트러플 버거",
+      "sellPrice": 780,
+      "stamina": 55,
+      "ingredients": [
+        "밀",
+        "브릭 패티",
+        "검은 트러플",
+        "검은 트러플"
+      ],
+      "image": "food_9322",
+      "season": "블록 시가지",
+      "feedable": false
+    },
+    {
+      "name": "브릭 재미 세트",
+      "sellPrice": 1070,
+      "stamina": 35,
+      "ingredients": [
+        "브릭 그릇 프루티 빙수",
+        "프루티 버베나 스페셜 파이",
+        "브릭 패티 머쉬룸 버거"
+      ],
+      "image": "food_9323",
+      "season": "블록 시가지",
+      "uses": 3,
+      "feedable": false
+    }
+  ]
+}

@@ -1,22 +1,8 @@
 {
-  "gradeMultipliers": {
-    "1": 1,
-    "2": 1.5,
-    "3": 2,
-    "4": 4,
-    "5": 8
-  },
-  "staminaMultipliers": {
-    "1": 1,
-    "2": 1.2,
-    "3": 1.4,
-    "4": 1.6,
-    "5": 2
-  },
   "items": [
     {
       "name": "얼음컵 커피",
-      "price": 280,
+      "sellPrice": 280,
       "stamina": 20,
       "ingredients": [
         "슈가파우더",
@@ -25,12 +11,12 @@
         "커피 원두"
       ],
       "image": "icecoffee",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "얼음컵 라떼",
-      "price": 280,
+      "sellPrice": 280,
       "stamina": 20,
       "ingredients": [
         "슈가파우더",
@@ -39,12 +25,12 @@
         "우유"
       ],
       "image": "icelatte",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "갈은 무와 스테이크",
-      "price": 630,
+      "sellPrice": 630,
       "stamina": 40,
       "ingredients": [
         "고기",
@@ -53,11 +39,11 @@
         "무"
       ],
       "image": "radishmeat",
-      "special": "빙설"
+      "season": "빙설"
     },
     {
       "name": "무 크림 수프",
-      "price": 340,
+      "sellPrice": 340,
       "stamina": 25,
       "ingredients": [
         "우유",
@@ -66,11 +52,11 @@
         "무"
       ],
       "image": "radishcreamsoup",
-      "special": "빙설"
+      "season": "빙설"
     },
     {
       "name": "오리지널 슈가파우더 팬케이크",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 25,
       "ingredients": [
         "달걀",
@@ -79,12 +65,12 @@
         "블루베리"
       ],
       "image": "food_9104",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "블루베리 슈가파우더 팬케이크",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 25,
       "ingredients": [
         "달걀",
@@ -93,12 +79,12 @@
         "블루베리"
       ],
       "image": "food_9105",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "라즈베리 슈가파우더 팬케이크",
-      "price": 350,
+      "sellPrice": 350,
       "stamina": 25,
       "ingredients": [
         "달걀",
@@ -107,12 +93,12 @@
         "라즈베리"
       ],
       "image": "food_9106",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "사과 슈가파우더 팬케이크",
-      "price": 360,
+      "sellPrice": 360,
       "stamina": 25,
       "ingredients": [
         "달걀",
@@ -121,12 +107,12 @@
         "사과"
       ],
       "image": "food_9107",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "오렌지 슈가파우더 팬케이크",
-      "price": 360,
+      "sellPrice": 360,
       "stamina": 25,
       "ingredients": [
         "달걀",
@@ -135,12 +121,12 @@
         "오렌지"
       ],
       "image": "food_9108",
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "feedable": false
     },
     {
       "name": "오로라 만찬",
-      "price": 1630,
+      "sellPrice": 1630,
       "stamina": 40,
       "ingredients": [
         "갈은 무와 스테이크",
@@ -149,9 +135,9 @@
         "사과 슈가파우더 팬케이크"
       ],
       "image": "food_9109",
-      "servings": 4,
-      "feedable": false,
-      "special": "빙설"
+      "season": "빙설",
+      "uses": 4,
+      "feedable": false
     }
   ]
 }

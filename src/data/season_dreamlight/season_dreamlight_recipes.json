@@ -1,22 +1,8 @@
 {
-  "gradeMultipliers": {
-    "1": 1,
-    "2": 1.5,
-    "3": 2,
-    "4": 4,
-    "5": 8
-  },
-  "staminaMultipliers": {
-    "1": 1,
-    "2": 1.2,
-    "3": 1.4,
-    "4": 1.6,
-    "5": 2
-  },
   "items": [
     {
       "name": "짭짤한 팝콘통",
-      "price": 900,
+      "sellPrice": 900,
       "stamina": 60,
       "ingredients": [
         "옥수수",
@@ -25,12 +11,12 @@
         "버터"
       ],
       "image": "food_9201",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "캐러멜 팝콘통",
-      "price": 820,
+      "sellPrice": 820,
       "stamina": 50,
       "ingredients": [
         "옥수수",
@@ -39,12 +25,12 @@
         "버터"
       ],
       "image": "food_9202",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "살사 소스 웨이브 감자칩",
-      "price": 280,
+      "sellPrice": 280,
       "stamina": 26,
       "ingredients": [
         "감자",
@@ -52,36 +38,36 @@
         "살사 소스"
       ],
       "image": "food_9203",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "짭조름한 더블 버킷",
-      "price": 1230,
+      "sellPrice": 1230,
       "stamina": 95,
       "ingredients": [
         "짭짤한 팝콘통",
         "살사 소스 웨이브 감자칩"
       ],
       "image": "food_9204",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "달콤한 듀얼 팝콘통",
-      "price": 1150,
+      "sellPrice": 1150,
       "stamina": 90,
       "ingredients": [
         "캐러멜 팝콘통",
         "살사 소스 웨이브 감자칩"
       ],
       "image": "food_9205",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "로메인 타코",
-      "price": 260,
+      "sellPrice": 260,
       "stamina": 30,
       "ingredients": [
         "로메인",
@@ -90,12 +76,12 @@
         "달걀"
       ],
       "image": "food_9206",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "나물 로메인 타코",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 35,
       "ingredients": [
         "야생 고사리",
@@ -103,12 +89,12 @@
         "로메인 타코"
       ],
       "image": "food_9207",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "야생 고사리 로메인 타코",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 35,
       "ingredients": [
         "야생 고사리",
@@ -116,12 +102,12 @@
         "로메인 타코"
       ],
       "image": "food_9208",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "산마늘 로메인 타코",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 35,
       "ingredients": [
         "산마늘",
@@ -129,12 +115,12 @@
         "로메인 타코"
       ],
       "image": "food_9209",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "산우엉 로메인 타코",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 35,
       "ingredients": [
         "산우엉",
@@ -142,12 +128,12 @@
         "로메인 타코"
       ],
       "image": "food_9210",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "산겨자 로메인 타코",
-      "price": 330,
+      "sellPrice": 330,
       "stamina": 35,
       "ingredients": [
         "산겨자",
@@ -155,12 +141,12 @@
         "로메인 타코"
       ],
       "image": "food_9211",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 과일 홍차",
-      "price": 460,
+      "sellPrice": 460,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -169,12 +155,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9212",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 사과 홍차",
-      "price": 480,
+      "sellPrice": 480,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -183,12 +169,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9213",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 오렌지 홍차",
-      "price": 480,
+      "sellPrice": 480,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -197,12 +183,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9214",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 블루베리 홍차",
-      "price": 460,
+      "sellPrice": 460,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -211,12 +197,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9215",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 라즈베리 홍차",
-      "price": 480,
+      "sellPrice": 480,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -225,12 +211,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9216",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 딸기 홍차",
-      "price": 800,
+      "sellPrice": 800,
       "stamina": 60,
       "ingredients": [
         "홍차",
@@ -239,12 +225,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9217",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 포도 홍차",
-      "price": 910,
+      "sellPrice": 910,
       "stamina": 65,
       "ingredients": [
         "홍차",
@@ -253,12 +239,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9218",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "봄날 파인애플 홍차",
-      "price": 480,
+      "sellPrice": 480,
       "stamina": 45,
       "ingredients": [
         "홍차",
@@ -267,12 +253,12 @@
         "봄날 카라멜 슈가"
       ],
       "image": "food_9219",
-      "feedable": false,
-      "special": "꿈의 명암"
+      "season": "꿈의 명암",
+      "feedable": false
     },
     {
       "name": "디럭스 관람 세트",
-      "price": 1960,
+      "sellPrice": 1960,
       "stamina": 60,
       "ingredients": [
         "봄날 과일 홍차",
@@ -280,14 +266,14 @@
         "나물 로메인 타코"
       ],
       "image": "food_9220",
+      "season": "꿈의 명암",
+      "uses": 3,
       "buff": "원기 왕성",
-      "servings": 3,
-      "feedable": false,
-      "special": "꿈의 명암"
+      "feedable": false
     },
     {
       "name": "프리미엄 관람 세트",
-      "price": 2370,
+      "sellPrice": 2370,
       "stamina": 60,
       "ingredients": [
         "봄날 과일 홍차",
@@ -296,10 +282,10 @@
         "나물 로메인 타코"
       ],
       "image": "food_9221",
+      "season": "꿈의 명암",
+      "uses": 4,
       "buff": "활력 충만",
-      "servings": 4,
-      "feedable": false,
-      "special": "꿈의 명암"
+      "feedable": false
     }
   ]
 }

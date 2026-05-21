@@ -1,8 +1,8 @@
 [
   {
-    "name": "갈색 감독 난쟁이문어",
+    "name": "파란색 브릭 흰동가리",
     "level": 1,
-    "habitat": "고래바다",
+    "habitat": "동해",
     "size": "작음",
     "time": [
       "아침",
@@ -16,33 +16,14 @@
       "무지개"
     ],
     "price": 100,
-    "special": "꿈의 명암",
-    "image": 9202
+    "special": "블록 시가지",
+    "image": 9301,
+    "feedable": false
   },
   {
-    "name": "갈색 감독 참문어",
+    "name": "빨간색 브릭 흰동가리",
     "level": 1,
-    "habitat": "고래바다",
-    "size": "큼",
-    "time": [
-      "아침",
-      "낮",
-      "저녁",
-      "새벽"
-    ],
-    "weather": [
-      "맑음",
-      "비",
-      "무지개"
-    ],
-    "price": 215,
-    "special": "꿈의 명암",
-    "image": 9204
-  },
-  {
-    "name": "감청색 감독 난쟁이문어",
-    "level": 1,
-    "habitat": "고래바다",
+    "habitat": "동해",
     "size": "작음",
     "time": [
       "아침",
@@ -56,13 +37,14 @@
       "무지개"
     ],
     "price": 100,
-    "special": "꿈의 명암",
-    "image": 9201
+    "special": "블록 시가지",
+    "image": 9302,
+    "feedable": false
   },
   {
-    "name": "청록색 감독 난쟁이문어",
+    "name": "청록색 브릭 흰동가리",
     "level": 1,
-    "habitat": "고래바다",
+    "habitat": "동해",
     "size": "작음",
     "time": [
       "아침",
@@ -76,14 +58,15 @@
       "무지개"
     ],
     "price": 100,
-    "special": "꿈의 명암",
-    "image": 9203
+    "special": "블록 시가지",
+    "image": 9303,
+    "feedable": false
   },
   {
-    "name": "꽃무늬 감독 참문어",
+    "name": "보라색 브릭 흰동가리",
     "level": 1,
-    "habitat": "문어 엔터테인먼트 사건",
-    "size": "큼",
+    "habitat": "동해",
+    "size": "작음",
     "time": [
       "아침",
       "낮",
@@ -95,8 +78,30 @@
       "비",
       "무지개"
     ],
-    "price": 320,
-    "special": "꿈의 명암",
-    "image": 9205
+    "price": 100,
+    "special": "블록 시가지",
+    "image": 9304,
+    "feedable": false
+  },
+  {
+    "name": "오색 브릭 흰동가리",
+    "level": 1,
+    "habitat": "특수 브릭 물고기 사건",
+    "size": "작음",
+    "time": [
+      "아침",
+      "낮",
+      "저녁",
+      "새벽"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 150,
+    "special": "블록 시가지",
+    "image": 9305,
+    "feedable": false
   }
 ]

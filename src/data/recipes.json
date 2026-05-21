@@ -1,32 +1,19 @@
 {
-  "gradeMultipliers": {
-    "1": 1,
-    "2": 1.5,
-    "3": 2,
-    "4": 4,
-    "5": 8
-  },
-  "staminaMultipliers": {
-    "1": 1,
-    "2": 1.2,
-    "3": 1.4,
-    "4": 1.6,
-    "5": 2
-  },
   "items": [
     {
       "name": "베지 샐러드",
-      "price": 90,
+      "sellPrice": 90,
       "stamina": 15,
       "ingredients": [
         "토마토",
         "토마토"
       ],
-      "image": "salad"
+      "image": "salad",
+      "season": "일반"
     },
     {
       "name": "믹스드 잼",
-      "price": 160,
+      "sellPrice": 160,
       "stamina": 22,
       "ingredients": [
         "블루베리",
@@ -34,11 +21,12 @@
         "블루베리",
         "블루베리"
       ],
-      "image": "mixjam"
+      "image": "mixjam",
+      "season": "일반"
     },
     {
       "name": "라즈베리 잼",
-      "price": 250,
+      "sellPrice": 250,
       "stamina": 30,
       "ingredients": [
         "라즈베리",
@@ -46,11 +34,12 @@
         "라즈베리",
         "라즈베리"
       ],
-      "image": "raspjam"
+      "image": "raspjam",
+      "season": "일반"
     },
     {
       "name": "케첩",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 35,
       "ingredients": [
         "토마토",
@@ -58,11 +47,12 @@
         "토마토",
         "토마토"
       ],
-      "image": "ketchup"
+      "image": "ketchup",
+      "season": "일반"
     },
     {
       "name": "블루베리 잼",
-      "price": 170,
+      "sellPrice": 170,
       "stamina": 22,
       "ingredients": [
         "블루베리",
@@ -70,11 +60,12 @@
         "블루베리",
         "블루베리"
       ],
-      "image": "bluejam"
+      "image": "bluejam",
+      "season": "일반"
     },
     {
       "name": "사과 잼",
-      "price": 270,
+      "sellPrice": 270,
       "stamina": 35,
       "ingredients": [
         "사과",
@@ -82,11 +73,12 @@
         "사과",
         "사과"
       ],
-      "image": "applejam"
+      "image": "applejam",
+      "season": "일반"
     },
     {
       "name": "오렌지 잼",
-      "price": 270,
+      "sellPrice": 270,
       "stamina": 40,
       "ingredients": [
         "오렌지",
@@ -95,11 +87,12 @@
         "오렌지"
       ],
       "image": "orangejam",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "딸기 잼",
-      "price": 1580,
+      "sellPrice": 1580,
       "stamina": 40,
       "ingredients": [
         "딸기",
@@ -107,11 +100,12 @@
         "딸기",
         "딸기"
       ],
-      "image": "stjam"
+      "image": "stjam",
+      "season": "일반"
     },
     {
       "name": "파인애플 잼",
-      "price": 280,
+      "sellPrice": 280,
       "stamina": 40,
       "ingredients": [
         "파인애플",
@@ -120,11 +114,12 @@
         "파인애플"
       ],
       "image": "pjam",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "포도 잼",
-      "price": 2020,
+      "sellPrice": 2020,
       "stamina": 40,
       "ingredients": [
         "포도",
@@ -133,11 +128,12 @@
         "포도"
       ],
       "image": "gjam",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "피시 앤 칩스",
-      "price": 310,
+      "sellPrice": 310,
       "stamina": 40,
       "ingredients": [
         "물고기(100)",
@@ -146,11 +142,12 @@
         "감자"
       ],
       "image": "fishchip",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "치즈케이크",
-      "price": 480,
+      "sellPrice": 480,
       "stamina": 40,
       "ingredients": [
         "치즈",
@@ -158,11 +155,12 @@
         "밀"
       ],
       "image": "cheesecake",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "오리지널 롤케이크",
-      "price": 550,
+      "sellPrice": 550,
       "stamina": 35,
       "ingredients": [
         "달걀",
@@ -171,11 +169,12 @@
         "사탕(150)"
       ],
       "image": "roll",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "롤케이크150",
-      "price": 570,
+      "sellPrice": 570,
       "stamina": 48,
       "ingredients": [
         "달걀",
@@ -184,11 +183,12 @@
         "사탕(150)"
       ],
       "image": "broll",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "롤케이크200",
-      "price": 670,
+      "sellPrice": 670,
       "stamina": 48,
       "ingredients": [
         "달걀",
@@ -197,11 +197,12 @@
         "사탕(200)"
       ],
       "image": "rroll",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "버섯 파이",
-      "price": 500,
+      "sellPrice": 500,
       "stamina": 35,
       "ingredients": [
         "버섯",
@@ -209,11 +210,12 @@
         "밀",
         "달걀"
       ],
-      "image": "mushroompie"
+      "image": "mushroompie",
+      "season": "일반"
     },
     {
       "name": "느타리버섯 파이",
-      "price": 500,
+      "sellPrice": 500,
       "stamina": 35,
       "ingredients": [
         "느타리버섯",
@@ -221,11 +223,12 @@
         "밀",
         "달걀"
       ],
-      "image": "pleurotuspie"
+      "image": "pleurotuspie",
+      "season": "일반"
     },
     {
       "name": "표고버섯 파이",
-      "price": 500,
+      "sellPrice": 500,
       "stamina": 35,
       "ingredients": [
         "표고버섯",
@@ -233,11 +236,12 @@
         "밀",
         "달걀"
       ],
-      "image": "shiitakepie"
+      "image": "shiitakepie",
+      "season": "일반"
     },
     {
       "name": "양송이버섯 파이",
-      "price": 500,
+      "sellPrice": 500,
       "stamina": 35,
       "ingredients": [
         "양송이버섯",
@@ -245,11 +249,12 @@
         "밀",
         "달걀"
       ],
-      "image": "tricholomapie"
+      "image": "tricholomapie",
+      "season": "일반"
     },
     {
       "name": "그물버섯 파이",
-      "price": 500,
+      "sellPrice": 500,
       "stamina": 35,
       "ingredients": [
         "그물버섯",
@@ -258,11 +263,12 @@
         "달걀"
       ],
       "image": "boletuspie",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "검은 트러플 파이",
-      "price": 830,
+      "sellPrice": 830,
       "stamina": 80,
       "ingredients": [
         "검은 트러플",
@@ -271,11 +277,12 @@
         "달걀"
       ],
       "image": "trufflepie",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "구운 버섯",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 15,
       "ingredients": [
         "버섯",
@@ -283,11 +290,12 @@
         "버섯",
         "버섯"
       ],
-      "image": "bakemushroom"
+      "image": "bakemushroom",
+      "season": "일반"
     },
     {
       "name": "구운 느타리버섯",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 15,
       "ingredients": [
         "느타리버섯",
@@ -295,11 +303,12 @@
         "느타리버섯",
         "느타리버섯"
       ],
-      "image": "bakepleurotus"
+      "image": "bakepleurotus",
+      "season": "일반"
     },
     {
       "name": "구운 표고버섯",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 15,
       "ingredients": [
         "표고버섯",
@@ -307,11 +316,12 @@
         "표고버섯",
         "표고버섯"
       ],
-      "image": "bakeshiitake"
+      "image": "bakeshiitake",
+      "season": "일반"
     },
     {
       "name": "구운 양송이버섯",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 15,
       "ingredients": [
         "양송이버섯",
@@ -319,11 +329,12 @@
         "양송이버섯",
         "양송이버섯"
       ],
-      "image": "baketricholoma"
+      "image": "baketricholoma",
+      "season": "일반"
     },
     {
       "name": "구운 그물버섯",
-      "price": 180,
+      "sellPrice": 180,
       "stamina": 15,
       "ingredients": [
         "그물버섯",
@@ -332,65 +343,71 @@
         "그물버섯"
       ],
       "image": "bakeboletus",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "온천란",
-      "price": 130,
+      "sellPrice": 130,
       "stamina": 15,
       "ingredients": [
         "멸균란"
       ],
       "image": "egg",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "부활절 달걀",
-      "price": 190,
+      "sellPrice": 190,
       "stamina": 20,
       "ingredients": [
         "달걀",
         "우유"
       ],
       "image": "food_9222",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "부활절 보라 달걀",
-      "price": 620,
+      "sellPrice": 620,
       "stamina": 50,
       "ingredients": [
         "달걀",
         "포도"
       ],
       "image": "food_9223",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "부활절 초록 달걀",
-      "price": 570,
+      "sellPrice": 570,
       "stamina": 50,
       "ingredients": [
         "달걀",
         "양상추"
       ],
       "image": "food_9224",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "부활절 주황 달걀",
-      "price": 190,
+      "sellPrice": 190,
       "stamina": 20,
       "ingredients": [
         "달걀",
         "사과"
       ],
       "image": "food_9225",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "부활절 이스터에그 파티",
-      "price": 1650,
+      "sellPrice": 1650,
       "stamina": 55,
       "ingredients": [
         "부활절 달걀",
@@ -399,12 +416,13 @@
         "부활절 주황 달걀"
       ],
       "image": "food_9226",
-      "servings": 3,
+      "season": "일반",
+      "uses": 3,
       "feedable": false
     },
     {
       "name": "몰티즈 카눌레",
-      "price": 910,
+      "sellPrice": 910,
       "stamina": 45,
       "ingredients": [
         "달걀",
@@ -413,11 +431,12 @@
         "딸기"
       ],
       "image": "whcanneles",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "리트리버 카눌레",
-      "price": 590,
+      "sellPrice": 590,
       "stamina": 35,
       "ingredients": [
         "달걀",
@@ -426,11 +445,12 @@
         "커피 원두"
       ],
       "image": "gcanneles",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "몰티즈 콘파나",
-      "price": 520,
+      "sellPrice": 520,
       "stamina": 45,
       "ingredients": [
         "우유",
@@ -439,11 +459,12 @@
         "커피"
       ],
       "image": "whcoffee",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "리트리버 콘파나",
-      "price": 520,
+      "sellPrice": 520,
       "stamina": 45,
       "ingredients": [
         "우유",
@@ -452,11 +473,12 @@
         "커피"
       ],
       "image": "gcoffee",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "하트 강아지",
-      "price": 1220,
+      "sellPrice": 1220,
       "stamina": 85,
       "ingredients": [
         "우유",
@@ -465,11 +487,12 @@
         "커피"
       ],
       "image": "fcoffee",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "잔디 케이크",
-      "price": 690,
+      "sellPrice": 690,
       "stamina": 50,
       "ingredients": [
         "밀",
@@ -478,11 +501,12 @@
         "잔디"
       ],
       "image": "greengrasscake",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "커피",
-      "price": 290,
+      "sellPrice": 290,
       "stamina": 40,
       "ingredients": [
         "커피 원두",
@@ -491,11 +515,12 @@
         "커피 원두"
       ],
       "image": "bcoffee",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "카페라떼",
-      "price": 300,
+      "sellPrice": 300,
       "stamina": 40,
       "ingredients": [
         "커피 원두",
@@ -504,11 +529,12 @@
         "우유"
       ],
       "image": "latte",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "훈제 연어 베이글",
-      "price": 520,
+      "sellPrice": 520,
       "stamina": 50,
       "ingredients": [
         "물고기(100)",
@@ -517,11 +543,12 @@
         "밀"
       ],
       "image": "bagel",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "씨푸드 덮밥",
-      "price": 490,
+      "sellPrice": 490,
       "stamina": 40,
       "ingredients": [
         "물고기(100)",
@@ -529,11 +556,12 @@
         "밀",
         "토마토"
       ],
-      "image": "searisotto"
+      "image": "searisotto",
+      "season": "일반"
     },
     {
       "name": "씨푸드 피자",
-      "price": 780,
+      "sellPrice": 780,
       "stamina": 70,
       "ingredients": [
         "치즈",
@@ -542,12 +570,13 @@
         "물고기(100)"
       ],
       "image": "seapizza",
+      "season": "일반",
       "buff": "활력 충만",
       "feedable": false
     },
     {
       "name": "티라미수",
-      "price": 530,
+      "sellPrice": 530,
       "stamina": 65,
       "ingredients": [
         "커피 원두",
@@ -555,22 +584,25 @@
         "우유",
         "치즈"
       ],
-      "image": "tiramisu"
+      "image": "tiramisu",
+      "season": "일반",
+      "feedable": false
     },
     {
       "name": "컨트리 스튜",
-      "price": 640,
+      "sellPrice": 640,
       "stamina": 60,
       "ingredients": [
         "토마토",
         "감자",
         "양상추"
       ],
-      "image": "ratatouille"
+      "image": "ratatouille",
+      "season": "일반"
     },
     {
       "name": "검은 트러플 크림 파스타",
-      "price": 900,
+      "sellPrice": 900,
       "stamina": 90,
       "ingredients": [
         "검은 트러플",
@@ -579,11 +611,12 @@
         "우유"
       ],
       "image": "trufflenoodles",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "미트소스 파스타",
-      "price": 670,
+      "sellPrice": 670,
       "stamina": 80,
       "ingredients": [
         "고기",
@@ -591,11 +624,12 @@
         "토마토",
         "치즈"
       ],
-      "image": "pasta"
+      "image": "pasta",
+      "season": "일반"
     },
     {
       "name": "애플파이",
-      "price": 730,
+      "sellPrice": 730,
       "stamina": 70,
       "ingredients": [
         "사과",
@@ -604,11 +638,12 @@
         "버터"
       ],
       "image": "applepie",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "당근 케이크",
-      "price": 840,
+      "sellPrice": 840,
       "stamina": 55,
       "ingredients": [
         "당근",
@@ -617,11 +652,12 @@
         "밀"
       ],
       "image": "cacake",
+      "season": "일반",
       "feedable": false
     },
     {
       "name": "콘스프",
-      "price": 1340,
+      "sellPrice": 1340,
       "stamina": 80,
       "ingredients": [
         "옥수수",
@@ -629,11 +665,12 @@
         "우유",
         "버터"
       ],
-      "image": "csoup"
+      "image": "csoup",
+      "season": "일반"
     },
     {
       "name": "럭셔리 씨푸드 플래터",
-      "price": 410,
+      "sellPrice": 410,
       "stamina": 65,
       "ingredients": [
         "가재",
@@ -642,11 +679,12 @@
         "물고기(100)"
       ],
       "image": "seaplatter",
+      "season": "일반",
       "buff": "무한한 힘"
     },
     {
       "name": "캠핑 세트",
-      "price": 2260,
+      "sellPrice": 2260,
       "stamina": 100,
       "ingredients": [
         "커피",
@@ -655,25 +693,27 @@
         "피시 앤 칩스"
       ],
       "image": "camping",
+      "season": "일반",
+      "uses": 4,
       "buff": "무한한 힘",
-      "servings": 4,
       "feedable": false
     },
     {
       "name": "잉글리시 애프터눈 티",
-      "price": 710,
+      "sellPrice": 710,
       "stamina": 25,
       "ingredients": [
         "티라미수",
         "블루베리"
       ],
       "image": "aftertea",
-      "servings": 4,
+      "season": "일반",
+      "uses": 4,
       "feedable": false
     },
     {
       "name": "미트버거",
-      "price": 1350,
+      "sellPrice": 1350,
       "stamina": 75,
       "ingredients": [
         "밀",
@@ -681,11 +721,12 @@
         "고기",
         "케첩"
       ],
-      "image": "meatburger"
+      "image": "meatburger",
+      "season": "일반"
     },
     {
       "name": "랍스터 냉채",
-      "price": 850,
+      "sellPrice": 850,
       "stamina": 30,
       "ingredients": [
         "가재",
@@ -694,12 +735,13 @@
         "양상추"
       ],
       "image": "pcocktail",
-      "servings": 3,
+      "season": "일반",
+      "uses": 3,
       "feedable": false
     },
     {
       "name": "북유럽파란가재 냉채",
-      "price": 1310,
+      "sellPrice": 1310,
       "stamina": 60,
       "ingredients": [
         "북유럽파란가재",
@@ -708,12 +750,13 @@
         "양상추"
       ],
       "image": "bpcocktail",
-      "servings": 3,
+      "season": "일반",
+      "uses": 3,
       "feedable": false
     },
     {
       "name": "미트소스 가지 그라탱",
-      "price": 1230,
+      "sellPrice": 1230,
       "stamina": 75,
       "ingredients": [
         "가지",
@@ -722,11 +765,12 @@
         "케첩"
       ],
       "image": "meggplant",
+      "season": "일반",
       "buff": "활력 충만"
     },
     {
       "name": "캔들라이트 디너",
-      "price": 1760,
+      "sellPrice": 1760,
       "stamina": 75,
       "ingredients": [
         "베지 샐러드",
@@ -735,12 +779,13 @@
         "티라미수"
       ],
       "image": "cdinner",
-      "servings": 4,
+      "season": "일반",
+      "uses": 4,
       "feedable": false
     },
     {
       "name": "킹크랩찜",
-      "price": 1990,
+      "sellPrice": 1990,
       "stamina": 90,
       "ingredients": [
         "킹크랩",
@@ -749,6 +794,7 @@
         "버터"
       ],
       "image": "steamcrab",
+      "season": "일반",
       "buff": "빠른 발걸음"
     }
   ]

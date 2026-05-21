@@ -2289,6 +2289,8 @@
     "price": 16,
     "special": false,
     "category": "소형",
+    "motion_preening": "항상",
+    "motion_wingspread": "항상",
     "image": 119
   }
 ]

@@ -1,5 +1,23 @@
 [
   {
+    "name": "연유",
+    "shopPrice": 50,
+    "dailyLimit": 50,
+    "availability": "블록 시가지"
+  },
+  {
+    "name": "브릭 얼음",
+    "shopPrice": 50,
+    "dailyLimit": 50,
+    "availability": "블록 시가지"
+  },
+  {
+    "name": "브릭 패티",
+    "shopPrice": 50,
+    "dailyLimit": 50,
+    "availability": "블록 시가지"
+  },
+  {
     "name": "봄날 카라멜 슈가",
     "shopPrice": 50,
     "dailyLimit": 50,
@@ -32,61 +50,73 @@
   {
     "name": "쌀가루",
     "shopPrice": 50,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "우유",
     "shopPrice": 50,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "커피 원두",
     "shopPrice": 50,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "팥",
     "shopPrice": 50,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "달걀",
     "shopPrice": 100,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "멸균란",
     "shopPrice": 100,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "식용유",
     "shopPrice": 100,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "치즈",
     "shopPrice": 100,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "말차가루",
     "shopPrice": 150,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "버터",
     "shopPrice": 150,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "고기",
     "shopPrice": 200,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   },
   {
     "name": "홍차",
     "shopPrice": 250,
-    "dailyLimit": 50
+    "dailyLimit": 50,
+    "availability": ""
   }
 ]

@@ -1,19 +1,11 @@
 {
-  "gradeMultipliers": {
-    "1": 1,
-    "2": 1.33,
-    "3": 1.67,
-    "4": 2,
-    "5": 3
-  },
   "items": [
     {
       "name": "로메인",
       "seedPrice": 10,
       "harvestMinutes": 15,
       "sellPrice": 30,
-      "image": "crop_9201",
-      "special": "꿈의 명암"
+      "image": "crop_9201"
     }
   ]
 }
