@@ -1,0 +1,48 @@
+name: Sync Google Sheet → JSON
+
+on:
+  # 매일 자정 (KST 09:00 = UTC 00:00) 자동 실행
+  schedule:
+    - cron: "0 0 * * *"
+
+  # 수동 실행 버튼 (Actions 탭에서 "Run workflow" 클릭)
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # JSON 파일 커밋/푸시 권한
+
+    steps:
+      # 1. 레포 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Python 환경 세팅
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. 의존성 설치 (requests만 필요)
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. 스크립트 실행 (GOOGLE_API_KEY secret 주입)
+      - name: Run sync script
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: python scripts/sync_sheet.py
+
+      # 5. 변경된 JSON이 있으면 자동 커밋 & 푸시
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/
+          # 변경사항이 없으면 커밋하지 않음 (정상 종료)
+          git diff --cached --quiet && echo "변경사항 없음" || \
+            git commit -m "chore: sync data from Google Sheet [$(date +'%Y-%m-%d')]"
+          git push
