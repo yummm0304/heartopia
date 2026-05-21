@@ -573,6 +573,8 @@
      */
     function formatMotion(motionObj) {
         if (!motionObj) return '<span class="motion-none">-</span>';
+        // "항상" 같은 특수 문자열 처리 (parse_motion이 항상 → 문자열로 저장)
+        if (typeof motionObj === 'string') return `<span class="motion-always">${motionObj}</span>`;
 
         const entries = Object.entries(motionObj);
         if (entries.length === 0) return '<span class="motion-none">-</span>';

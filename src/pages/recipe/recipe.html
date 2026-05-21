@@ -538,9 +538,6 @@ async function loadAll() {
     recipeData = recipes;
 
     // 등급 배수는 GRADE_SELL_MUL / GRADE_STAM_MUL 상수 사용 (시트 의존 제거)
-    // csv_to_json.py 에서 소수점 키로 저장될 수 있어 String(grade) 조회가 실패하는 버그 방지.
-    // (정규화 코드 제거됨)
-        }
 
     // 작물 (기회비용 = sellPrice)
     for (const c of crops.items) {
