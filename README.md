@@ -29,7 +29,7 @@
 
 ---
 
-## ⚠️ 저작권 안내
+## 저작권 안내
 
 본 사이트는 팬이 자발적으로 제작한 비공식 정보 사이트로, **XD Interactive Entertainment Co., Ltd.** 와 무관합니다.
 사이트 내 사용된 게임 이미지 및 관련 데이터의 저작권은 XD Interactive Entertainment Co., Ltd. 에 있으며, 팬 활동 목적으로만 사용됩니다.
