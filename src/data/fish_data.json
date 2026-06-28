@@ -1795,3 +1795,23 @@
     "special": false
   }
 ]
+  },
+  {
+    "name": "사자머리금붕어",
+    "level": 11,
+    "habitat": "온천산 호수",
+    "size": "작음",
+    "time": [
+      "아침",
+      "낮",
+      "저녁",
+      "새벽"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 395,
+    "special": false,
+    "image": 999
+  }
+]
