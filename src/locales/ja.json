@@ -789,5 +789,28 @@
     "수익률 ROI": "収益率 ROI",
     "체력/골드": "スタミナ/ゴールド",
     "체력 / 골드": "スタミナ / ゴールド"
+  },
+  "main": {
+    "pageTitle": "チェリーのハートピア データハブ",
+    "heroTitle": "チェリーのハートピア データハブへようこそ！",
+    "heroDescription": "島での暮らしをもっと楽しくする情報をまとめました 🌟",
+    "fishBookTitle": "魚図鑑",
+    "fishBookDescription": "すべての魚の情報と出現条件を確認できます",
+    "insectBookTitle": "昆虫図鑑",
+    "insectBookDescription": "すべての昆虫の情報と出現条件を確認できます",
+    "birdBookTitle": "野鳥図鑑",
+    "birdBookDescription": "すべての野鳥の情報と出現条件を確認できます",
+    "fishFinderTitle": "魚を探す",
+    "fishFinderDescription": "現在の条件に合う魚をすぐ探せます",
+    "insectFinderTitle": "虫を探す",
+    "insectFinderDescription": "現在の条件に合う昆虫をすぐ探せます",
+    "birdFinderTitle": "鳥を探す",
+    "birdFinderDescription": "現在の条件に合う野鳥をすぐ探せます",
+    "cropBookTitle": "作物図鑑",
+    "cropBookDescription": "季節ごとの作物情報と収穫時間を確認できます",
+    "recipeTitle": "料理レシピ",
+    "recipeDescription": "レシピごとの利益・材料費・スタミナ効率を比較できます",
+    "petTitle": "ペットのエサを探す",
+    "petDescription": "ペットごとに与えた食べ物と好みを記録できます"
   }
 }
