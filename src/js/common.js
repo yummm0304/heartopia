@@ -143,6 +143,15 @@ window.getLocalizedName = (item) => (
 window.t = t;
 window.applyStaticTranslations = applyStaticTranslations;
 
+// 모든 도감 공통 이름 처리.
+// 일본어 정식 이름(nameJa)이 아직 없는 데이터는 한국어 name을 그대로 사용해
+// 도감 렌더링이 멈추지 않게 한다.
+function getLocalizedName(item) {
+    if (!item) return '';
+    return currentLanguage === 'ja' && item.nameJa ? item.nameJa : (item.name || '');
+}
+window.getLocalizedName = getLocalizedName;
+
 
 // ============================================================
 // 공통 컴포넌트 로더
