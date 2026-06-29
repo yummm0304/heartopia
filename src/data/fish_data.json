@@ -1600,7 +1600,7 @@
     "image": 1000
   },
   {
-    "name": "줄자돔/자리돔",
+    "name": "줄자돔",
     "level": 11,
     "habitat": "잔잔한 바다",
     "size": "중간",
@@ -1613,7 +1613,8 @@
       "무지개"
     ],
     "price": 610,
-    "special": false
+    "special": false,
+    "image": 1002
   },
   {
     "name": "금룡어",
