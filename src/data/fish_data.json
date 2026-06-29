@@ -1652,7 +1652,7 @@
     "name": "만새기",
     "level": 12,
     "habitat": "구해",
-    "size": "중간",
+    "size": "큼",
     "time": [
       "아침",
       "낮"
@@ -1661,7 +1661,8 @@
       "무지개"
     ],
     "price": 850,
-    "special": false
+    "special": false,
+    "image": 1004
   },
   {
     "name": "엔젤피시",
