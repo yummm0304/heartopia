@@ -1686,16 +1686,17 @@
     "habitat": "바다낚시",
     "size": "황금",
     "time": [
+      "새벽",
       "낮",
-      "저녁",
-      "새벽"
+      "저녁"
     ],
     "weather": [
       "비",
       "무지개"
     ],
     "price": 850,
-    "special": false
+    "special": false,
+    "image": 1005
   },
   {
     "name": "베타",
