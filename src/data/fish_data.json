@@ -1733,21 +1733,22 @@
     "image": 378
   },
   {
-    "name": "블루탱",
+    "name": "양쥐돔",
     "level": 13,
     "habitat": "구해",
-    "size": "작음",
+    "size": "중간",
     "time": [
+      "새벽",
       "낮",
-      "저녁",
-      "새벽"
+      "저녁"
     ],
     "weather": [
       "비",
       "무지개"
     ],
     "price": 610,
-    "special": false
+    "special": false,
+    "image": 1006
   },
   {
     "name": "환상용어",
