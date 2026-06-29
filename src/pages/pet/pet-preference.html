@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>펫 먹이 선호도 - 두근두근타운</title>
+    <title data-i18n="pet.pageTitle" data-i18n-fallback="펫 먹이 선호도 - 두근두근타운">펫 먹이 선호도 - 두근두근타운</title>
     <link href="../../css/common.css" rel="stylesheet">
     <script src="../../../src/js/tracker.js"></script>
 
@@ -465,8 +465,8 @@
 <main>
     <!-- 페이지 헤더 -->
     <div class="page-header">
-        <h1>🐾 펫 먹이 선호도</h1>
-        <p>하나씩 먹여보고 좋아하는 걸 ❤️ 로 표시해두세요</p>
+        <h1 data-i18n="pet.title" data-i18n-fallback="🐾 펫 먹이 선호도">🐾 펫 먹이 선호도</h1>
+        <p data-i18n="pet.subtitle" data-i18n-fallback="하나씩 먹여보고 좋아하는 걸 ❤️ 로 표시해두세요">하나씩 먹여보고 좋아하는 걸 ❤️ 로 표시해두세요</p>
     </div>
 
     <!-- localStorage 안내 배너 -->
@@ -474,11 +474,9 @@
         <div class="storage-notice-inner">
             <span class="notice-icon">⚠️</span>
             <span>
-                기록은 <strong>이 브라우저의 로컬 저장소(localStorage)</strong>에 저장돼요.
-                브라우저의 <strong>캐시·사이트 데이터 삭제</strong> 또는 <strong>시크릿 모드</strong>에서는 기록이 사라질 수 있어요.
-                중요한 기록은 따로 메모해두는 걸 권장해요.
+                <span data-i18n="pet.notice" data-i18n-fallback="기록은 이 브라우저의 로컬 저장소(localStorage)에 저장돼요. 브라우저의 캐시·사이트 데이터 삭제 또는 시크릿 모드에서는 기록이 사라질 수 있어요. 중요한 기록은 따로 메모해두는 걸 권장해요.">기록은 이 브라우저의 로컬 저장소(localStorage)에 저장돼요. 브라우저의 캐시·사이트 데이터 삭제 또는 시크릿 모드에서는 기록이 사라질 수 있어요. 중요한 기록은 따로 메모해두는 걸 권장해요.</span>
             </span>
-            <button class="storage-notice-dismiss" onclick="dismissNotice()" title="닫기">✕</button>
+            <button class="storage-notice-dismiss" onclick="dismissNotice()" data-i18n-title="pet.close" title="닫기">✕</button>
         </div>
     </div>
 
@@ -518,6 +516,16 @@
          tried  : 먹여봤다 → 카드 흐리게 (opacity + grayscale)
          liked  : 좋아한다 → 핑크 강조, 탭에 이름 표시
     ============================================================ */
+
+    // 언어 전환용 헬퍼 — 동적으로 생성하는 펫 UI에도 동일하게 적용
+    function L(key, fallback) {
+        return window.getSiteLanguage && window.getSiteLanguage() === 'ja'
+            ? window.t(key, fallback)
+            : fallback;
+    }
+    function itemLabel(item) {
+        return window.getLocalizedName ? window.getLocalizedName(item) : (item.name || '');
+    }
 
     // ── 상수 ────────────────────────────────────────────────────
     const STORAGE_KEY        = 'heartopia_pet_preferences';
@@ -659,15 +667,15 @@
 
     // ── 펫 CRUD ─────────────────────────────────────────────────
     function addPet() {
-        pets.push(makePet(`펫 ${pets.length + 1}`, 'cat'));
+        pets.push(makePet(`${L('pet.defaultName', '펫')} ${pets.length + 1}`, 'cat'));
         activePetIdx = pets.length - 1;
         savePets();
         render();
     }
 
     function removePet(idx) {
-        if (pets.length === 1) { alert('최소 1마리의 펫이 필요해요!'); return; }
-        if (!confirm(`"${pets[idx].name}"을(를) 삭제할까요?\n모든 기록이 함께 사라져요.`)) return;
+        if (pets.length === 1) { alert(L('pet.minOne', '최소 1마리의 펫이 필요해요!')); return; }
+        if (!confirm(L('pet.deleteConfirm', `"${pets[idx].name}"을(를) 삭제할까요?\n모든 기록이 함께 사라져요.`).replace('{name}', pets[idx].name))) return;
         pets.splice(idx, 1);
         if (activePetIdx >= pets.length) activePetIdx = pets.length - 1;
         savePets();
@@ -791,8 +799,8 @@
         const items = getPetItems(pet);
 
         // liked / disliked된 아이템 이름 목록 각각 추출
-        const likedNames    = items.filter(item => !!pet.liked[getItemId(item)]).map(item => item.name);
-        const dislikedNames = items.filter(item => !!pet.disliked[getItemId(item)]).map(item => item.name);
+        const likedNames    = items.filter(item => !!pet.liked[getItemId(item)]).map(item => itemLabel(item));
+        const dislikedNames = items.filter(item => !!pet.disliked[getItemId(item)]).map(item => itemLabel(item));
 
         let rowEl = tabEl.querySelector('.tab-liked-row');
         if (!rowEl) {
@@ -820,8 +828,8 @@
         const items = getPetItems(pet);
 
         // liked / disliked 이름 목록 추출
-        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => i.name);
-        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => i.name);
+        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => itemLabel(i));
+        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => itemLabel(i));
 
         // 뱃지 HTML 렌더 (없으면 빈 문자열 → CSS :empty 로 placeholder 표시)
         el.innerHTML =
@@ -880,12 +888,12 @@
             const items      = getPetItems(pet);
             const likedNames = items
                 .filter(item => !!pet.liked[getItemId(item)])
-                .map(item => item.name);
+                .map(item => itemLabel(item));
 
             // 싫어하는 아이템 이름 목록 추출
             const dislikedNames = items
                 .filter(item => !!pet.disliked[getItemId(item)])
-                .map(item => item.name);
+                .map(item => itemLabel(item));
 
             // liked + disliked 뱃지 합산 (둘 다 있을 수 있음)
             const likedBadgesHtml = (likedNames.length > 0 || dislikedNames.length > 0)
@@ -900,7 +908,7 @@
                      onclick="setActivePet(${i})">
                     <div class="tab-top-row">
                         <span>${pet.type === 'cat' ? '🐱' : '🐶'}</span>
-                        <span class="tab-name">${escHtml(pet.name || '이름 없음')}</span>
+                        <span class="tab-name">${escHtml(pet.name || L('pet.noName', '이름 없음'))}</span>
                         <button class="tab-delete"
                                 onclick="event.stopPropagation(); removePet(${i})"
                                 title="펫 삭제">✕</button>
@@ -911,7 +919,7 @@
         }).join('');
 
         bar.innerHTML = tabsHtml + `
-            <button class="add-pet-btn" onclick="addPet()">＋ 펫 추가</button>
+            <button class="add-pet-btn" onclick="addPet()">＋ ${L('pet.add', '펫 추가')}</button>
         `;
     }
 
@@ -924,10 +932,10 @@
         const likedCount    = Object.keys(pet.liked).length;
         const dislikedCount = Object.keys(pet.disliked).length;
         // pet-info-bar 요약에 표시할 이름 목록
-        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => i.name);
-        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => i.name);
+        const likedNames    = items.filter(i => !!pet.liked[getItemId(i)]).map(i => itemLabel(i));
+        const dislikedNames = items.filter(i => !!pet.disliked[getItemId(i)]).map(i => itemLabel(i));
         // 섹션 제목: 고양이 = 어류+사료, 강아지 = 레시피+채집물
-        const sectionLabel = pet.type === 'cat' ? '🐟 어류 & 사료' : '🍳 레시피 & 먹거리';
+        const sectionLabel = pet.type === 'cat' ? `🐟 ${L('pet.catFood', '어류 & 사료')}` : `🍳 ${L('pet.dogFood', '레시피 & 먹거리')}`;
 
         document.getElementById('petContent').innerHTML = `
             <div class="pet-editor">
@@ -940,7 +948,7 @@
                                class="pet-name-input"
                                value="${escHtml(pet.name)}"
                                maxlength="12"
-                               placeholder="펫 이름"
+                               placeholder="${L('pet.namePlaceholder', '펫 이름')}"
                                oninput="updatePetName(${activePetIdx}, this.value)">
                     </div>
                     <!-- 좋아함 / 싫어함 요약 뱃지 (이름↔종류 사이 공간 활용) -->
@@ -951,9 +959,9 @@
 
                     <div class="pet-type-toggle">
                         <button class="type-btn ${pet.type === 'cat' ? 'active' : ''}"
-                                onclick="updatePetType(${activePetIdx}, 'cat')">🐱 고양이</button>
+                                onclick="updatePetType(${activePetIdx}, 'cat')">🐱 ${L('pet.cat', '고양이')}</button>
                         <button class="type-btn ${pet.type === 'dog' ? 'active' : ''}"
-                                onclick="updatePetType(${activePetIdx}, 'dog')">🐶 강아지</button>
+                                onclick="updatePetType(${activePetIdx}, 'dog')">🐶 ${L('pet.dog', '강아지')}</button>
                     </div>
                 </div>
 
@@ -962,16 +970,16 @@
                     <div class="progress-stats">
                         <div class="progress-stat-group">
                             <div class="progress-stat stat-tried">
-                                ${sectionLabel} 먹여봄 <strong id="statTried">${triedCount} / ${total}</strong>
+                                ${sectionLabel} ${L('pet.tried', '먹여봄')} <strong id="statTried">${triedCount} / ${total}</strong>
                             </div>
                             <div class="progress-stat stat-liked">
-                                좋아함 ❤️ <strong id="statLiked">${likedCount}</strong>
+                                ${L('pet.liked', '좋아함')} ❤️ <strong id="statLiked">${likedCount}</strong>
                             </div>
                             <div class="progress-stat stat-disliked">
-                                싫어함 💔 <strong id="statDisliked">${dislikedCount}</strong>
+                                ${L('pet.disliked', '싫어함')} 💔 <strong id="statDisliked">${dislikedCount}</strong>
                             </div>
                         </div>
-                        <button class="clear-btn" onclick="clearAll(${activePetIdx})">전체 초기화</button>
+                        <button class="clear-btn" onclick="clearAll(${activePetIdx})">${L('pet.resetAll', '전체 초기화')}</button>
                     </div>
                     <!-- tried(먹여봄) 진행 바만 표시 -->
                     <div class="progress-track">
@@ -1021,7 +1029,7 @@
         // imgSrc가 null이면 바로 fallback div 사용, 있으면 img 태그 (로드 실패 시 fallback)
         const imgEl = imgSrc
             ? `<img src="${imgSrc}"
-                    alt="${escHtml(item.name)}"
+                    alt="${escHtml(itemLabel(item))}"
                     class="item-img"
                     onerror="this.outerHTML='<div class=\\'item-img-fallback\\'>${fallbackIcon}</div>'">`
             : `<div class="item-img-fallback">${fallbackIcon}</div>`;
@@ -1033,15 +1041,15 @@
                 <!-- 💔 싫어함 버튼 (좌상단) -->
                 <button class="btn-dislike"
                         onclick="toggleDisliked(${activePetIdx}, '${itemId}', event)"
-                        title="${isDisliked ? '싫어함 해제' : '싫어함 표시'}"
+                        title="${isDisliked ? L('pet.unmarkDisliked', '싫어함 해제') : L('pet.markDisliked', '싫어함 표시')}"
                 >${isDisliked ? '💔' : '🩶'}</button>
                 <!-- ❤️ 좋아함 버튼 (우상단) -->
                 <button class="btn-like"
                         onclick="toggleLiked(${activePetIdx}, '${itemId}', event)"
-                        title="${isLiked ? '좋아함 해제' : '좋아함 표시'}"
+                        title="${isLiked ? L('pet.unmarkLiked', '좋아함 해제') : L('pet.markLiked', '좋아함 표시')}"
                 >${isLiked ? '❤️' : '🤍'}</button>
                 ${imgEl}
-                <span class="item-name">${escHtml(item.name)}</span>
+                <span class="item-name">${escHtml(itemLabel(item))}</span>
             </div>
         `;
     }
@@ -1056,6 +1064,11 @@
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
     }
+
+    document.addEventListener('site-language-changed', () => {
+        // 데이터는 그대로 두고 표시 문구와 도감 이름만 새 언어로 다시 그린다.
+        render();
+    });
 
     // ── 실행 ────────────────────────────────────────────────────
     init();
