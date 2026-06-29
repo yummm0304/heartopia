@@ -143,7 +143,6 @@ function applyStaticTranslations(scope = document) {
 async function setSiteLanguage(lang) {
     if (!['ko', 'ja'].includes(lang)) return;
     currentLanguage = lang;
-    document.documentElement.lang = lang;
     localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
     localeData = await loadLocale(lang);
     applyStaticTranslations();
