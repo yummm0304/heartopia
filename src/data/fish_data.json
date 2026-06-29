@@ -1644,7 +1644,8 @@
       "무지개"
     ],
     "price": 850,
-    "special": false
+    "special": false,
+    "image": 1001
   },
   {
     "name": "만새기",
