@@ -351,8 +351,8 @@
             let valueA, valueB;
 
             if (column === 'name' || column === 'habitat') {
-                valueA = column === 'name' ? a.name : a.habitat;
-                valueB = column === 'name' ? b.name : b.habitat;
+                valueA = column === 'name' ? getLocalizedName(a) : a.habitat;
+                valueB = column === 'name' ? getLocalizedName(b) : b.habitat;
                 return order === 'asc'
                     ? valueA.localeCompare(valueB, 'ko')
                     : valueB.localeCompare(valueA, 'ko');
@@ -394,7 +394,7 @@
         // 이름 검색 필터
         if (filters.searchText) {
             filteredbirds = filteredbirds.filter(bird => {
-                return bird.name.toLowerCase().includes(filters.searchText);
+                return (bird.name + " " + (bird.nameJa || "")).toLowerCase().includes(filters.searchText);
             });
         }
 
@@ -487,7 +487,7 @@
             const imgCell = bird.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/bird_img/bird${bird.image}.webp"
-                        alt="${bird.name}"
+                        alt="${getLocalizedName(bird)}"
                         onerror="handleBirdImgError(this)">`
                 : `<div class="fish-thumb-placeholder">🐦</div>`;
 
@@ -502,13 +502,13 @@
                            onchange="toggleCollected('${bird.name.replace(/'/g, "\\'")}')">
                 </td>
                 <td class="col-fish-img">${imgCell}</td>
-                <td class="item-name">${getSpecialIcon(bird.special)}${bird.name}</td>
+                <td class="item-name">${getSpecialIcon(bird.special)}${getLocalizedName(bird)}</td>
                 <td class="col-habitat-bird">${getHabitatIcon(bird.habitat)} ${bird.habitat}</td>
                 <td><span class="level-badge">Lv.${bird.level}</span></td>
                 <td><div class="price-cell">
                     <span>⭐</span>
                     <!-- 2성이 JSON price 기준값이므로 selected를 2성으로 설정 -->
-                    <select class="star-selector" onchange="updatePrice('${bird.name}', ${bird.price}, this)">
+                    <select class="star-selector" onchange="updatePrice('${getLocalizedName(bird)}', ${bird.price}, this)">
                         <option value="1">1성</option>
                         <option value="2" selected>2성</option>
                         <option value="3">3성</option>

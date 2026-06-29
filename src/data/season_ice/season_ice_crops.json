@@ -5,7 +5,8 @@
       "seedPrice": 10,
       "harvestMinutes": 15,
       "sellPrice": 30,
-      "image": "whiteradish"
+      "image": "whiteradish",
+      "nameJa": "ダイコン"
     }
   ]
 }

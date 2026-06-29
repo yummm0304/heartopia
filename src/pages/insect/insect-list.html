@@ -329,8 +329,8 @@
             let valueA, valueB;
 
             if (column === 'name' || column === 'habitat') {
-                valueA = column === 'name' ? a.name : a.habitat;
-                valueB = column === 'name' ? b.name : b.habitat;
+                valueA = column === 'name' ? getLocalizedName(a) : a.habitat;
+                valueB = column === 'name' ? getLocalizedName(b) : b.habitat;
                 return order === 'asc' ? valueA.localeCompare(valueB, 'ko') : valueB.localeCompare(valueA, 'ko');
             } else if (column === 'level') {
                 valueA = a.level;
@@ -370,7 +370,7 @@
         // 이름 검색 필터
         if (filters.searchText) {
             filteredinsects = filteredinsects.filter(insect => {
-                return insect.name.toLowerCase().includes(filters.searchText);
+                return (insect.name + " " + (insect.nameJa || "")).toLowerCase().includes(filters.searchText);
             });
         }
 
@@ -466,14 +466,14 @@
                            onchange="toggleCollected('${insect.name.replace(/'/g, "\\'")}')">
                 </td>
                 <td class="col-fish-img">${insect.image
-                    ? `<img class="fish-thumb" src="../../../public/images/insect_img/insect${insect.image}.webp" alt="${insect.name}" onerror="handleInsectImgError(this)">`
+                    ? `<img class="fish-thumb" src="../../../public/images/insect_img/insect${insect.image}.webp" alt="${getLocalizedName(insect)}" onerror="handleInsectImgError(this)">`
                     : `<div class="fish-thumb-placeholder">🦋</div>`}</td>
-                <td class="item-name">${getSpecialIcon(insect.special)}${insect.name}</td>
+                <td class="item-name">${getSpecialIcon(insect.special)}${getLocalizedName(insect)}</td>
                 <td class="col-habitat-bird">${getHabitatIcon(insect.habitat)} ${insect.habitat}</td>
                 <td><span class="level-badge">Lv.${insect.level}</span></td>
                 <td><div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${insect.name}', ${insect.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(insect)}', ${insect.price}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>

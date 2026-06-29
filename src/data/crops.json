@@ -5,70 +5,80 @@
       "seedPrice": 10,
       "harvestMinutes": 15,
       "sellPrice": 30,
-      "image": "tomato_award"
+      "image": "tomato_award",
+      "nameJa": "トマト"
     },
     {
       "name": "감자",
       "seedPrice": 30,
       "harvestMinutes": 60,
       "sellPrice": 90,
-      "image": "potato_award"
+      "image": "potato_award",
+      "nameJa": "ジャガイモ"
     },
     {
       "name": "밀",
       "seedPrice": 95,
       "harvestMinutes": 240,
       "sellPrice": 285,
-      "image": "wheat_award"
+      "image": "wheat_award",
+      "nameJa": "小麦"
     },
     {
       "name": "양상추",
       "seedPrice": 145,
       "harvestMinutes": 480,
       "sellPrice": 435,
-      "image": "lettuce_award"
+      "image": "lettuce_award",
+      "nameJa": "レタス"
     },
     {
       "name": "파인애플",
       "seedPrice": 15,
       "harvestMinutes": 30,
       "sellPrice": 52,
-      "image": "pineapple_award"
+      "image": "pineapple_award",
+      "nameJa": "パイナップル"
     },
     {
       "name": "당근",
       "seedPrice": 50,
       "harvestMinutes": 120,
       "sellPrice": 155,
-      "image": "carrot_award"
+      "image": "carrot_award",
+      "nameJa": "ニンジン"
     },
     {
       "name": "딸기",
       "seedPrice": 125,
       "harvestMinutes": 360,
       "sellPrice": 375,
-      "image": "strawberry_award"
+      "image": "strawberry_award",
+      "nameJa": "いちご"
     },
     {
       "name": "옥수수",
       "seedPrice": 170,
       "harvestMinutes": 720,
       "sellPrice": 515,
-      "image": "corn_award"
+      "image": "corn_award",
+      "nameJa": "トウモロコシ"
     },
     {
       "name": "포도",
       "seedPrice": 160,
       "harvestMinutes": 600,
       "sellPrice": 480,
-      "image": "grape_award"
+      "image": "grape_award",
+      "nameJa": "ブドウ"
     },
     {
       "name": "가지",
       "seedPrice": 135,
       "harvestMinutes": 420,
       "sellPrice": 406,
-      "image": "eggplant"
+      "image": "eggplant",
+      "nameJa": "ナス"
     }
   ]
 }

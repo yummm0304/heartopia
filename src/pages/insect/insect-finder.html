@@ -297,7 +297,7 @@
         const weather = document.getElementById('weather').value;
 
         const filtered = insectData.filter(insect => {
-            if (insectName && !insect.name.toLowerCase().includes(insectName)) return false;
+            if (insectName && !(insect.name + " " + (insect.nameJa || "")).toLowerCase().includes(insectName)) return false;
             if (insect.level > level) return false;
             const timeOk = insect.time && insect.time.includes(time);
             const weatherOk = insect.weather && insect.weather.includes(weather);
@@ -417,15 +417,15 @@
             html += `
                     <tr>
                         <td class="col-fish-img">${insect.image
-                            ? `<img class="fish-thumb" src="../../../public/images/insect_img/insect${insect.image}.webp" alt="${insect.name}" onerror="handleInsectImgError(this)">`
+                            ? `<img class="fish-thumb" src="../../../public/images/insect_img/insect${insect.image}.webp" alt="${getLocalizedName(insect)}" onerror="handleInsectImgError(this)">`
                             : `<div class="fish-thumb-placeholder">🦋</div>`}</td>
-                        <td class="item-name">${getSpecialIcon(insect.special)}${insect.name}</td>
+                        <td class="item-name">${getSpecialIcon(insect.special)}${getLocalizedName(insect)}</td>
                         <td class="col-habitat-bird">${getHabitatIcon(insect.habitat)}${insect.habitat}</td>
                         <td><span class="level-badge">Lv.${insect.level}</span></td>
                         <td>
                             <div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${insect.name}', ${insect.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(insect)}', ${insect.price}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>

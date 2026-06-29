@@ -9,7 +9,8 @@
         "토마토"
       ],
       "image": "salad",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "田園サラダ"
     },
     {
       "name": "믹스드 잼",
@@ -22,7 +23,8 @@
         "블루베리"
       ],
       "image": "mixjam",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ミックスジャム"
     },
     {
       "name": "라즈베리 잼",
@@ -35,7 +37,8 @@
         "라즈베리"
       ],
       "image": "raspjam",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ラズベリージャム"
     },
     {
       "name": "케첩",
@@ -48,7 +51,8 @@
         "토마토"
       ],
       "image": "ketchup",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "トマトソース"
     },
     {
       "name": "블루베리 잼",
@@ -61,7 +65,8 @@
         "블루베리"
       ],
       "image": "bluejam",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ブルーベリージャム"
     },
     {
       "name": "사과 잼",
@@ -74,7 +79,8 @@
         "사과"
       ],
       "image": "applejam",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "リンゴジャム"
     },
     {
       "name": "오렌지 잼",
@@ -88,7 +94,8 @@
       ],
       "image": "orangejam",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オレンジジャム"
     },
     {
       "name": "딸기 잼",
@@ -101,7 +108,8 @@
         "딸기"
       ],
       "image": "stjam",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "いちごジャム"
     },
     {
       "name": "파인애플 잼",
@@ -115,7 +123,8 @@
       ],
       "image": "pjam",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "パイナップルジャム"
     },
     {
       "name": "포도 잼",
@@ -129,7 +138,8 @@
       ],
       "image": "gjam",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブドウジャム"
     },
     {
       "name": "피시 앤 칩스",
@@ -143,7 +153,8 @@
       ],
       "image": "fishchip",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "フィッシュアンドチップス"
     },
     {
       "name": "치즈케이크",
@@ -156,7 +167,8 @@
       ],
       "image": "cheesecake",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "チーズケーキ"
     },
     {
       "name": "오리지널 롤케이크",
@@ -170,7 +182,8 @@
       ],
       "image": "roll",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オリジナルロールケーキ"
     },
     {
       "name": "롤케이크150",
@@ -184,7 +197,8 @@
       ],
       "image": "broll",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "赤いロールケーキ"
     },
     {
       "name": "롤케이크200",
@@ -198,7 +212,8 @@
       ],
       "image": "rroll",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "青いロールケーキ"
     },
     {
       "name": "버섯 파이",
@@ -211,7 +226,8 @@
         "달걀"
       ],
       "image": "mushroompie",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "キノコパイ"
     },
     {
       "name": "느타리버섯 파이",
@@ -224,7 +240,8 @@
         "달걀"
       ],
       "image": "pleurotuspie",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ヒラタケパイ"
     },
     {
       "name": "표고버섯 파이",
@@ -237,7 +254,8 @@
         "달걀"
       ],
       "image": "shiitakepie",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "シイタケパイ"
     },
     {
       "name": "양송이버섯 파이",
@@ -250,7 +268,8 @@
         "달걀"
       ],
       "image": "tricholomapie",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "マッシュルームパイ"
     },
     {
       "name": "그물버섯 파이",
@@ -264,7 +283,8 @@
       ],
       "image": "boletuspie",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ヤマドリタケパイ"
     },
     {
       "name": "검은 트러플 파이",
@@ -278,7 +298,8 @@
       ],
       "image": "trufflepie",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "黒トリュフパイ"
     },
     {
       "name": "구운 버섯",
@@ -291,7 +312,8 @@
         "버섯"
       ],
       "image": "bakemushroom",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "焼きキノコ"
     },
     {
       "name": "구운 느타리버섯",
@@ -304,7 +326,8 @@
         "느타리버섯"
       ],
       "image": "bakepleurotus",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "焼きヒラタケ"
     },
     {
       "name": "구운 표고버섯",
@@ -317,7 +340,8 @@
         "표고버섯"
       ],
       "image": "bakeshiitake",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "焼きシイタケ"
     },
     {
       "name": "구운 양송이버섯",
@@ -330,7 +354,8 @@
         "양송이버섯"
       ],
       "image": "baketricholoma",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "焼きマッシュルーム"
     },
     {
       "name": "구운 그물버섯",
@@ -344,7 +369,8 @@
       ],
       "image": "bakeboletus",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "焼きヤマドリタケ"
     },
     {
       "name": "온천란",
@@ -355,7 +381,8 @@
       ],
       "image": "egg",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "温泉卵"
     },
     {
       "name": "부활절 달걀",
@@ -367,7 +394,8 @@
       ],
       "image": "food_9222",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "イースターエッグ"
     },
     {
       "name": "부활절 보라 달걀",
@@ -379,7 +407,8 @@
       ],
       "image": "food_9223",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "紫のイースターエッグ"
     },
     {
       "name": "부활절 초록 달걀",
@@ -391,7 +420,8 @@
       ],
       "image": "food_9224",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "緑のイースターエッグ"
     },
     {
       "name": "부활절 주황 달걀",
@@ -403,7 +433,8 @@
       ],
       "image": "food_9225",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オレンジのイースターエッグ"
     },
     {
       "name": "부활절 이스터에그 파티",
@@ -418,7 +449,8 @@
       "image": "food_9226",
       "season": "일반",
       "uses": 3,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "イースターエッグパーティー"
     },
     {
       "name": "몰티즈 카눌레",
@@ -432,7 +464,8 @@
       ],
       "image": "whcanneles",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "マルチーズカヌレ"
     },
     {
       "name": "리트리버 카눌레",
@@ -446,7 +479,8 @@
       ],
       "image": "gcanneles",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "レトリバーカヌレ"
     },
     {
       "name": "몰티즈 콘파나",
@@ -460,7 +494,8 @@
       ],
       "image": "whcoffee",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "マルチーズコンパナ"
     },
     {
       "name": "리트리버 콘파나",
@@ -474,7 +509,8 @@
       ],
       "image": "gcoffee",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "レトリバーコンパナ"
     },
     {
       "name": "하트 강아지",
@@ -488,7 +524,8 @@
       ],
       "image": "fcoffee",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ハートわんこ"
     },
     {
       "name": "잔디 케이크",
@@ -502,7 +539,8 @@
       ],
       "image": "greengrasscake",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "若草のケーキ"
     },
     {
       "name": "커피",
@@ -516,7 +554,8 @@
       ],
       "image": "bcoffee",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "コーヒー"
     },
     {
       "name": "카페라떼",
@@ -530,7 +569,8 @@
       ],
       "image": "latte",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "カフェラテ"
     },
     {
       "name": "훈제 연어 베이글",
@@ -544,7 +584,8 @@
       ],
       "image": "bagel",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "スモークサーモンベーグル"
     },
     {
       "name": "씨푸드 덮밥",
@@ -557,7 +598,8 @@
         "토마토"
       ],
       "image": "searisotto",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "シーフード丼"
     },
     {
       "name": "씨푸드 피자",
@@ -572,7 +614,8 @@
       "image": "seapizza",
       "season": "일반",
       "buff": "활력 충만",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "シーフードピザ"
     },
     {
       "name": "티라미수",
@@ -586,7 +629,8 @@
       ],
       "image": "tiramisu",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ティラミス"
     },
     {
       "name": "컨트리 스튜",
@@ -598,7 +642,8 @@
         "양상추"
       ],
       "image": "ratatouille",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "田舎風シチュー"
     },
     {
       "name": "검은 트러플 크림 파스타",
@@ -612,7 +657,8 @@
       ],
       "image": "trufflenoodles",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "黒トリュフクリームパスタ"
     },
     {
       "name": "미트소스 파스타",
@@ -625,7 +671,8 @@
         "치즈"
       ],
       "image": "pasta",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ミートソースパスタ"
     },
     {
       "name": "애플파이",
@@ -639,7 +686,8 @@
       ],
       "image": "applepie",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "アップルパイ"
     },
     {
       "name": "당근 케이크",
@@ -653,7 +701,8 @@
       ],
       "image": "cacake",
       "season": "일반",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ニンジンケーキ"
     },
     {
       "name": "콘스프",
@@ -666,7 +715,8 @@
         "버터"
       ],
       "image": "csoup",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "コーンスープ"
     },
     {
       "name": "럭셔리 씨푸드 플래터",
@@ -680,7 +730,8 @@
       ],
       "image": "seaplatter",
       "season": "일반",
-      "buff": "무한한 힘"
+      "buff": "무한한 힘",
+      "nameJa": "豪華シーフードプレート"
     },
     {
       "name": "캠핑 세트",
@@ -696,7 +747,8 @@
       "season": "일반",
       "uses": 4,
       "buff": "무한한 힘",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "キャンプセット"
     },
     {
       "name": "잉글리시 애프터눈 티",
@@ -709,7 +761,8 @@
       "image": "aftertea",
       "season": "일반",
       "uses": 4,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "イングリッシュアフタヌーンティー"
     },
     {
       "name": "미트버거",
@@ -722,7 +775,8 @@
         "케첩"
       ],
       "image": "meatburger",
-      "season": "일반"
+      "season": "일반",
+      "nameJa": "ミートバーガー"
     },
     {
       "name": "랍스터 냉채",
@@ -737,7 +791,8 @@
       "image": "pcocktail",
       "season": "일반",
       "uses": 3,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ロブスターの冷菜"
     },
     {
       "name": "북유럽파란가재 냉채",
@@ -752,7 +807,8 @@
       "image": "bpcocktail",
       "season": "일반",
       "uses": 3,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "北欧ブルーザリガニの冷菜"
     },
     {
       "name": "미트소스 가지 그라탱",
@@ -766,7 +822,8 @@
       ],
       "image": "meggplant",
       "season": "일반",
-      "buff": "활력 충만"
+      "buff": "활력 충만",
+      "nameJa": "ミートソースナスグラタン"
     },
     {
       "name": "캔들라이트 디너",
@@ -781,7 +838,8 @@
       "image": "cdinner",
       "season": "일반",
       "uses": 4,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "キャンドルライトディナー"
     },
     {
       "name": "킹크랩찜",
@@ -795,7 +853,8 @@
       ],
       "image": "steamcrab",
       "season": "일반",
-      "buff": "빠른 발걸음"
+      "buff": "빠른 발걸음",
+      "nameJa": "タラバガニ蒸し"
     }
   ]
 }

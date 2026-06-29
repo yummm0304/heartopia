@@ -12,7 +12,8 @@
       ],
       "image": "food_9201",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "しょっぱいポップコーンバケツ"
     },
     {
       "name": "캐러멜 팝콘통",
@@ -26,7 +27,8 @@
       ],
       "image": "food_9202",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "キャラメルポップコーンバケツ"
     },
     {
       "name": "살사 소스 웨이브 감자칩",
@@ -39,7 +41,8 @@
       ],
       "image": "food_9203",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "サルサソースウェーブポテトチップス"
     },
     {
       "name": "짭조름한 더블 버킷",
@@ -51,7 +54,8 @@
       ],
       "image": "food_9204",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "しょっぱいダブルバケツ"
     },
     {
       "name": "달콤한 듀얼 팝콘통",
@@ -63,7 +67,8 @@
       ],
       "image": "food_9205",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "甘いデュアルポップコーンバケツ"
     },
     {
       "name": "로메인 타코",
@@ -77,7 +82,8 @@
       ],
       "image": "food_9206",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ロメインタコス"
     },
     {
       "name": "나물 로메인 타코",
@@ -90,7 +96,8 @@
       ],
       "image": "food_9207",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "山菜ロメインタコス"
     },
     {
       "name": "야생 고사리 로메인 타코",
@@ -103,7 +110,8 @@
       ],
       "image": "food_9208",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ワラビロメインタコス"
     },
     {
       "name": "산마늘 로메인 타코",
@@ -116,7 +124,8 @@
       ],
       "image": "food_9209",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ギョウジャニンニクロメインタコス"
     },
     {
       "name": "산우엉 로메인 타코",
@@ -129,7 +138,8 @@
       ],
       "image": "food_9210",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ノビルロメインタコス"
     },
     {
       "name": "산겨자 로메인 타코",
@@ -142,7 +152,8 @@
       ],
       "image": "food_9211",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "山わさびロメインタコス"
     },
     {
       "name": "봄날 과일 홍차",
@@ -156,7 +167,8 @@
       ],
       "image": "food_9212",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日フルーツ紅茶"
     },
     {
       "name": "봄날 사과 홍차",
@@ -170,7 +182,8 @@
       ],
       "image": "food_9213",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日リンゴ紅茶"
     },
     {
       "name": "봄날 오렌지 홍차",
@@ -184,7 +197,8 @@
       ],
       "image": "food_9214",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日オレンジ紅茶"
     },
     {
       "name": "봄날 블루베리 홍차",
@@ -198,7 +212,8 @@
       ],
       "image": "food_9215",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日ブルーベリー紅茶"
     },
     {
       "name": "봄날 라즈베리 홍차",
@@ -212,7 +227,8 @@
       ],
       "image": "food_9216",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日ラズベリー紅茶"
     },
     {
       "name": "봄날 딸기 홍차",
@@ -226,7 +242,8 @@
       ],
       "image": "food_9217",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日いちご紅茶"
     },
     {
       "name": "봄날 포도 홍차",
@@ -240,7 +257,8 @@
       ],
       "image": "food_9218",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日ブドウ紅茶"
     },
     {
       "name": "봄날 파인애플 홍차",
@@ -254,7 +272,8 @@
       ],
       "image": "food_9219",
       "season": "꿈의 명암",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "春日パイナップル紅茶"
     },
     {
       "name": "디럭스 관람 세트",
@@ -269,7 +288,8 @@
       "season": "꿈의 명암",
       "uses": 3,
       "buff": "원기 왕성",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "デラックス鑑賞セット"
     },
     {
       "name": "프리미엄 관람 세트",
@@ -285,7 +305,8 @@
       "season": "꿈의 명암",
       "uses": 4,
       "buff": "활력 충만",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "プレミアム鑑賞セット"
     }
   ]
 }

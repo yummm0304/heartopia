@@ -352,8 +352,8 @@
             let valueA, valueB;
 
             if (column === 'name' || column === 'habitat') {
-                valueA = column === 'name' ? a.name : a.habitat;
-                valueB = column === 'name' ? b.name : b.habitat;
+                valueA = column === 'name' ? getLocalizedName(a) : a.habitat;
+                valueB = column === 'name' ? getLocalizedName(b) : b.habitat;
                 return order === 'asc' ? valueA.localeCompare(valueB, 'ko') : valueB.localeCompare(valueA, 'ko');
             } else if (column === 'level') {
                 valueA = a.level;
@@ -395,7 +395,7 @@
         // 이름 검색 필터
         if (filters.searchText) {
             filteredFish = filteredFish.filter(fish => {
-                return fish.name.toLowerCase().includes(filters.searchText);
+                return (fish.name + " " + (fish.nameJa || "")).toLowerCase().includes(filters.searchText);
             });
         }
 
@@ -497,7 +497,7 @@ const timeDisplay = isAlwaysTime
 
             // --- 이미지 표시 로직 ---
             // image 필드가 있으면 썸네일, 없으면 물고기 이모지 자리표시자
-            const fishDisplayName = fish.name;
+            const fishDisplayName = getLocalizedName(fish);
             const imgCell = fish.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/fish_img/fish_${fish.image}.webp"
@@ -523,7 +523,7 @@ const timeDisplay = isAlwaysTime
                 <td><span class="level-badge">Lv.${fish.level}</span></td>
                 <td><div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${fish.name}', ${fish.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${fish.price}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>

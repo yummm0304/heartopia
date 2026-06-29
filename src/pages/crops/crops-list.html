@@ -463,7 +463,7 @@
             // 이미지: JSON의 image 필드로 경로 생성 (하드코딩 맵 불필요)
             const imgSrc = getCropImgSrc(crop);
             const imgTag = imgSrc
-                ? `<img class="crop-img" src="${imgSrc}" alt="${crop.name}" onerror="this.parentElement.innerHTML='<span class=\\'crop-img-placeholder\\'></span>'">`
+                ? `<img class="crop-img" src="${imgSrc}" alt="${getLocalizedName(crop)}" onerror="this.parentElement.innerHTML='<span class=\\'crop-img-placeholder\\'></span>'">`
                 : `<span class="crop-img-placeholder"></span>`;
 
             // 수집 완료 여부
@@ -477,7 +477,7 @@
                            onchange="toggleCollected('${crop.name.replace(/'/g, "\\'")}')">
                 </td>
                 <td class="col-img">${imgTag}</td>
-                <td class="item-name">${crop.name}${seasonTag}</td>
+                <td class="item-name">${getLocalizedName(crop)}${seasonTag}</td>
                 <td>₩${crop.seedPrice.toLocaleString()}</td>
                 <td><span class="harvest-badge">⏱ ${formatMinutes(crop.harvestMinutes)}</span></td>
                 <td>

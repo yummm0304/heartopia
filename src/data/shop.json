@@ -3,120 +3,140 @@
     "name": "연유",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "블록 시가지"
+    "availability": "블록 시가지",
+    "nameJa": "練乳"
   },
   {
     "name": "브릭 얼음",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "블록 시가지"
+    "availability": "블록 시가지",
+    "nameJa": "ブリックアイス"
   },
   {
     "name": "브릭 패티",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "블록 시가지"
+    "availability": "블록 시가지",
+    "nameJa": "ブリックパティ"
   },
   {
     "name": "봄날 카라멜 슈가",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "꿈의 명암"
+    "availability": "꿈의 명암",
+    "nameJa": "春日キャラメルシュガー"
   },
   {
     "name": "살사 소스",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "꿈의 명암"
+    "availability": "꿈의 명암",
+    "nameJa": "サルサソース"
   },
   {
     "name": "슈가파우더",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": "빙설"
+    "availability": "빙설",
+    "nameJa": "粉砂糖"
   },
   {
     "name": "사탕(150)",
     "shopPrice": 150,
     "dailyLimit": 20,
-    "availability": "특별한 날씨"
+    "availability": "특별한 날씨",
+    "nameJa": "キャンディ（150）"
   },
   {
     "name": "사탕(200)",
     "shopPrice": 200,
     "dailyLimit": 20,
-    "availability": "특별한 날씨"
+    "availability": "특별한 날씨",
+    "nameJa": "キャンディ（200）"
   },
   {
     "name": "쌀가루",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "米粉"
   },
   {
     "name": "우유",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "牛乳"
   },
   {
     "name": "커피 원두",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "コーヒー豆"
   },
   {
     "name": "팥",
     "shopPrice": 50,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "小豆"
   },
   {
     "name": "달걀",
     "shopPrice": 100,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "卵"
   },
   {
     "name": "멸균란",
     "shopPrice": 100,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "滅菌卵"
   },
   {
     "name": "식용유",
     "shopPrice": 100,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "食用油"
   },
   {
     "name": "치즈",
     "shopPrice": 100,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "チーズ"
   },
   {
     "name": "말차가루",
     "shopPrice": 150,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "抹茶パウダー"
   },
   {
     "name": "버터",
     "shopPrice": 150,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "バター"
   },
   {
     "name": "고기",
     "shopPrice": 200,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "肉"
   },
   {
     "name": "홍차",
     "shopPrice": 250,
     "dailyLimit": 50,
-    "availability": ""
+    "availability": "",
+    "nameJa": "紅茶"
   }
 ]

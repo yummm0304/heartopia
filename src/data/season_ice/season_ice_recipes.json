@@ -12,7 +12,8 @@
       ],
       "image": "icecoffee",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "氷のカップコーヒー"
     },
     {
       "name": "얼음컵 라떼",
@@ -26,7 +27,8 @@
       ],
       "image": "icelatte",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "氷のカップラテ"
     },
     {
       "name": "갈은 무와 스테이크",
@@ -39,7 +41,8 @@
         "무"
       ],
       "image": "radishmeat",
-      "season": "빙설"
+      "season": "빙설",
+      "nameJa": "すりおろし大根ステーキ"
     },
     {
       "name": "무 크림 수프",
@@ -52,7 +55,8 @@
         "무"
       ],
       "image": "radishcreamsoup",
-      "season": "빙설"
+      "season": "빙설",
+      "nameJa": "大根クリームスープ"
     },
     {
       "name": "오리지널 슈가파우더 팬케이크",
@@ -66,7 +70,8 @@
       ],
       "image": "food_9104",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オリジナル粉砂糖パンケーキ"
     },
     {
       "name": "블루베리 슈가파우더 팬케이크",
@@ -80,7 +85,8 @@
       ],
       "image": "food_9105",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブルーベリー粉砂糖パンケーキ"
     },
     {
       "name": "라즈베리 슈가파우더 팬케이크",
@@ -94,7 +100,8 @@
       ],
       "image": "food_9106",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ラズベリー粉砂糖パンケーキ"
     },
     {
       "name": "사과 슈가파우더 팬케이크",
@@ -108,7 +115,8 @@
       ],
       "image": "food_9107",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "リンゴ粉砂糖パンケーキ"
     },
     {
       "name": "오렌지 슈가파우더 팬케이크",
@@ -122,7 +130,8 @@
       ],
       "image": "food_9108",
       "season": "빙설",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オレンジ粉砂糖パンケーキ"
     },
     {
       "name": "오로라 만찬",
@@ -137,7 +146,8 @@
       "image": "food_9109",
       "season": "빙설",
       "uses": 4,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オーロラ晩餐"
     }
   ]
 }

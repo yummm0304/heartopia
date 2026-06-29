@@ -12,7 +12,8 @@
       ],
       "image": "food_9301",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器フルーティーかき氷"
     },
     {
       "name": "브릭 그릇 사과 빙수",
@@ -26,7 +27,8 @@
       ],
       "image": "food_9302",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器リンゴかき氷"
     },
     {
       "name": "브릭 그릇 오렌지 빙수",
@@ -40,7 +42,8 @@
       ],
       "image": "food_9303",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器オレンジかき氷"
     },
     {
       "name": "브릭 그릇 블루베리 빙수",
@@ -54,7 +57,8 @@
       ],
       "image": "food_9304",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器ブルーベリーかき氷"
     },
     {
       "name": "브릭 그릇 라즈베리 빙수",
@@ -68,7 +72,8 @@
       ],
       "image": "food_9305",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器ラズベリーかき氷"
     },
     {
       "name": "브릭 그릇 딸기 빙수",
@@ -82,7 +87,8 @@
       ],
       "image": "food_9306",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器いちごかき氷"
     },
     {
       "name": "브릭 그릇 포도 빙수",
@@ -96,7 +102,8 @@
       ],
       "image": "food_9307",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器ブドウかき氷"
     },
     {
       "name": "브릭 그릇 파인애플 빙수",
@@ -110,7 +117,8 @@
       ],
       "image": "food_9308",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリック器パイナップルかき氷"
     },
     {
       "name": "프루티 버베나 스페셜 파이",
@@ -124,7 +132,8 @@
       ],
       "image": "food_9309",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "フルーティーバーベナスペシャルパイ"
     },
     {
       "name": "사과 버베나 스페셜 파이",
@@ -138,7 +147,8 @@
       ],
       "image": "food_9310",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "リンゴバーベナスペシャルパイ"
     },
     {
       "name": "오렌지 버베나 스페셜 파이",
@@ -152,7 +162,8 @@
       ],
       "image": "food_9311",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "オレンジバーベナスペシャルパイ"
     },
     {
       "name": "블루베리 버베나 스페셜 파이",
@@ -166,7 +177,8 @@
       ],
       "image": "food_9312",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブルーベリーバーベナスペシャルパイ"
     },
     {
       "name": "라즈베리 버베나 스페셜 파이",
@@ -180,7 +192,8 @@
       ],
       "image": "food_9313",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ラズベリーバーベナスペシャルパイ"
     },
     {
       "name": "딸기 버베나 스페셜 파이",
@@ -194,7 +207,8 @@
       ],
       "image": "food_9314",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "いちごバーベナスペシャルパイ"
     },
     {
       "name": "포도 버베나 스페셜 파이",
@@ -208,7 +222,8 @@
       ],
       "image": "food_9315",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブドウバーベナスペシャルパイ"
     },
     {
       "name": "파인애플 버베나 스페셜 파이",
@@ -222,7 +237,8 @@
       ],
       "image": "food_9316",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "パイナップルバーベナスペシャルパイ"
     },
     {
       "name": "브릭 패티 머쉬룸 버거",
@@ -236,7 +252,8 @@
       ],
       "image": "food_9317",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティマッシュルームバーガー"
     },
     {
       "name": "브릭 패티 느타리버섯 버거",
@@ -250,7 +267,8 @@
       ],
       "image": "food_9318",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティヒラタケバーガー"
     },
     {
       "name": "브릭 패티 표고버섯 버거",
@@ -264,7 +282,8 @@
       ],
       "image": "food_9319",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティシイタケバーガー"
     },
     {
       "name": "브릭 패티 양송이버섯 버거",
@@ -278,7 +297,8 @@
       ],
       "image": "food_9320",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティマッシュルームバーガー"
     },
     {
       "name": "브릭 패티 그물버섯 버거",
@@ -292,7 +312,8 @@
       ],
       "image": "food_9321",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティヤマドリタケバーガー"
     },
     {
       "name": "브릭 패티 검은 트러플 버거",
@@ -306,7 +327,8 @@
       ],
       "image": "food_9322",
       "season": "블록 시가지",
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックパティ黒トリュフバーガー"
     },
     {
       "name": "브릭 재미 세트",
@@ -320,7 +342,8 @@
       "image": "food_9323",
       "season": "블록 시가지",
       "uses": 3,
-      "feedable": false
+      "feedable": false,
+      "nameJa": "ブリックお楽しみセット"
     }
   ]
 }

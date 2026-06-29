@@ -235,7 +235,7 @@
 
         let filtered = shopData.filter(item => {
             // 이름 검색
-            if (searchText && !item.name.toLowerCase().includes(searchText)) return false;
+            if (searchText && !(item.name + " " + (item.nameJa || "")).toLowerCase().includes(searchText)) return false;
 
             // 시즌 필터
             if (currentSeason === 'all') {
@@ -342,7 +342,7 @@
 
             return `
                 <tr>
-                    <td>${item.name}</td>
+                    <td>${getLocalizedName(item)}</td>
                     <td class="price">${item.shopPrice != null ? item.shopPrice + 'G' : '-'}</td>
                     <td>${limit}</td>
                     <td>${badge}</td>

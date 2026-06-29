@@ -16,7 +16,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 123
+    "image": 123,
+    "nameJa": "ベニモンアゲハ"
   },
   {
     "name": "아폴로모시나비",
@@ -35,7 +36,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 121
+    "image": 121,
+    "nameJa": "アポロウスバシロチョウ"
   },
   {
     "name": "슬코스키몰포나비",
@@ -54,7 +56,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 126
+    "image": 126,
+    "nameJa": "スルコウスキーモルフォ"
   },
   {
     "name": "아스파라거스벌레",
@@ -73,7 +76,8 @@
     ],
     "price": 55,
     "special": false,
-    "image": 203
+    "image": 203,
+    "nameJa": "アスパラカズハムシ"
   },
   {
     "name": "유럽갈고리나비",
@@ -92,7 +96,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 104
+    "image": 104,
+    "nameJa": "クモマツマキチョウ"
   },
   {
     "name": "멧노랑나비",
@@ -111,7 +116,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 107
+    "image": 107,
+    "nameJa": "ヤマキチョウ"
   },
   {
     "name": "큰고추잠자리",
@@ -130,7 +136,8 @@
     ],
     "price": 35,
     "special": false,
-    "image": 501
+    "image": 501,
+    "nameJa": "アカイトトンボ"
   },
   {
     "name": "호랑나비",
@@ -149,7 +156,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 101
+    "image": 101,
+    "nameJa": "キアゲハ"
   },
   {
     "name": "배추흰나비",
@@ -168,7 +176,8 @@
     ],
     "price": 30,
     "special": false,
-    "image": 119
+    "image": 119,
+    "nameJa": "モンシロチョウ"
   },
   {
     "name": "별노린재",
@@ -187,7 +196,8 @@
     ],
     "price": 35,
     "special": false,
-    "image": 401
+    "image": 401,
+    "nameJa": "コバネアカホシカメムシ"
   },
   {
     "name": "넉점박이잠자리",
@@ -205,7 +215,8 @@
     ],
     "price": 75,
     "special": false,
-    "image": 502
+    "image": 502,
+    "nameJa": "ヨツボシトンボ"
   },
   {
     "name": "호박벌",
@@ -224,7 +235,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 702
+    "image": 702,
+    "nameJa": "マルハナバチ"
   },
   {
     "name": "칠성무당벌레",
@@ -242,7 +254,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 405
+    "image": 405,
+    "nameJa": "ナナホシテントウ"
   },
   {
     "name": "연푸른 부전나비",
@@ -261,7 +274,8 @@
     ],
     "price": 105,
     "special": false,
-    "image": 103
+    "image": 103,
+    "nameJa": "イカルスヒメシジミ"
   },
   {
     "name": "말벌호랑하늘소",
@@ -280,7 +294,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 205
+    "image": 205,
+    "nameJa": "スズメバチカミキリ"
   },
   {
     "name": "망치다리메뚜기",
@@ -299,7 +314,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 303
+    "image": 303,
+    "nameJa": "ハンマーレッグバッタ"
   },
   {
     "name": "녹색호랑풍뎅이",
@@ -318,7 +334,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 202
+    "image": 202,
+    "nameJa": "ミドリニワハンミョウ"
   },
   {
     "name": "오아시스메뚜기",
@@ -337,7 +354,8 @@
     ],
     "price": 45,
     "special": false,
-    "image": 301
+    "image": 301,
+    "nameJa": "オアシスバッタ"
   },
   {
     "name": "파란꽃풍뎅이",
@@ -355,7 +373,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 209
+    "image": 209,
+    "nameJa": "アオハナムグリ"
   },
   {
     "name": "분홍색 철써기",
@@ -374,7 +393,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 302
+    "image": 302,
+    "nameJa": "ピンクツマキチョウ"
   },
   {
     "name": "보라네발나비",
@@ -392,7 +412,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 106
+    "image": 106,
+    "nameJa": "ムラサキタテハ"
   },
   {
     "name": "여치",
@@ -411,7 +432,8 @@
     ],
     "price": 180,
     "special": false,
-    "image": 308
+    "image": 308,
+    "nameJa": "キリギリス"
   },
   {
     "name": "긴꼬리산누에나방",
@@ -428,7 +450,8 @@
     ],
     "price": 105,
     "special": false,
-    "image": 118
+    "image": 118,
+    "nameJa": "オナガヤママユ"
   },
   {
     "name": "흰점꼬리털벌",
@@ -446,7 +469,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 704
+    "image": 704,
+    "nameJa": "シロオビオオハナバチ"
   },
   {
     "name": "개미",
@@ -465,7 +489,8 @@
     ],
     "price": 220,
     "special": false,
-    "image": 1101
+    "image": 1101,
+    "nameJa": "アリ"
   },
   {
     "name": "홍날개",
@@ -484,7 +509,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 206
+    "image": 206,
+    "nameJa": "ベニボタル"
   },
   {
     "name": "붉은목제비나비",
@@ -502,7 +528,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 113
+    "image": 113,
+    "nameJa": "アカエリトリバネアゲハ"
   },
   {
     "name": "밀잠자리",
@@ -520,7 +547,8 @@
     ],
     "price": 75,
     "special": false,
-    "image": 505
+    "image": 505,
+    "nameJa": "シオカラトンボ"
   },
   {
     "name": "큰줄무늬메뚜기",
@@ -537,7 +565,8 @@
     ],
     "price": 140,
     "special": false,
-    "image": 304
+    "image": 304,
+    "nameJa": "オオシマバッタ"
   },
   {
     "name": "매미",
@@ -555,7 +584,8 @@
     ],
     "price": 220,
     "special": false,
-    "image": 1401
+    "image": 1401,
+    "nameJa": "セミ"
   },
   {
     "name": "표범무늬네발나비",
@@ -572,7 +602,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 108
+    "image": 108,
+    "nameJa": "ヒョウモンタテハ"
   },
   {
     "name": "무지개 사마귀",
@@ -589,7 +620,8 @@
     ],
     "price": 195,
     "special": false,
-    "image": 602
+    "image": 602,
+    "nameJa": "レインボーカマキリ"
   },
   {
     "name": "사성 무당벌레",
@@ -607,7 +639,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 407
+    "image": 407,
+    "nameJa": "ヨツボシテントウ"
   },
   {
     "name": "흰마녀밤나방",
@@ -625,7 +658,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 122
+    "image": 122,
+    "nameJa": "シロマジョガ"
   },
   {
     "name": "보라벌",
@@ -643,7 +677,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 703
+    "image": 703,
+    "nameJa": "ムラサキバチ"
   },
   {
     "name": "공작나비",
@@ -662,7 +697,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 105
+    "image": 105,
+    "nameJa": "クジャクチョウ"
   },
   {
     "name": "이색무당벌레",
@@ -679,7 +715,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 404
+    "image": 404,
+    "nameJa": "ナミテントウ"
   },
   {
     "name": "고산수염하늘소",
@@ -696,7 +733,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 208
+    "image": 208,
+    "nameJa": "アルプスカミキリ"
   },
   {
     "name": "신선나비",
@@ -713,7 +751,8 @@
     ],
     "price": 90,
     "special": false,
-    "image": 109
+    "image": 109,
+    "nameJa": "ルリタテハ"
   },
   {
     "name": "파푸아사마귀",
@@ -731,7 +770,8 @@
     ],
     "price": 390,
     "special": false,
-    "image": 606
+    "image": 606,
+    "nameJa": "パプアカマキリ"
   },
   {
     "name": "녹색날개호랑나비",
@@ -748,7 +788,8 @@
     ],
     "price": 150,
     "special": false,
-    "image": 112
+    "image": 112,
+    "nameJa": "ミドリハネアゲハ"
   },
   {
     "name": "물잠자리",
@@ -766,7 +807,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 504
+    "image": 504,
+    "nameJa": "カワトンボ"
   },
   {
     "name": "산악사슴벌레",
@@ -783,7 +825,8 @@
     ],
     "price": 275,
     "special": false,
-    "image": 201
+    "image": 201,
+    "nameJa": "ミヤマクワガタ"
   },
   {
     "name": "파란노린재",
@@ -800,7 +843,8 @@
     ],
     "price": 110,
     "special": false,
-    "image": 402
+    "image": 402,
+    "nameJa": "アオカメムシ"
   },
   {
     "name": "은빛보석풍뎅이",
@@ -817,7 +861,8 @@
     ],
     "price": 165,
     "special": false,
-    "image": 220
+    "image": 220,
+    "nameJa": "シルバージュエルビートル"
   },
   {
     "name": "왕나비",
@@ -835,7 +880,8 @@
     ],
     "price": 150,
     "special": false,
-    "image": 120
+    "image": 120,
+    "nameJa": "オオカバマダラ"
   },
   {
     "name": "보석꽃풍뎅이",
@@ -851,7 +897,8 @@
     ],
     "price": 275,
     "special": false,
-    "image": 210
+    "image": 210,
+    "nameJa": "ジュエルフラワービートル"
   },
   {
     "name": "메넬라우스나비",
@@ -868,7 +915,8 @@
     ],
     "price": 150,
     "special": false,
-    "image": 116
+    "image": 116,
+    "nameJa": "メネラウスモルフォ"
   },
   {
     "name": "황금보석풍뎅이",
@@ -884,7 +932,8 @@
     ],
     "price": 275,
     "special": false,
-    "image": 221
+    "image": 221,
+    "nameJa": "ゴールデンジュエルビートル"
   },
   {
     "name": "찔레잠자리",
@@ -900,7 +949,8 @@
     ],
     "price": 185,
     "special": false,
-    "image": 503
+    "image": 503,
+    "nameJa": "ノイバラトンボ"
   },
   {
     "name": "티폰쇠똥구리",
@@ -918,7 +968,8 @@
     ],
     "price": 275,
     "special": false,
-    "image": 204
+    "image": 204,
+    "nameJa": "テュポーンフンコロガシ"
   },
   {
     "name": "피카소노린재",
@@ -934,7 +985,8 @@
     ],
     "price": 185,
     "special": false,
-    "image": 403
+    "image": 403,
+    "nameJa": "ピカソカメムシ"
   },
   {
     "name": "혜성꼬리나방",
@@ -950,7 +1002,8 @@
     ],
     "price": 240,
     "special": false,
-    "image": 115
+    "image": 115,
+    "nameJa": "コメットテールガ"
   },
   {
     "name": "이사벨라나방",
@@ -966,7 +1019,8 @@
     ],
     "price": 150,
     "special": false,
-    "image": 102
+    "image": 102,
+    "nameJa": "イザベラガ"
   },
   {
     "name": "장수풍뎅이",
@@ -982,7 +1036,8 @@
     ],
     "price": 275,
     "special": false,
-    "image": 213
+    "image": 213,
+    "nameJa": "カブトムシ"
   },
   {
     "name": "무지개사슴벌레",
@@ -1001,7 +1056,8 @@
     ],
     "price": 440,
     "special": false,
-    "image": 211
+    "image": 211,
+    "nameJa": "ニジイロクワガタ"
   },
   {
     "name": "진주네발나비",
@@ -1017,7 +1073,8 @@
     ],
     "price": 240,
     "special": false,
-    "image": 117
+    "image": 117,
+    "nameJa": "パールタテハ"
   },
   {
     "name": "황금귀신사슴벌레",
@@ -1033,7 +1090,8 @@
     ],
     "price": 440,
     "special": false,
-    "image": 215
+    "image": 215,
+    "nameJa": "ゴールデンゴーストクワガタ"
   },
   {
     "name": "푸른목수벌",
@@ -1048,7 +1106,8 @@
     ],
     "price": 440,
     "special": false,
-    "image": 701
+    "image": 701,
+    "nameJa": "アオオオハナバチ"
   },
   {
     "name": "악마꽃사마귀",
@@ -1064,7 +1123,8 @@
     ],
     "price": 515,
     "special": false,
-    "image": 603
+    "image": 603,
+    "nameJa": "デビルフラワーカマキリ"
   },
   {
     "name": "헬레나몰포나비",
@@ -1079,7 +1139,8 @@
     ],
     "price": 240,
     "special": false,
-    "image": 111
+    "image": 111,
+    "nameJa": "ヘレナモルフォ"
   },
   {
     "name": "나선주머니나방",
@@ -1095,7 +1156,8 @@
     ],
     "price": 440,
     "special": false,
-    "image": 801
+    "image": 801,
+    "nameJa": "スパイラルミノガ"
   },
   {
     "name": "헤쿠바몰포나비",
@@ -1110,7 +1172,8 @@
     ],
     "price": 240,
     "special": false,
-    "image": 114
+    "image": 114,
+    "nameJa": "ヘクバモルフォ"
   },
   {
     "name": "헤라클레스풍뎅이",
@@ -1126,6 +1189,7 @@
     ],
     "price": 440,
     "special": false,
-    "image": 214
+    "image": 214,
+    "nameJa": "ヘラクレスオオカブト"
   }
 ]

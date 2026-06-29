@@ -2,129 +2,154 @@
   {
     "name": "사과",
     "sellPrice": 28,
-    "image": "apple"
+    "image": "apple",
+    "nameJa": "リンゴ"
   },
   {
     "name": "오렌지",
     "sellPrice": 28,
-    "image": "citrus"
+    "image": "citrus",
+    "nameJa": "オレンジ"
   },
   {
     "name": "블루베리",
     "sellPrice": 16,
-    "image": "blueberry"
+    "image": "blueberry",
+    "nameJa": "ブルーベリー"
   },
   {
     "name": "라즈베리",
     "sellPrice": 26,
-    "image": "raspberry"
+    "image": "raspberry",
+    "nameJa": "ラズベリー"
   },
   {
     "name": "버섯",
     "sellPrice": 16,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "キノコ"
   },
   {
     "name": "느타리버섯",
     "sellPrice": 16,
-    "image": "pleurotus_00"
+    "image": "pleurotus_00",
+    "nameJa": "ヒラタケ"
   },
   {
     "name": "표고버섯",
     "sellPrice": 16,
-    "image": "shiitake_00"
+    "image": "shiitake_00",
+    "nameJa": "シイタケ"
   },
   {
     "name": "양송이버섯",
     "sellPrice": 16,
-    "image": "tricholoma_00"
+    "image": "tricholoma_00",
+    "nameJa": "マッシュルーム"
   },
   {
     "name": "그물버섯",
     "sellPrice": 16,
-    "image": "boletus_00"
+    "image": "boletus_00",
+    "nameJa": "ヤマドリタケ"
   },
   {
     "name": "검은 트러플",
     "sellPrice": 99,
-    "image": "truffle_00"
+    "image": "truffle_00",
+    "nameJa": "黒トリュフ"
   },
   {
     "name": "물고기(50)",
     "sellPrice": 50,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "魚（50）"
   },
   {
     "name": "물고기(75)",
     "sellPrice": 75,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "魚（75）"
   },
   {
     "name": "물고기(100)",
     "sellPrice": 100,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "魚（100）"
   },
   {
     "name": "가재",
     "sellPrice": 230,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "ザリガニ"
   },
   {
     "name": "북유럽파란가재",
     "sellPrice": 250,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "北欧ブルーザリガニ"
   },
   {
     "name": "킹크랩",
     "sellPrice": 535,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "タラバガニ"
   },
   {
     "name": "황금킹크랩",
     "sellPrice": 850,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "黄金タラバガニ"
   },
   {
     "name": "잔디",
     "sellPrice": 0,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "草"
   },
   {
     "name": "야생 고사리",
     "sellPrice": 5,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "ワラビ"
   },
   {
     "name": "산마늘",
     "sellPrice": 5,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "ギョウジャニンニク"
   },
   {
     "name": "산우엉",
     "sellPrice": 5,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "ノビル"
   },
   {
     "name": "산겨자",
     "sellPrice": 5,
-    "hidden": true
+    "hidden": true,
+    "nameJa": "山わさび"
   },
   {
     "name": "고양이 사료",
     "sellPrice": 150,
     "image": "cat_food",
-    "hidden": true
+    "hidden": true,
+    "nameJa": "キャットフード"
   },
   {
     "name": "강아지 사료",
     "sellPrice": 150,
     "image": "dog_food",
-    "hidden": true
+    "hidden": true,
+    "nameJa": "ドッグフード"
   },
   {
     "name": "동물 공용 음식",
     "sellPrice": 150,
     "image": "universal_animal_food",
-    "hidden": true
+    "hidden": true,
+    "nameJa": "動物共用フード"
   }
 ]

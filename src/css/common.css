@@ -1225,3 +1225,40 @@ th.motion-cell {
     }
 
     .filter-btn,
+
+
+/* 전체 언어 전환 버튼 */
+.language-switch {
+    margin-left: 16px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: inherit;
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+.language-switch:hover {
+    background: rgba(255, 255, 255, 0.26);
+    transform: translateY(-1px);
+}
+.language-switch-separator {
+    margin: 0 3px;
+    opacity: 0.65;
+}
+html[lang="ko"] .language-switch-ko,
+html[lang="ja"] .language-switch-ja {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+@media (max-width: 760px) {
+    .language-switch {
+        margin-left: 8px;
+        padding: 6px 8px;
+        font-size: 0.76rem;
+    }
+}

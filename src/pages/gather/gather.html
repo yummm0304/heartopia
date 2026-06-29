@@ -168,7 +168,7 @@
 
         let filtered = gatherData.filter(item => {
             // 이름 검색 필터
-            if (searchText && !item.name.toLowerCase().includes(searchText)) return false;
+            if (searchText && !(item.name + " " + (item.nameJa || "")).toLowerCase().includes(searchText)) return false;
             return true;
         });
 
@@ -255,14 +255,14 @@
             const imgCell = item.image
                 ? `<img class="gather-img"
                         src="${IMG_BASE}${item.image}.webp"
-                        alt="${item.name}"
+                        alt="${getLocalizedName(item)}"
                         onerror="this.outerHTML='<span class=\\'img-fallback\\'>🌿</span>'">`
                 : `<span class="img-fallback">🌿</span>`;
 
             return `
             <tr>
                 <td class="img-cell">${imgCell}</td>
-                <td>${item.name}</td>
+                <td>${getLocalizedName(item)}</td>
                 <td class="price">${item.sellPrice != null ? item.sellPrice + 'G' : '-'}</td>
             </tr>`;
         }).join('');

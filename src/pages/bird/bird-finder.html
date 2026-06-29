@@ -309,7 +309,7 @@
         const weather = document.getElementById('weather').value;
 
         const filtered = birdData.filter(bird => {
-            if (birdName && !bird.name.toLowerCase().includes(birdName)) return false;
+            if (birdName && !(bird.name + " " + (bird.nameJa || "")).toLowerCase().includes(birdName)) return false;
             if (bird.level > level) return false;
             const timeOk = bird.time && bird.time.includes(time);
             // 무지개는 모든 날씨의 상위 호환이므로, 날씨가 무지개이면 bird.weather 조건과 무관하게 통과
@@ -495,21 +495,21 @@
             const imgCell = bird.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/bird_img/bird${bird.image}.webp"
-                        alt="${bird.name}"
+                        alt="${getLocalizedName(bird)}"
                         onerror="handleBirdImgError(this)">`
                 : `<div class="fish-thumb-placeholder">🐦</div>`;
 
             html += `
                     <tr>
                         <td class="col-fish-img">${imgCell}</td>
-                        <td class="item-name">${getSpecialIcon(bird.special)}${bird.name}</td>
+                        <td class="item-name">${getSpecialIcon(bird.special)}${getLocalizedName(bird)}</td>
                         <td class="col-habitat-bird">${getHabitatIcon(bird.habitat)}${bird.habitat}</td>
                         <td><span class="level-badge">Lv.${bird.level}</span></td>
                         <td>
                             <div class="price-cell">
                                 <span>⭐</span>
                                 <!-- 3성이 JSON price 기준값이므로 selected를 3성으로 설정 -->
-                                <select class="star-selector" onchange="updatePrice('${bird.name}', ${bird.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(bird)}', ${bird.price}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3" selected>3성</option>

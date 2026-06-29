@@ -18,7 +18,8 @@
     "price": 100,
     "special": "블록 시가지",
     "image": 9301,
-    "feedable": false
+    "feedable": false,
+    "nameJa": "積み木カクレクマノミ（青）"
   },
   {
     "name": "빨간색 브릭 흰동가리",
@@ -39,7 +40,8 @@
     "price": 100,
     "special": "블록 시가지",
     "image": 9302,
-    "feedable": false
+    "feedable": false,
+    "nameJa": "積み木カクレクマノミ（赤）"
   },
   {
     "name": "청록색 브릭 흰동가리",
@@ -60,7 +62,8 @@
     "price": 100,
     "special": "블록 시가지",
     "image": 9303,
-    "feedable": false
+    "feedable": false,
+    "nameJa": "積み木カクレクマノミ（青緑）"
   },
   {
     "name": "보라색 브릭 흰동가리",
@@ -81,7 +84,8 @@
     "price": 100,
     "special": "블록 시가지",
     "image": 9304,
-    "feedable": false
+    "feedable": false,
+    "nameJa": "積み木カクレクマノミ（紫）"
   },
   {
     "name": "오색 브릭 흰동가리",
@@ -102,6 +106,7 @@
     "price": 150,
     "special": "블록 시가지",
     "image": 9305,
-    "feedable": false
+    "feedable": false,
+    "nameJa": "積み木カクレクマノミ（虹）"
   }
 ]

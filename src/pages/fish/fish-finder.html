@@ -323,7 +323,7 @@
         const excludeGolden = document.getElementById('excludeGolden').checked; // '황금' 제외 여부
 
         const filtered = fishData.filter(fish => {
-            if (fishName && !fish.name.toLowerCase().includes(fishName)) return false;
+            if (fishName && !(fish.name + " " + (fish.nameJa || "")).toLowerCase().includes(fishName)) return false;
             if (fish.level > level) return false;
 
             // 푸른색 체크박스가 체크된 경우 size가 '푸른색'인 물고기 제외
@@ -460,21 +460,21 @@
             const imgCell = fish.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/fish_img/fish_${fish.image}.webp"
-                        alt="${fish.name}"
+                        alt="${getLocalizedName(fish)}"
                         onerror="this.outerHTML='<div class=\\"fish-thumb-placeholder\\"></div>`
                 : `<div class="fish-thumb-placeholder">🐟</div>`;
 
             html += `
                     <tr>
                         <td class="col-fish-img">${imgCell}</td>
-                        <td class="item-name">${getSpecialIcon(fish.special)}${fish.name}</td>
+                        <td class="item-name">${getSpecialIcon(fish.special)}${getLocalizedName(fish)}</td>
                         <td>${getHabitatIcon(fish.habitat)}${fish.habitat}</td>
                         <td>${getSizeIcon(fish.size)}${sizeDisplay}</td>
                         <td><span class="level-badge">Lv.${fish.level}</span></td>
                         <td>
                             <div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${fish.name}', ${fish.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${fish.price}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>
