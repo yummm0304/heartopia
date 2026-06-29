@@ -560,6 +560,17 @@
         return window.getLocalizedName ? window.getLocalizedName(item) : (item.name || '');
     }
 
+    // 사용자가 직접 정한 이름은 그대로 유지하고,
+    // 기본 자동 이름인 '펫 2' 같은 항목만 일본어 화면에서 'ペット2'로 표시한다.
+    function displayPetName(name) {
+        const value = String(name || '');
+        if (window.getSiteLanguage && window.getSiteLanguage() === 'ja') {
+            const match = value.match(/^펫\s*(\d+)$/);
+            if (match) return `ペット${match[1]}`;
+        }
+        return value || L('pet.noName', '이름 없음');
+    }
+
     // ── 상수 ────────────────────────────────────────────────────
     const STORAGE_KEY        = 'heartopia_pet_preferences';
     const NOTICE_DISMISS_KEY = 'heartopia_pet_notice_dismissed';
@@ -941,7 +952,7 @@
                      onclick="setActivePet(${i})">
                     <div class="tab-top-row">
                         <span>${pet.type === 'cat' ? '🐱' : '🐶'}</span>
-                        <span class="tab-name">${escHtml(pet.name || L('pet.noName', '이름 없음'))}</span>
+                        <span class="tab-name">${escHtml(displayPetName(pet.name))}</span>
                         <button class="tab-delete"
                                 onclick="event.stopPropagation(); removePet(${i})"
                                 title="펫 삭제">✕</button>

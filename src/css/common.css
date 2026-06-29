@@ -1248,3 +1248,35 @@ html[lang="ja"] .cards-grid .card h3 {
     .time-bar { grid-template-columns: repeat(2, 1fr); gap: 6px; }
     .filter-section { padding: 14px; margin-bottom: 14px; }
 }
+
+
+/* ============================================================
+   v15 — 일본어 모드 글자 누락 방지
+   BMJUA는 한국어 제목용 폰트라 일본어 한자가 일부만 보일 수 있다.
+   일본어 모드에서는 제목·로고·카드 제목까지 일본어 시스템 폰트로 강제한다.
+   ============================================================ */
+html[lang="ja"] h1,
+html[lang="ja"] h2,
+html[lang="ja"] h3,
+html[lang="ja"] .logo,
+html[lang="ja"] .card h3,
+html[lang="ja"] .hero-content h1,
+html[lang="ja"] button,
+html[lang="ja"] input,
+html[lang="ja"] select,
+html[lang="ja"] textarea {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+        "Yu Gothic", "Meiryo", sans-serif !important;
+}
+
+html[lang="ja"] .cards-grid .card h3 {
+    font-size: 1.45em !important;
+    letter-spacing: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-indent: 0 !important;
+}
+
+html[lang="ja"] .hero-content h1 {
+    font-weight: 700;
+}
