@@ -497,7 +497,7 @@ const timeDisplay = isAlwaysTime
 
             // --- 이미지 표시 로직 ---
             // image 필드가 있으면 썸네일, 없으면 물고기 이모지 자리표시자
-            const fishDisplayName = fish.nameJa || fish.name;
+            const fishDisplayName = fish.name;
             const imgCell = fish.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/fish_img/fish_${fish.image}.webp"
