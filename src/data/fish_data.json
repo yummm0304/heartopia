@@ -1751,10 +1751,10 @@
     "image": 1006
   },
   {
-    "name": "환상용어",
+    "name": "서호주 드림 아로와나",
     "level": 14,
     "habitat": "동해",
-    "size": "큼",
+    "size": "중간",
     "time": [
       "아침",
       "낮",
@@ -1762,11 +1762,11 @@
     ],
     "weather": [
       "맑음",
-      "비",
       "무지개"
     ],
     "price": 610,
-    "special": false
+    "special": false,
+    "image": 1007
   },
   {
     "name": "저고리파랑돔",
