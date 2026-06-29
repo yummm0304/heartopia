@@ -57,7 +57,10 @@ function translateTextNodes(scope = document) {
 
             // data-i18n 요소는 applyStaticTranslations()가 완성된 문구를 직접 넣는다.
             // 여기서 다시 문자열 치환을 하면 카드 제목 일부가 잘리는 문제가 생기므로 제외한다.
-            if (parent.closest('[data-i18n], [data-i18n-placeholder], [data-i18n-title]')) {
+            // 명시적 번역 대상과 자동 번역 제외 영역은 건드리지 않는다.
+            // 카드 제목처럼 문구 전체를 data-i18n으로 관리하는 요소가 글자 단위로
+            // 다시 치환되어 잘리는 문제를 막는다.
+            if (parent.closest('[data-i18n], [data-i18n-placeholder], [data-i18n-title], [data-no-auto-translate]')) {
                 return NodeFilter.FILTER_REJECT;
             }
 
