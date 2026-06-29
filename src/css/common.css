@@ -1383,3 +1383,39 @@ html[lang="ja"] .cards-grid .card p {
         white-space: normal;
     }
 }
+
+
+/* ============================================================
+   v8 — 메인 카드 제목 강제 표시
+   common.js의 일반 문자열 치환과 완전히 분리한다.
+   ============================================================ */
+.main-card-title[data-main-title] {
+    /* 원본문이 어떤 값으로 바뀌어도 화면에는 표시하지 않는다. */
+    font-size: 0 !important;
+    line-height: 1.25 !important;
+    min-height: 1.6em;
+}
+
+.main-card-title[data-main-title]::after {
+    display: inline-block;
+    font-size: 1.28rem;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+    color: inherit;
+}
+
+html[lang="ko"] .main-card-title[data-main-title]::after {
+    content: attr(data-main-ko);
+}
+
+html[lang="ja"] .main-card-title[data-main-title]::after {
+    content: attr(data-main-ja);
+}
+
+@media (max-width: 760px) {
+    .main-card-title[data-main-title]::after {
+        font-size: 1.08rem;
+        white-space: normal;
+    }
+}
