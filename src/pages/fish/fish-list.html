@@ -479,11 +479,14 @@
 
         sortedFish.forEach(fish => {
             // --- 시간 표시 로직 ---
-            const allTimes = ['새벽', '아침', '낮', '저녁'];
-            const isAlwaysTime = fish.timeAll || (fish.time && allTimes.every(t => fish.time.includes(t)));
-            const timeDisplay = isAlwaysTime
-                ? '<span class="time-badge always">하루 종일</span>'
-                : fish.time.map(t => `<span class="time-badge">${t}</span>`).join(' ');
+const allTimes = ['새벽', '아침', '낮', '저녁'];
+const isAlwaysTime = fish.timeAll || (fish.time && allTimes.every(t => fish.time.includes(t)));
+const timeDisplay = isAlwaysTime
+    ? '<span class="time-badge always">하루 종일</span>'
+    : [...fish.time]
+        .sort((a, b) => allTimes.indexOf(a) - allTimes.indexOf(b))
+        .map(t => `<span class="time-badge">${t}</span>`)
+        .join(' ');
 
             // --- 날씨 표시 로직 ---
             const allWeathers = ['맑음', '비', '무지개'];
