@@ -54,6 +54,13 @@ function translateTextNodes(scope = document) {
             if (!node.nodeValue || (!originalTextNodes.has(node) && !/[가-힣]/.test(node.nodeValue))) return NodeFilter.FILTER_REJECT;
             const parent = node.parentElement;
             if (!parent || ['SCRIPT', 'STYLE', 'TEXTAREA'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+
+            // data-i18n 요소는 applyStaticTranslations()가 완성된 문구를 직접 넣는다.
+            // 여기서 다시 문자열 치환을 하면 카드 제목 일부가 잘리는 문제가 생기므로 제외한다.
+            if (parent.closest('[data-i18n], [data-i18n-placeholder], [data-i18n-title]')) {
+                return NodeFilter.FILTER_REJECT;
+            }
+
             return NodeFilter.FILTER_ACCEPT;
         }
     });
