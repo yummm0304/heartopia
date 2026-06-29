@@ -497,10 +497,11 @@ const timeDisplay = isAlwaysTime
 
             // --- 이미지 표시 로직 ---
             // image 필드가 있으면 썸네일, 없으면 물고기 이모지 자리표시자
+            const fishDisplayName = fish.nameJa || fish.name;
             const imgCell = fish.image
                 ? `<img class="fish-thumb"
                         src="../../../public/images/fish_img/fish_${fish.image}.webp"
-                        alt="${fish.name}"
+                        alt="${fishDisplayName}"
                         onerror="this.outerHTML='<div class=\\" fish-thumb-placeholder\\ "></div>`
                 : `<div class="fish-thumb-placeholder">🐟</div>`;
 
@@ -516,7 +517,7 @@ const timeDisplay = isAlwaysTime
                            onchange="toggleCollected('${fish.name.replace(/'/g, "\\'")}')">
                 </td>
                 <td class="col-fish-img">${imgCell}</td>
-                <td class="item-name">${getSpecialIcon(fish.special)}${fish.name}</td>
+                <td class="item-name">${getSpecialIcon(fish.special)}${fishDisplayName}</td>
                 <td>${getHabitatIcon(fish.habitat)} ${fish.habitat}</td>
                 <td>${getSizeIcon(fish.size)}${fish.size}</td>
                 <td><span class="level-badge">Lv.${fish.level}</span></td>
