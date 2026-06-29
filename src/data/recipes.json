@@ -198,7 +198,7 @@
       "image": "broll",
       "season": "일반",
       "feedable": false,
-      "nameJa": "赤いロールケーキ"
+      "nameJa": "青いロールケーキ"
     },
     {
       "name": "롤케이크200",
@@ -213,7 +213,7 @@
       "image": "rroll",
       "season": "일반",
       "feedable": false,
-      "nameJa": "青いロールケーキ"
+      "nameJa": "赤いロールケーキ"
     },
     {
       "name": "버섯 파이",
@@ -450,7 +450,7 @@
       "season": "일반",
       "uses": 3,
       "feedable": false,
-      "nameJa": "イースターエッグパーティー"
+      "nameJa": "復活祭のイースターエッグの宴"
     },
     {
       "name": "몰티즈 카눌레",
@@ -495,7 +495,7 @@
       "image": "whcoffee",
       "season": "일반",
       "feedable": false,
-      "nameJa": "マルチーズコンパナ"
+      "nameJa": "モルチーズコンパンナ"
     },
     {
       "name": "리트리버 콘파나",
@@ -643,7 +643,7 @@
       ],
       "image": "ratatouille",
       "season": "일반",
-      "nameJa": "田舎風シチュー"
+      "nameJa": "カントリー風煮込み"
     },
     {
       "name": "검은 트러플 크림 파스타",
@@ -762,7 +762,7 @@
       "season": "일반",
       "uses": 4,
       "feedable": false,
-      "nameJa": "イングリッシュアフタヌーンティー"
+      "nameJa": "英式アフタヌーンティー"
     },
     {
       "name": "미트버거",
@@ -792,7 +792,7 @@
       "season": "일반",
       "uses": 3,
       "feedable": false,
-      "nameJa": "ロブスターの冷菜"
+      "nameJa": "アカザエビの前菜"
     },
     {
       "name": "북유럽파란가재 냉채",
