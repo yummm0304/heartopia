@@ -1769,10 +1769,10 @@
     "image": 1007
   },
   {
-    "name": "저고리파랑돔",
+    "name": "아주르담셀",
     "level": 14,
     "habitat": "잔잔한 바다",
-    "size": "중간",
+    "size": "작음",
     "time": [
       "낮",
       "저녁"
@@ -1782,7 +1782,8 @@
       "무지개"
     ],
     "price": 395,
-    "special": false
+    "special": false,
+    "image": 1008
   },
   {
     "name": "사자머리금붕어",
