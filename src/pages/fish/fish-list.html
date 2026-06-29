@@ -196,7 +196,7 @@
             }
 
             fishData = await response.json();
-            fishData = fishData.filter(f => f.level <= 10); // 인게임 해금 레벨 제한
+            
             console.log('물고기 데이터 로드 성공:', fishData.length + '종');
             displayStats();
             displayAllFish();
@@ -263,7 +263,7 @@
             }
 
             fishData = await response.json();
-            fishData = fishData.filter(f => f.level <= 10); // 인게임 해금 레벨 제한
+            
             loadedSeasons.clear(); // 시즌 기록 초기화
 
             alert('모든 시즌 데이터가 제거되었습니다.\n기본 데이터만 표시됩니다.');
