@@ -1697,7 +1697,7 @@
     "special": false
   },
   {
-    "name": "버들붕어",
+    "name": "베타",
     "level": 12,
     "habitat": "숲속 호수",
     "size": "작음",
@@ -1710,7 +1710,8 @@
       "무지개"
     ],
     "price": 395,
-    "special": false
+    "special": false,
+    "image": 1003
   },
   {
     "name": "쏠배감펭",
