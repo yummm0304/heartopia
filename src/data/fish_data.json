@@ -1598,23 +1598,7 @@
     "price": 850,
     "special": false
   },
-  {
-    "name": "라이언헤드",
-    "level": 11,
-    "habitat": "온천산 호수",
-    "size": "중간",
-    "time": [
-      "아침",
-      "낮",
-      "저녁",
-      "새벽"
-    ],
-    "weather": [
-      "무지개"
-    ],
-    "price": 395,
-    "special": false
-  },
+ 
   {
     "name": "줄자돔/자리돔",
     "level": 11,
