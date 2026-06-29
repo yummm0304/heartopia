@@ -1617,20 +1617,21 @@
     "image": 1002
   },
   {
-    "name": "금룡어",
+    "name": "골드 아로와나",
     "level": 11,
     "habitat": "초원 호수",
-    "size": "중간",
+    "size": "작음",
     "time": [
+      "새벽",
       "아침",
-      "저녁",
-      "새벽"
+      "저녁"
     ],
     "weather": [
       "무지개"
     ],
     "price": 395,
-    "special": false
+    "special": false,
+    "image": 1009
   },
   {
     "name": "바다거북",
