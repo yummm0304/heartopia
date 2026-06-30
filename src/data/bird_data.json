@@ -2355,5 +2355,367 @@
     "motion_wingspread": "항상",
     "image": 119,
     "nameJa": "エナガ"
+  },
+  {
+    "name": "백공작",
+    "nameJa": "シロクジャク",
+    "level": 11,
+    "habitat": "새들의 복귀 사건",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 37,
+    "special": false,
+    "category": "공작",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "낮": [
+        "무지개"
+      ]
+    },
+    "image": 1601
+  },
+  {
+    "name": "푸른머리 비둘기",
+    "nameJa": "クロヒゲバト",
+    "level": 11,
+    "habitat": "도시 근교",
+    "time": [
+      "새벽",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "무지개"
+    ],
+    "price": 37,
+    "special": false,
+    "category": "소형",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "낮": [
+        "무지개"
+      ],
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1602
+  },
+  {
+    "name": "가창오리",
+    "nameJa": "トモエガモ",
+    "level": 11,
+    "habitat": "온천산 호수",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 45,
+    "special": false,
+    "category": "수조",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "낮": [
+        "무지개"
+      ]
+    },
+    "image": 1603
+  },
+  {
+    "name": "쇠찌르레기",
+    "nameJa": "コムクドリ",
+    "level": 11,
+    "habitat": "꽃밭-풍차꽃밭",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 30,
+    "special": false,
+    "category": "소형",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1604
+  },
+  {
+    "name": "푸른발 얼가니새",
+    "nameJa": "アオアシカツオドリ",
+    "level": 12,
+    "habitat": "잔잔한 바다",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 45,
+    "special": false,
+    "category": "대형",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1605
+  },
+  {
+    "name": "붉은눈썹핀치",
+    "nameJa": "フヨウチョウ",
+    "level": 12,
+    "habitat": "온천산 호숫가",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 45,
+    "special": false,
+    "category": "소형",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1606
+  },
+  {
+    "name": "코뿔바다오리",
+    "nameJa": "ニシツノメドリ",
+    "level": 12,
+    "habitat": "고래바다 해변",
+    "time": [
+      "새벽",
+      "아침",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "무지개"
+    ],
+    "price": 45,
+    "special": false,
+    "category": "수조",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "아침": [
+        "무지개"
+      ]
+    },
+    "image": 1607
+  },
+  {
+    "name": "흰올빼미",
+    "nameJa": "シロフクロウ",
+    "level": 12,
+    "habitat": "숲-영혼의 참나무 숲",
+    "time": [
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 65,
+    "special": false,
+    "category": "올빼미",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1608
+  },
+  {
+    "name": "큰고니",
+    "nameJa": "オオハクチョウ",
+    "level": 13,
+    "habitat": "근교 호수",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "무지개"
+    ],
+    "price": 65,
+    "special": false,
+    "category": "수조",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1609
+  },
+  {
+    "name": "흑공작",
+    "nameJa": "クロクジャク",
+    "level": 13,
+    "habitat": "새들의 복귀 사건",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 37,
+    "special": false,
+    "category": "공작",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "낮": [
+        "무지개"
+      ]
+    },
+    "image": 1610
+  },
+  {
+    "name": "흑고니",
+    "nameJa": "コクチョウ",
+    "level": 13,
+    "habitat": "근교 호수",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 65,
+    "special": false,
+    "category": "수조",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1611
+  },
+  {
+    "name": "먹황새",
+    "nameJa": "ナベコウ",
+    "level": 14,
+    "habitat": "초원 호숫가",
+    "time": [
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 65,
+    "special": false,
+    "category": "대형",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "저녁": [
+        "무지개"
+      ]
+    },
+    "image": 1612
+  },
+  {
+    "name": "안경올빼미",
+    "nameJa": "メガネフクロウ",
+    "level": 14,
+    "habitat": "숲-점핑 플랫폼",
+    "time": [
+      "새벽",
+      "아침"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": 65,
+    "special": false,
+    "category": "올빼미",
+    "motion_preening": null,
+    "motion_wingspread": null,
+    "image": 1613
+  },
+  {
+    "name": "잉카제비갈매기",
+    "nameJa": "インカアジサシ",
+    "level": 11,
+    "habitat": "구해 해변",
+    "time": [
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 45,
+    "special": false,
+    "category": "수조",
+    "motion_preening": null,
+    "motion_wingspread": {
+      "아침": [
+        "무지개"
+      ],
+      "낮": [
+        "무지개"
+      ]
+    },
+    "image": 1614
   }
 ]

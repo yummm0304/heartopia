@@ -480,7 +480,7 @@
             const allTimes = ['아침', '낮', '저녁', '새벽'];
             const isAlwaysTime = bird.timeAll || (bird.time && allTimes.every(t => bird.time.includes(t)));
             const timeDisplay = isAlwaysTime
-                ? '<span class="time-badge always">종일</span>'
+                ? '<span class="time-badge always">하루 종일</span>'
                 : bird.time.map(t => `<span class="time-badge">${t}</span>`).join(' ');
 
             // --- 날씨 표시 로직 ---

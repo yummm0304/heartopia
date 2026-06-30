@@ -1191,5 +1191,206 @@
     "special": false,
     "image": 214,
     "nameJa": "ヘラクレスオオカブト"
+  },
+  {
+    "name": "알렉산더 비단나비",
+    "nameJa": "アレクサンドラトリバネアゲハ",
+    "level": 11,
+    "habitat": "근교 호숫가",
+    "time": [
+      "새벽",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "무지개"
+    ],
+    "price": 240,
+    "special": false,
+    "image": 1501
+  },
+  {
+    "name": "십삼성 무당벌레",
+    "nameJa": "ジュウサンホシテントウ",
+    "level": 11,
+    "habitat": "꽃밭-고래산",
+    "time": [
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 440,
+    "special": false,
+    "image": 1502
+  },
+  {
+    "name": "난초사마귀",
+    "nameJa": "ハナカマキリ",
+    "level": 11,
+    "habitat": "온천산-유적",
+    "time": [
+      "아침",
+      "낮"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 515,
+    "special": false
+  },
+  {
+    "name": "박주가리 메뚜기",
+    "nameJa": "トウワタバッタ",
+    "level": 12,
+    "habitat": "온천산-온천",
+    "time": [
+      "아침",
+      "낮"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 370,
+    "special": false,
+    "image": 1503
+  },
+  {
+    "name": "삼색청띠 제비나비",
+    "nameJa": "ミイロタイマイ",
+    "level": 12,
+    "habitat": "꽃밭-풍차꽃밭",
+    "time": [
+      "새벽",
+      "아침",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 240,
+    "special": false,
+    "image": 1504
+  },
+  {
+    "name": "불꽃날개 잠자리",
+    "nameJa": "ベニトンボ",
+    "level": 12,
+    "habitat": "초원 호숫가",
+    "time": [
+      "아침",
+      "낮"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 295,
+    "special": false,
+    "image": 1505
+  },
+  {
+    "name": "골리앗 대왕꽃무지",
+    "nameJa": "オオサマゴライアス",
+    "level": 12,
+    "habitat": "숲-순록탑",
+    "time": [
+      "새벽",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 440,
+    "special": false,
+    "image": 1506
+  },
+  {
+    "name": "데이다미아 몰포나비",
+    "nameJa": "デイダミアモルフォ",
+    "level": 13,
+    "habitat": "온천산-화산 호수",
+    "time": [
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 480,
+    "special": false,
+    "image": 1507
+  },
+  {
+    "name": "차이넨시스 물잠자리",
+    "nameJa": "ミドリカワトンボ",
+    "level": 13,
+    "habitat": "근교 호숫가",
+    "time": [
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 590,
+    "special": false,
+    "image": 1508
+  },
+  {
+    "name": "유리날개나비",
+    "nameJa": "グラスウィングバラフライ",
+    "level": 14,
+    "habitat": "꽃밭-고래산",
+    "time": [
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "무지개"
+    ],
+    "price": 480,
+    "special": false,
+    "image": 1509
+  },
+  {
+    "name": "푸른민달팽이",
+    "nameJa": "アオミオカタニシ",
+    "level": 14,
+    "habitat": "숲-숲속 섬",
+    "time": [
+      "새벽",
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "비",
+      "무지개"
+    ],
+    "price": 590,
+    "special": false,
+    "image": 1510
+  },
+  {
+    "name": "아틀라스 풍뎅이",
+    "nameJa": "アトラスオオカブト",
+    "level": 11,
+    "habitat": "숲-영혼의 참나무 숲",
+    "time": [
+      "새벽",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "무지개"
+    ],
+    "price": 240,
+    "special": false
   }
 ]
