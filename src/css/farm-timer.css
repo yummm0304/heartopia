@@ -72,3 +72,357 @@ html[lang="ja"] .farm-main, html[lang="ja"] .farm-main * { font-family:-apple-sy
     .remaining-field { max-width:none; }
     .stage-list { grid-template-columns:repeat(2,1fr); }
 }
+
+
+/* v3 crop progress card */
+.timer-card-progress {
+    padding: 18px 20px 16px;
+    border: 2px solid #f6e8bd;
+    border-radius: 22px;
+    background: #fffdfa;
+    box-shadow: 0 4px 0 rgba(203, 164, 77, .12);
+}
+.timer-card-progress.is-complete {
+    border-color: #cceccf;
+}
+.timer-card-progress .timer-card-top {
+    align-items: center;
+}
+.timer-crop-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+.timer-crop-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    background: #edf8f0;
+    font-size: 1.85rem;
+}
+.timer-card-progress .timer-name {
+    font-size: 1.12rem;
+}
+.timer-delete {
+    border: 0;
+    background: transparent;
+    color: #bd9364;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+.timeline-state {
+    margin-top: 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.timeline-state-label {
+    color: #5a9a69;
+    font-weight: 700;
+    font-size: .92rem;
+}
+.timeline-countdown,
+.timeline-complete {
+    margin-top: 2px;
+    color: #2c8d52;
+    font-size: clamp(1.9rem, 5vw, 2.35rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.04em;
+}
+.timeline-complete {
+    font-size: 1.35rem;
+    letter-spacing: 0;
+}
+.crop-timeline {
+    position: relative;
+    height: 62px;
+    margin: 20px 4px 2px;
+}
+.crop-track {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 13px;
+    border-radius: 999px;
+    background: #fff2dc;
+    overflow: hidden;
+}
+.crop-progress {
+    display: block;
+    height: 100%;
+    background: #62b981;
+    border-radius: inherit;
+    transition: width .7s linear;
+}
+.timeline-marker {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #c6a571;
+    font-size: .71rem;
+    white-space: nowrap;
+}
+.timeline-marker i {
+    width: 6px;
+    height: 22px;
+    display: block;
+    border-radius: 999px;
+    background: #ffbe2d;
+    border: 2px solid #fffdfa;
+    box-sizing: content-box;
+    z-index: 1;
+}
+.timeline-marker.is-passed i {
+    background: #58b877;
+}
+.timeline-marker.is-next i {
+    box-shadow: 0 0 0 3px rgba(255,190,45,.17);
+}
+.timeline-marker span {
+    margin-top: 5px;
+}
+.timeline-bottom {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.timeline-stage-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+.stage-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fff0bd;
+    color: #bd8d18;
+    font-size: .74rem;
+    font-weight: 700;
+}
+.stage-chip.is-passed {
+    background: #e9f8ec;
+    color: #419a5c;
+}
+.stage-dot {
+    color: #c6a571;
+    font-weight: 400;
+}
+.harvest-clock {
+    color: #b78e61;
+    font-size: .78rem;
+    white-space: nowrap;
+}
+html[lang="ja"] .timeline-state-label,
+html[lang="ja"] .timeline-countdown,
+html[lang="ja"] .timeline-complete,
+html[lang="ja"] .stage-chip,
+html[lang="ja"] .harvest-clock {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+}
+@media (max-width: 520px) {
+    .timer-card-progress { padding: 15px 15px 13px; }
+    .harvest-clock { font-size: .72rem; }
+    .stage-chip { padding: 4px 8px; }
+}
+
+
+/* ===== Farm Timer v4 — compact crop-picker & progress layout ===== */
+.farm-ui-v4 {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 26px 18px 54px;
+}
+.farm-hero-compact {
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border-radius: 24px;
+}
+.farm-hero-compact h1 { font-size: clamp(1.65rem, 4vw, 2.25rem); }
+.farm-hero-compact .farm-lead { margin-top: 4px; }
+.help-card-compact { margin-bottom: 14px; }
+.crop-picker-panel {
+    padding: 20px;
+    border: 2px solid #f2dfad;
+    border-radius: 26px;
+    background: rgba(255, 253, 247, .96);
+    box-shadow: 0 7px 0 rgba(227, 191, 105, .12);
+}
+.picker-alert {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #edf9f0;
+    color: #287b4c;
+    text-align: center;
+    font-size: .84rem;
+    font-weight: 700;
+}
+.picker-heading { margin: 18px 0 12px; }
+.picker-heading h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #45392d;
+}
+.crop-grid-v4 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+.crop-choice-v4 {
+    position: relative;
+    min-height: 106px;
+    padding: 11px 6px 9px;
+    border: 1.5px solid #f2e5c7;
+    border-radius: 19px;
+    background: #fffdfa;
+    box-shadow: 0 3px 0 rgba(205, 180, 124, .12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+}
+.crop-choice-v4:hover {
+    transform: translateY(-1px);
+    border-color: #ebba49;
+    background: #fffaf0;
+}
+.crop-choice-v4.is-selected {
+    border: 2px solid #f0b22d;
+    background: #fff0b7;
+    color: #40321c;
+    box-shadow: 0 4px 0 rgba(222, 161, 38, .18);
+}
+.crop-choice-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 3px;
+}
+.crop-choice-v4 strong { font-size: .91rem; }
+.crop-choice-v4 small { margin: 0; font-size: .76rem; color: #b69168; }
+.crop-new-badge {
+    position: absolute;
+    left: -4px;
+    top: 8px;
+    padding: 3px 6px;
+    border-radius: 5px 5px 5px 0;
+    background: #ff8a71;
+    color: #fff;
+    font-size: .58rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+.field-label-full { margin-top: 18px; }
+.field-label-full input {
+    padding: 13px 15px;
+    border: 1.5px solid #f4e3bd;
+    border-radius: 999px;
+    background: #fffaf0;
+}
+.farm-check-options {
+    display: grid;
+    gap: 11px;
+    margin-top: 16px;
+}
+.repeat-option {
+    grid-column: auto;
+    font-size: .93rem;
+    font-weight: 700;
+}
+.repeat-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: #54ae74;
+}
+.remaining-field-v4 {
+    padding: 10px 12px;
+    border-radius: 13px;
+    background: #fff9ec;
+    border: 1px solid #f4e3bd;
+}
+.remaining-field-v4 .field-label { gap: 6px; }
+.remaining-field-v4 .time-inputs { max-width: 250px; }
+.remaining-field-v4 input { padding: 8px; }
+.picker-selected-summary {
+    margin: 16px 0 10px;
+    padding: 0;
+    min-height: 0;
+    color: #b38b62;
+    font-size: .87rem;
+}
+.plant-button-v4 {
+    width: 100%;
+    min-height: 56px;
+    border-radius: 999px;
+    border: 0;
+    background: #59b77a;
+    box-shadow: inset 0 -4px 0 #318855;
+    font-size: 1.12rem;
+    font-weight: 800;
+}
+.plant-button-v4:hover { background: #4daa6d; }
+.timers-section-v4 {
+    margin-top: 24px;
+}
+.timers-heading-v4 {
+    margin-bottom: 10px;
+}
+.timers-heading-v4 h2 { font-size: 1.05rem; }
+.timer-list-v4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 410px));
+    gap: 16px;
+    margin-top: 0;
+}
+.timer-list-v4 .timer-card-progress {
+    max-width: 410px;
+}
+.timer-card-progress {
+    padding: 17px 17px 14px;
+    border-radius: 23px;
+    background: #fffdf9;
+    box-shadow: 0 5px 0 rgba(204, 171, 103, .13);
+}
+.timer-crop-icon {
+    width: 46px;
+    height: 46px;
+    border: 1px solid #e9f0e5;
+    font-size: 1.75rem;
+}
+.timeline-state { margin-top: 16px; }
+.timeline-state-label { font-size: .82rem; }
+.timeline-countdown { font-size: 2rem; }
+.crop-timeline { margin: 18px 3px 0; }
+.crop-track { height: 12px; }
+.timeline-marker i { width: 5px; height: 19px; }
+.timeline-marker { font-size: .67rem; }
+.timeline-bottom { margin-top: 2px; }
+.harvest-clock { font-size: .73rem; }
+.empty-state { background: rgba(255,255,255,.6); }
+
+@media (max-width: 720px) {
+    .farm-ui-v4 { padding: 16px 12px 42px; }
+    .farm-hero-compact { padding: 17px; }
+    .crop-picker-panel { padding: 16px; border-radius: 21px; }
+    .crop-grid-v4 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .crop-choice-v4 { min-height: 98px; border-radius: 16px; }
+    .crop-choice-icon { font-size: 1.8rem; }
+    .timer-list-v4 { grid-template-columns: 1fr; }
+    .timer-list-v4 .timer-card-progress { max-width: none; }
+}
+@media (max-width: 390px) {
+    .crop-grid-v4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .timeline-bottom { align-items: flex-start; flex-direction: column; gap: 7px; }
+}

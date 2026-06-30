@@ -60,9 +60,18 @@
   function nameOf(crop) { return lang() === 'ja' ? crop.ja : crop.name; }
   function durationText(minutes) {
     const h = Math.floor(minutes / 60), m = minutes % 60;
-    if (!h) return `${m}${lang()==='ja' ? '分' : '분'}`;
-    if (!m) return `${h}${lang()==='ja' ? '시간' : '時間'}`;
-    return `${h}${lang()==='ja' ? '시간' : '時間'} ${m}${lang()==='ja' ? '분' : '分'}`;
+    const hourUnit = lang() === 'ja' ? '時間' : '시간';
+    const minuteUnit = lang() === 'ja' ? '分' : '분';
+    if (!h) return `${m}${minuteUnit}`;
+    if (!m) return `${h}${hourUnit}`;
+    return `${h}${hourUnit} ${m}${minuteUnit}`;
+  }
+  function formatCountdown(ms) {
+    const sec = Math.max(0, Math.ceil(ms / 1000));
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    return h ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
   }
   function formatClock(ms) {
     const sec = Math.max(0, Math.floor(ms / 1000));
@@ -82,6 +91,9 @@
     return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
   function getCrop(id) { return crops.find(c => c.id === id); }
+  function getHarvestAt(timer) {
+    return Number(timer.harvestAt) || (timer.plantedAt + timer.durationMs);
+  }
   function stageTimes(timer) {
     const total = timer.durationMs;
     return [
@@ -103,11 +115,27 @@
     notificationStatus();
     if (permission !== 'granted') alert(tx('noPermission'));
   }
+  const cropIcons = {
+    tomato:'🍅', rice:'🍚', pineapple:'🍍', tea:'🍃', potato:'🥔', carrot:'🥕',
+    wheat:'🌾', cacao:'🍫', strawberry:'🍓', eggplant:'🍆', lettuce:'🥬',
+    grape:'🍇', corn:'🌽', avocado:'🥑'
+  };
+
   function renderCrops() {
-    cropGrid.innerHTML = crops.map(c => `<button type="button" class="crop-choice ${c.id === selectedCropId ? 'is-selected':''}" data-crop="${c.id}" aria-pressed="${c.id === selectedCropId}">
-      <strong>${escapeHTML(nameOf(c))}</strong><small>${durationText(c.minutes)}</small></button>`).join('');
+    cropGrid.innerHTML = crops.map(c => {
+      const isSelected = c.id === selectedCropId;
+      const newBadge = c.id === 'rice' ? `<span class="crop-new-badge">NEW</span>` : '';
+      return `<button type="button" class="crop-choice crop-choice-v4 ${isSelected ? 'is-selected':''}" data-crop="${c.id}" aria-pressed="${isSelected}">
+        ${newBadge}
+        <span class="crop-choice-icon" aria-hidden="true">${cropIcons[c.id] || '🌱'}</span>
+        <strong>${escapeHTML(nameOf(c))}</strong>
+        <small>${durationText(c.minutes)}</small>
+      </button>`;
+    }).join('');
     cropGrid.querySelectorAll('[data-crop]').forEach(btn => btn.addEventListener('click', () => {
-      selectedCropId = btn.dataset.crop; renderCrops(); updateSelection();
+      selectedCropId = btn.dataset.crop;
+      renderCrops();
+      updateSelection();
     }));
   }
   function updateSelection() {
@@ -118,27 +146,51 @@
     plantButton.disabled = false;
   }
   function applyStartMode() {
-    $('remaining-field').hidden = $('start-mode').value !== 'remaining';
+    const isRemaining = $('start-mode').checked;
+    $('remaining-field').hidden = !isRemaining;
   }
   function getRemainingMs() {
-    const h = Math.max(0, Number($('remaining-hours').value) || 0);
+    const h = Math.min(99, Math.max(0, Number($('remaining-hours').value) || 0));
     const m = Math.min(59, Math.max(0, Number($('remaining-minutes').value) || 0));
-    return (h*60+m)*60000;
+    return (h * 60 + m) * 60000;
+  }
+  function refreshTimeInputLabels() {
+    $('remaining-hours').setAttribute('aria-label', lang() === 'ja' ? '時間' : '시간');
+    $('remaining-minutes').setAttribute('aria-label', lang() === 'ja' ? '分' : '분');
   }
   function plant() {
     const crop = getCrop(selectedCropId);
     if (!crop) return;
     const fullMs = crop.minutes * 60000;
-    const remaining = $('start-mode').value === 'remaining' ? getRemainingMs() : fullMs;
-    if (remaining <= 0) { alert(tx('choosePrompt')); return; }
-    const plantedAt = Date.now() - (fullMs - Math.min(fullMs, remaining));
+    const usingRemainingTime = $('start-mode').checked;
+    const enteredRemaining = usingRemainingTime ? getRemainingMs() : fullMs;
+
+    if (usingRemainingTime && enteredRemaining <= 0) {
+      alert(tx('remainingRequired'));
+      return;
+    }
+
+    const remaining = Math.min(fullMs, enteredRemaining);
+    if (usingRemainingTime && enteredRemaining > fullMs) {
+      alert(tx('remainingTooLong').replace('{time}', durationText(crop.minutes)));
+    }
+
+    const now = Date.now();
+    const plantedAt = now - (fullMs - remaining);
     const timer = {
       id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
-      cropId: crop.id, plantedAt, durationMs: fullMs,
-      label: $('farm-label').value.trim(), repeat: $('repeat-alert').checked,
+      cropId: crop.id,
+      plantedAt,
+      harvestAt: now + remaining,
+      durationMs: fullMs,
+      label: $('farm-label').value.trim(),
+      repeat: $('repeat-alert').checked,
       acknowledged: []
     };
-    timers.unshift(timer); save(); scheduleTimer(timer); renderTimers();
+    timers.unshift(timer);
+    save();
+    scheduleTimer(timer);
+    renderTimers();
     $('farm-label').value = '';
   }
   function notificationFor(timer, stage) {
@@ -153,7 +205,7 @@
   function scheduleTimer(timer) {
     clearSchedule(timer.id);
     if (timer.acknowledged?.includes('HARVEST')) return;
-    const stages = [...stageTimes(timer), {id:'HARVEST', at: timer.plantedAt + timer.durationMs}];
+    const stages = [...stageTimes(timer), {id:'HARVEST', at: getHarvestAt(timer)}];
     const handles = [];
     stages.forEach(stage => {
       if (timer.acknowledged?.includes(stage.id)) return;
@@ -202,35 +254,108 @@
     if (diff <= 0) return stage.id === 'HARVEST' ? tx('complete') : tx('acknowledge');
     return formatClock(diff);
   }
+  const cropIcons = {
+    tomato:'🍅', rice:'🌾', pineapple:'🍍', tea:'🍃', potato:'🥔', carrot:'🥕',
+    wheat:'🌾', cacao:'🍫', strawberry:'🍓', eggplant:'🍆', lettuce:'🥬',
+    grape:'🍇', corn:'🌽', avocado:'🥑'
+  };
+
+  function timelineLabels(timer) {
+    const totalMinutes = Math.round(timer.durationMs / 60000);
+    return {
+      W1: `${Math.round(totalMinutes / 3)}${lang() === 'ja' ? '分' : '분'}`,
+      W2: `${Math.round(totalMinutes * 2 / 3)}${lang() === 'ja' ? '分' : '분'}`,
+      W3: tx('justBeforeMature'),
+      W4: tx('afterMature')
+    };
+  }
+
+  function stageIsPassed(timer, stage) {
+    return Date.now() >= stage.at;
+  }
+
+  function nextTimelineStage(timer) {
+    return stageTimes(timer).find(stage => Date.now() < stage.at) || null;
+  }
+
+  function clockAt(ms) {
+    return new Date(ms).toLocaleTimeString(lang() === 'ja' ? 'ja-JP' : 'ko-KR', {
+      hour: '2-digit', minute: '2-digit', hour12: false
+    });
+  }
+
   function renderTimers() {
-    timers.sort((a,b)=>a.plantedAt-b.plantedAt);
+    timers.sort((a,b) => a.plantedAt - b.plantedAt);
     timerList.innerHTML = '';
     emptyState.hidden = timers.length > 0;
     $('clear-all-button').hidden = timers.length === 0;
+
     timers.forEach(timer => {
-      const crop = getCrop(timer.cropId); if (!crop) return;
-      const harvestAt = timer.plantedAt + timer.durationMs;
-      const remaining = harvestAt - Date.now();
-      const headline = remaining >= 0 ? `${tx('ready')} ${formatClock(remaining)}` : tx('overdue');
+      const crop = getCrop(timer.cropId);
+      if (!crop) return;
+
+      const harvestAt = getHarvestAt(timer);
+      const now = Date.now();
+      const remaining = harvestAt - now;
+      const elapsed = Math.max(0, Math.min(timer.durationMs, now - timer.plantedAt));
+      const progress = Math.max(0, Math.min(100, (elapsed / timer.durationMs) * 100));
       const stages = stageTimes(timer);
+      const next = nextTimelineStage(timer);
+      const completed = remaining <= 0;
+      const labels = timelineLabels(timer);
+
+      const stateLabel = completed
+        ? tx('complete')
+        : next
+          ? tx('nextWeed').replace('{stage}', next.id)
+          : tx('ready');
+      const mainTime = completed ? '' : formatCountdown(next ? next.at - now : remaining);
+      const footerText = completed
+        ? tx('harvestReady')
+        : tx('harvestAt').replace('{time}', clockAt(harvestAt));
+
       const card = document.createElement('article');
-      card.className = 'timer-card';
-      card.innerHTML = `<div class="timer-card-top">
-          <div><div class="timer-name">${escapeHTML(nameOf(crop))}</div>${timer.label ? `<div class="timer-label">${escapeHTML(timer.label)}</div>` : ''}</div>
-          <div class="timer-countdown">${escapeHTML(headline)}</div>
+      card.className = `timer-card timer-card-progress ${completed ? 'is-complete' : ''}`;
+      card.innerHTML = `
+        <div class="timer-card-top">
+          <div class="timer-crop-heading">
+            <span class="timer-crop-icon" aria-hidden="true">${cropIcons[crop.id] || '🌱'}</span>
+            <div>
+              <div class="timer-name">${escapeHTML(nameOf(crop))}</div>
+              ${timer.label ? `<div class="timer-label">${escapeHTML(timer.label)}</div>` : ''}
+            </div>
+          </div>
+          <button type="button" data-delete class="timer-delete" aria-label="${escapeHTML(tx('delete'))}">🗑</button>
         </div>
-        <div class="stage-list">
-          ${stages.map(stage => {
-            const status = timerStatus(timer, stage);
-            return `<button type="button" class="stage is-${status}" data-ack="${stage.id}" ${status === 'waiting' ? 'disabled':''}>
-              <strong>${stage.id}</strong><span>${escapeHTML(stageText(timer, stage))}</span>
-            </button>`;
+
+        <div class="timeline-state">
+          <span class="timeline-state-label">${escapeHTML(stateLabel)}</span>
+          ${mainTime ? `<strong class="timeline-countdown">${escapeHTML(mainTime)}</strong>` : `<strong class="timeline-complete">${escapeHTML(tx('complete'))}</strong>`}
+        </div>
+
+        <div class="crop-timeline" role="img" aria-label="${escapeHTML(stateLabel)}">
+          <div class="crop-track"><span class="crop-progress" style="width:${progress}%"></span></div>
+          ${stages.map((stage, index) => {
+            const pos = index === 0 ? 33.333 : index === 1 ? 66.667 : index === 2 ? 87.5 : 100;
+            const isPassed = stageIsPassed(timer, stage);
+            const isNext = next && next.id === stage.id;
+            return `<div class="timeline-marker ${isPassed ? 'is-passed' : ''} ${isNext ? 'is-next' : ''}" style="left:${pos}%">
+              <i></i><span>${escapeHTML(labels[stage.id])}</span>
+            </div>`;
           }).join('')}
         </div>
-        <div class="timer-actions">
-          <button type="button" data-delete class="delete">${escapeHTML(tx('delete'))}</button>
-        </div>`;
-      card.querySelectorAll('[data-ack]').forEach(btn => btn.addEventListener('click', () => acknowledge(timer.id, btn.dataset.ack)));
+
+        <div class="timeline-bottom">
+          <div class="timeline-stage-chips">
+            ${stages.map(stage => {
+              const passed = stageIsPassed(timer, stage);
+              return `<span class="stage-chip ${passed ? 'is-passed' : ''}">${passed ? '✓ ' : ''}${stage.id}</span>`;
+            }).join('<b class="stage-dot">·</b>')}
+          </div>
+          <span class="harvest-clock">${escapeHTML(footerText)}</span>
+        </div>
+      `;
+
       card.querySelector('[data-delete]').addEventListener('click', () => removeTimer(timer.id));
       timerList.appendChild(card);
     });
@@ -249,8 +374,18 @@
     $('start-mode').addEventListener('change', applyStartMode);
     plantButton.addEventListener('click', plant);
     $('clear-all-button').addEventListener('click', clearAll);
-    document.addEventListener('site-language-changed', () => { renderCrops(); updateSelection(); notificationStatus(); renderTimers(); });
-    notificationStatus(); renderCrops(); updateSelection(); applyStartMode();
+    document.addEventListener('site-language-changed', () => {
+      refreshTimeInputLabels();
+      renderCrops();
+      updateSelection();
+      notificationStatus();
+      renderTimers();
+    });
+    refreshTimeInputLabels();
+    notificationStatus();
+    renderCrops();
+    updateSelection();
+    applyStartMode();
     timers.forEach(scheduleTimer); renderTimers();
     setInterval(tick, 1000);
   }

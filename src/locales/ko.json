@@ -46,6 +46,14 @@
     "activeTimers": "진행 중인 작물",
     "activeTimersDesc": "이 브라우저에 저장되며, 페이지를 다시 열어도 계속 확인할 수 있어요.",
     "clearAll": "전체 삭제",
-    "empty": "아직 심은 작물이 없어요. 위에서 작물을 선택해 시작해 보세요."
+    "empty": "아직 심은 작물이 없어요. 위에서 작물을 선택해 시작해 보세요.",
+    "remainingRequired": "남은 시간을 1분 이상 입력해 주세요.",
+    "remainingTooLong": "입력한 시간이 작물 전체 성장 시간보다 길어요. 최대 {time}으로 적용했어요.",
+    "nextWeed": "🌱 다음 잡초 · {stage}",
+    "justBeforeMature": "성숙 직전",
+    "afterMature": "성숙 후",
+    "harvestAt": "수확 예정 {time}",
+    "harvestReady": "🌱 재배 완료!",
+    "pickerAlert": "알림 ON — 잡초 시점에 알려드릴게요"
   }
 }

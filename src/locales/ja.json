@@ -925,9 +925,17 @@
     "remainingTime": "残り時間",
     "repeatAlert": "確認するまで繰り返し鳴らす",
     "plant": "作物を植える",
-    "activeTimers": "進行中の作物",
+    "activeTimers": "栽培中の作物",
     "activeTimersDesc": "このブラウザに保存され、ページを開き直しても確認できます。",
     "clearAll": "すべて削除",
-    "empty": "まだ植えた作物がありません。上で作物を選んで開始しましょう。"
+    "empty": "まだ植えた作物がありません。上で作物を選んで開始しましょう。",
+    "remainingRequired": "残り時間を1分以上入力してください。",
+    "remainingTooLong": "入力した時間が作物の成長時間より長いため、最大 {time} で設定しました。",
+    "nextWeed": "🌱 次の雑草 · {stage}",
+    "justBeforeMature": "成熟直前",
+    "afterMature": "成熟後",
+    "harvestAt": "収穫予定 {time}",
+    "harvestReady": "🌱 栽培完了！",
+    "pickerAlert": "通知オン — 雑草のタイミングをお知らせします"
   }
 }

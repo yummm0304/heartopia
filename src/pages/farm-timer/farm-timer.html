@@ -10,8 +10,8 @@
 <body>
     <div id="header-placeholder"></div>
 
-    <main class="farm-main">
-        <section class="farm-hero">
+    <main class="farm-main farm-ui-v4">
+        <section class="farm-hero farm-hero-compact">
             <div>
                 <p class="eyebrow" data-i18n="farm.eyebrow">🌱 5성 작물 도우미</p>
                 <h1 data-i18n="farm.title">농장 타이머</h1>
@@ -20,9 +20,9 @@
             <button id="notification-button" type="button" class="notification-button" aria-live="polite"></button>
         </section>
 
-        <section class="help-card" aria-label="농장 타이머 도움말">
+        <section class="help-card help-card-compact" aria-label="농장 타이머 도움말">
             <button type="button" class="help-toggle" id="help-toggle" aria-expanded="false">
-                <span data-i18n="farm.helpTitle">⭐ 5성 작물 타이밍 안내</span>
+                <span>🌱 <span data-i18n="farm.helpTitle">5성 작물 타이밍 안내</span></span>
                 <span class="help-chevron">⌄</span>
             </button>
             <div class="help-body" id="help-body" hidden>
@@ -37,36 +37,36 @@
             </div>
         </section>
 
-        <section class="farm-panel" aria-labelledby="crop-select-title">
-            <div class="section-heading">
-                <h2 id="crop-select-title" data-i18n="farm.chooseCrop">어떤 작물을 심을까요?</h2>
-                <p data-i18n="farm.chooseCropDesc">작물을 선택하고 시작 시간을 정해 주세요.</p>
+        <section class="farm-panel crop-picker-panel" aria-labelledby="crop-select-title">
+            <div class="picker-alert" aria-live="polite">🔔 <span data-i18n="farm.pickerAlert">알림 ON — 잡초 시점에 알려드릴게요</span></div>
+
+            <div class="section-heading picker-heading">
+                <h2 id="crop-select-title">🌱 <span data-i18n="farm.chooseCrop">어떤 작물을 심을까요?</span></h2>
             </div>
 
-            <div id="crop-grid" class="crop-grid" aria-live="polite"></div>
+            <div id="crop-grid" class="crop-grid crop-grid-v4" aria-live="polite"></div>
 
-            <div class="plant-options">
-                <label class="field-label">
-                    <span data-i18n="farm.label">라벨 (선택)</span>
-                    <input id="farm-label" type="text" maxlength="30" data-i18n-placeholder="farm.labelPlaceholder" placeholder="예: 집 앞 밭">
+            <label class="field-label field-label-full">
+                <span>🏷️ <span data-i18n="farm.label">라벨 (선택)</span></span>
+                <input id="farm-label" type="text" maxlength="30" data-i18n-placeholder="farm.labelPlaceholder" placeholder="예: 집 앞 밭">
+            </label>
+
+            <div class="farm-check-options">
+                <label class="repeat-option start-remaining-option">
+                    <input id="start-mode" type="checkbox">
+                    <span data-i18n="farm.startRemaining">남은 시간으로 시작</span>
                 </label>
 
-                <label class="field-label">
-                    <span data-i18n="farm.startMode">시작 방식</span>
-                    <select id="start-mode">
-                        <option value="now" data-i18n="farm.startNow">지금 심기</option>
-                        <option value="remaining" data-i18n="farm.startRemaining">남은 시간으로 시작</option>
-                    </select>
-                </label>
-
-                <label class="field-label remaining-field" id="remaining-field" hidden>
-                    <span data-i18n="farm.remainingTime">남은 시간</span>
-                    <div class="time-inputs">
-                        <input id="remaining-hours" type="number" min="0" max="99" inputmode="numeric" value="0" aria-label="시간">
-                        <span>:</span>
-                        <input id="remaining-minutes" type="number" min="0" max="59" inputmode="numeric" value="0" aria-label="분">
-                    </div>
-                </label>
+                <div class="remaining-field-v4" id="remaining-field" hidden>
+                    <label class="field-label">
+                        <span data-i18n="farm.remainingTime">남은 시간</span>
+                        <div class="time-inputs">
+                            <input id="remaining-hours" type="number" min="0" max="99" inputmode="numeric" value="0" aria-label="시간">
+                            <span>:</span>
+                            <input id="remaining-minutes" type="number" min="0" max="59" inputmode="numeric" value="0" aria-label="분">
+                        </div>
+                    </label>
+                </div>
 
                 <label class="repeat-option">
                     <input id="repeat-alert" type="checkbox">
@@ -74,21 +74,18 @@
                 </label>
             </div>
 
-            <div class="plant-action-row">
-                <p id="selected-crop-summary" class="selected-summary" aria-live="polite"></p>
-                <button id="plant-button" type="button" class="plant-button" disabled data-i18n="farm.plant">작물 심기</button>
-            </div>
+            <p id="selected-crop-summary" class="selected-summary picker-selected-summary" aria-live="polite"></p>
+            <button id="plant-button" type="button" class="plant-button plant-button-v4" disabled>🌱 <span data-i18n="farm.plant">작물 심기</span></button>
         </section>
 
-        <section class="timers-section" aria-labelledby="active-timers-title">
-            <div class="section-heading inline-heading">
+        <section class="timers-section timers-section-v4" aria-labelledby="active-timers-title">
+            <div class="section-heading inline-heading timers-heading-v4">
                 <div>
                     <h2 id="active-timers-title" data-i18n="farm.activeTimers">진행 중인 작물</h2>
-                    <p data-i18n="farm.activeTimersDesc">이 브라우저에 저장되며, 페이지를 다시 열어도 계속 확인할 수 있어요.</p>
                 </div>
                 <button id="clear-all-button" type="button" class="text-button" data-i18n="farm.clearAll">전체 삭제</button>
             </div>
-            <div id="timer-list" class="timer-list"></div>
+            <div id="timer-list" class="timer-list timer-list-v4"></div>
             <p id="empty-state" class="empty-state" data-i18n="farm.empty">아직 심은 작물이 없어요. 위에서 작물을 선택해 시작해 보세요.</p>
         </section>
     </main>
