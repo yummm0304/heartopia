@@ -254,12 +254,6 @@
     if (diff <= 0) return stage.id === 'HARVEST' ? tx('complete') : tx('acknowledge');
     return formatClock(diff);
   }
-  const cropIcons = {
-    tomato:'🍅', rice:'🌾', pineapple:'🍍', tea:'🍃', potato:'🥔', carrot:'🥕',
-    wheat:'🌾', cacao:'🍫', strawberry:'🍓', eggplant:'🍆', lettuce:'🥬',
-    grape:'🍇', corn:'🌽', avocado:'🥑'
-  };
-
   function timelineLabels(timer) {
     const totalMinutes = Math.round(timer.durationMs / 60000);
     return {
