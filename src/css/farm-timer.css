@@ -124,3 +124,55 @@
 @media (max-width:380px) {
   .crop-grid-v6 { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
+
+
+/* v7 — label cleanup and W3/W4 separation */
+.farm-label-field-v6 input::placeholder {
+  color: transparent;
+}
+.farm-crop-subtitle {
+  margin: 2px 0 0;
+  color: #9b7d61;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.farm-progress-line {
+  --w4-gap: 46px;
+}
+.farm-progress-line::before {
+  right: var(--w4-gap);
+}
+.farm-progress-fill {
+  max-width: calc(100% - var(--w4-gap));
+}
+.farm-progress-line::after {
+  content: "···";
+  position: absolute;
+  z-index: 2;
+  right: 14px;
+  top: -1px;
+  color: #d4b588;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.farm-marker:nth-of-type(3) {
+  transform: translateX(-72%);
+}
+.farm-marker:nth-of-type(4) {
+  transform: translateX(-100%);
+}
+.farm-marker:nth-of-type(3) b,
+.farm-marker:nth-of-type(4) b {
+  min-width: 52px;
+  text-align: center;
+}
+@media (max-width: 720px) {
+  .farm-progress-line { --w4-gap: 42px; }
+  .farm-marker:nth-of-type(3) b,
+  .farm-marker:nth-of-type(4) b {
+    min-width: 48px;
+    font-size: .63rem;
+  }
+}

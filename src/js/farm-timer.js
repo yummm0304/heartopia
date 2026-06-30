@@ -280,7 +280,8 @@
     const markers = stages.map((stage, index) => {
       const passed = now >= stage.at;
       const current = state.kind === "growing" && state.next?.id === stage.id;
-      const pos = [33.333, 66.666, 87.5, 100][index];
+      // W3/W4 are separated visually so their labels never sit on top of each other.
+      const pos = [33.333, 66.666, 79, 100][index];
       return `<span class="farm-marker ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}" style="left:${pos}%">
         <i></i><b>${esc(stage.label)}</b>
       </span>`;
@@ -295,7 +296,10 @@
       <div class="farm-timer-top">
         <div class="farm-timer-title">
           <span class="farm-timer-icon">${crop.icon}</span>
-          <div><h3>${esc(cropName(crop))}</h3>${timer.label ? `<p>${esc(timer.label)}</p>` : ""}</div>
+          <div>
+            <h3>${esc(timer.label || cropName(crop))}</h3>
+            ${timer.label ? `<p class="farm-crop-subtitle">${esc(cropName(crop))}</p>` : ""}
+          </div>
         </div>
         <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
       </div>
@@ -377,6 +381,10 @@
   function init() {
     $("notification-button").addEventListener("click", requestNotifications);
     $("start-mode").addEventListener("change", onRemainingToggle);
+    $("farm-label").addEventListener("input", () => {
+      // The value is stored when planting; this keeps the current form responsive without adding example text.
+      $("farm-label").value = $("farm-label").value.slice(0, 30);
+    });
     ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
     plantButton.addEventListener("click", plant);
     $("clear-all-button").addEventListener("click", clearAll);
