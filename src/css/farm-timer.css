@@ -465,3 +465,51 @@
     --timeline-gap-mid: 34px;
   }
 }
+
+
+/* v13 — exact dot position:
+   horizontal midpoint between the green gauge endpoint and the W4 marker,
+   vertical midpoint of the 13px gauge itself. */
+.farm-timer-card .farm-progress-line {
+  --dot-lane-width: 74px;       /* green endpoint → W4 center lane */
+  --dot-middle-offset: 38px;    /* (74px lane + 2px W4 inset) / 2 */
+  --dot-bar-top: 7px;
+  --dot-bar-height: 13px;
+}
+.farm-timer-card .farm-progress-line::before {
+  top: var(--dot-bar-top) !important;
+  height: var(--dot-bar-height) !important;
+  right: var(--dot-lane-width) !important;
+}
+.farm-timer-card .farm-progress-line .farm-progress-fill {
+  top: var(--dot-bar-top) !important;
+  height: var(--dot-bar-height) !important;
+  max-width: calc(100% - var(--dot-lane-width)) !important;
+}
+
+/* W4 marker center = 100% - 2px. */
+.farm-timer-card .farm-progress-line .farm-marker-w4 {
+  left: calc(100% - 2px) !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Dot center = exact midpoint between green end (100%-74px) and W4 center (100%-2px). */
+.farm-timer-card .farm-progress-line > .farm-w4-gap {
+  position: absolute !important;
+  left: calc(100% - var(--dot-middle-offset)) !important;
+  right: auto !important;
+  top: calc(var(--dot-bar-top) + (var(--dot-bar-height) / 2)) !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  transform: translate(-50%, -50%) !important;
+  line-height: 1 !important;
+  letter-spacing: 2px !important;
+}
+
+@media (max-width: 720px) {
+  .farm-timer-card .farm-progress-line {
+    --dot-lane-width: 66px;
+    --dot-middle-offset: 34px; /* (66px + 2px) / 2 */
+  }
+}
