@@ -96,12 +96,11 @@
   function safeInt(value, max) {
     return Math.max(0, Math.min(max, Number.parseInt(value, 10) || 0));
   }
-  function normaliseTimers(rawTimers) {
+  function cleanTimers(value) {
     const unique = new Map();
-    (Array.isArray(rawTimers) ? rawTimers : []).forEach(raw => {
-      if (!raw || !raw.id || !raw.cropId) return;
+    (Array.isArray(value) ? value : []).forEach(raw => {
+      if (!raw || !raw.id || !raw.cropId || !getCrop(raw.cropId)) return;
       const crop = getCrop(raw.cropId);
-      if (!crop) return;
       const durationMs = Number(raw.durationMs) || crop.minutes * 60000;
       const harvestAt = Number(raw.harvestAt) || ((Number(raw.plantedAt) || Date.now()) + durationMs);
       const plantedAt = Number(raw.plantedAt) || (harvestAt - durationMs);
@@ -119,19 +118,15 @@
   }
   function loadTimers() {
     try {
-      const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-      if (Array.isArray(current)) return normaliseTimers(current);
-
-      // 한 번만 기존 v1 기록을 옮긴 뒤 v1은 더 이상 읽지 않는다.
-      const legacy = JSON.parse(localStorage.getItem("heartopia_farm_timers_v1") || "[]");
-      return normaliseTimers(legacy);
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      return cleanTimers(saved);
     } catch {
       return [];
     }
   }
   function saveTimers() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(timers));
-    // 삭제한 타이머가 예전 v1 저장값에서 다시 살아나는 문제를 막는다.
+    // Old v1 data must not revive deleted cards when revisiting this page.
     localStorage.removeItem("heartopia_farm_timers_v1");
   }
   function getHarvestAt(timer) { return Number(timer.harvestAt); }
@@ -268,8 +263,6 @@
     const stages = stageData(timer);
     const w4 = stages[3];
 
-    // 성장 → 성숙(W4 대기) → W4 완료 순서.
-    // W4가 끝난 뒤에는 절대 경과시간으로 다시 올라가지 않는다.
     if (now >= w4.at) return { kind:"complete", time:0, next:null };
     if (now >= harvest) return { kind:"mature", time:w4.at - now, next:w4 };
 
@@ -284,29 +277,30 @@
     const crop = getCrop(timer.cropId);
     if (!crop) return "";
 
+    const now = Date.now();
     const state = timerState(timer);
     const stages = stageData(timer);
-    const now = Date.now();
-    const rawProgress = progressPercent(timer);
-    // Green growth ends at W3. W3→W4 stays as a visibly separate dotted lane.
-    const visualProgress = Math.min(78, rawProgress * 0.78);
+    const progress = Math.max(0, Math.min(100, ((now - timer.plantedAt) / timer.durationMs) * 100));
+    const growProgress = Math.min(78, progress * 0.78);
 
-    const statusLine = state.kind === "growing"
-      ? `<span class="farm-card-status">${esc(t("nextWeed").replace("{stage}", state.next.id))}</span>
-         <strong>${esc(countdownText(state.time))}</strong>`
-      : state.kind === "mature"
-        ? `<span class="farm-card-status farm-status-mature">${esc(t("nextWeed").replace("{stage}", "W4"))}</span>
-           <strong>${esc(countdownText(state.time))}</strong>
-           <em>${esc(t("matureTip"))}</em>`
-        : `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
+    let statusLine = "";
+    if (state.kind === "growing") {
+      statusLine = `<span class="farm-card-status">${esc(t("nextWeed").replace("{stage}", state.next.id))}</span>
+                    <strong>${esc(countdownText(state.time))}</strong>`;
+    } else if (state.kind === "mature") {
+      statusLine = `<span class="farm-card-status farm-status-mature">${esc(t("nextWeed").replace("{stage}", "W4"))}</span>
+                    <strong>${esc(countdownText(state.time))}</strong>
+                    <em>✨ ${esc(language() === "ja" ? "成熟！少し後に最後の雑草を取りましょう" : "성숙됨! 잠시 후 마지막 잡초 제거")}</em>`;
+    } else {
+      statusLine = `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
+    }
 
     const markers = stages.map((stage, index) => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
       const pos = [33.333, 66.666, 78, 100][index];
-      return `<span class="farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}" style="left:${pos}%">
-        <i></i><b>${esc(stage.label)}</b>
-      </span>`;
+      const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
+      return `<span class="${cls}" style="left:${pos}%"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
 
     const chips = stages.map(stage => {
@@ -314,9 +308,8 @@
       return `<span class="farm-stage-chip ${passed ? "is-passed" : ""}">${passed ? "✓ " : ""}${stage.id}</span>`;
     }).join('<span class="farm-stage-dot">·</span>');
 
-    const lowerRight = state.kind === "complete"
-      ? ""
-      : `<span class="farm-harvest-note">${esc(t("harvestAt").replace("{time}", countdownText(Math.max(0, getHarvestAt(timer) - now))))}</span>`;
+    const lowerRight = state.kind === "complete" ? "" :
+      `<span class="farm-harvest-note">${esc(t("harvestAt").replace("{time}", countdownText(Math.max(0, getHarvestAt(timer) - now))))}</span>`;
 
     return `<article class="farm-timer-card ${state.kind === "mature" ? "is-mature" : ""} ${state.kind === "complete" ? "is-complete" : ""}" data-timer="${esc(timer.id)}">
       <div class="farm-timer-top">
@@ -331,7 +324,7 @@
       </div>
       <div class="farm-timer-state">${statusLine}</div>
       <div class="farm-progress-line" aria-hidden="true">
-        <span class="farm-progress-fill" style="width:${visualProgress}%"></span>
+        <span class="farm-progress-fill" style="width:${state.kind === "complete" ? 78 : growProgress}%"></span>
         ${markers}
         <span class="farm-w4-gap">···</span>
       </div>
@@ -363,7 +356,7 @@
     if (activeModalId) refreshModal();
   }
   function removeTimer(id) {
-    if (!confirm(t("deleteConfirm"))) return;
+    // Single-card trash: delete immediately, without the browser confirmation popup.
     timers = timers.filter(timer => timer.id !== id);
     saveTimers();
     if (activeModalId === id) closeModal();
@@ -422,7 +415,6 @@
       renderTimers();
     });
 
-    // 기존 v1 기록이 있으면 이 시점에 v2로 확정 저장하고 v1을 비운다.
     saveTimers();
     renderNotificationButton();
     renderCrops();

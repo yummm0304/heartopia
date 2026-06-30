@@ -126,10 +126,9 @@
 }
 
 
-/* ===== Integrated farm timer fix ===== */
-/* W3 / W4: separate visual lane, matching the requested right-side structure. */
+/* v8 urgent behaviour fix */
 .farm-progress-line {
-  --w4-gap: 44px;
+  --w4-gap: 47px;
 }
 .farm-progress-line::before {
   right: var(--w4-gap);
@@ -139,26 +138,40 @@
 }
 .farm-w4-gap {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: -1px;
-  right: 17px;
-  color: #d4b588;
+  right: 15px;
+  color: #d5b688;
+  letter-spacing: 2px;
   font-size: 1rem;
   font-weight: 900;
-  letter-spacing: 2px;
   line-height: 1;
 }
-.farm-marker-w3 {
-  transform: translateX(-68%);
-}
-.farm-marker-w4 {
-  transform: translateX(-100%);
-}
+.farm-marker-w3 { transform: translateX(-68%); }
+.farm-marker-w4 { transform: translateX(-100%); }
 .farm-marker-w3 b,
 .farm-marker-w4 b {
   display: block;
-  min-width: 54px;
+  min-width: 55px;
   text-align: center;
+}
+.farm-timer-card.is-mature {
+  border-color: #f2c34c;
+  background: linear-gradient(135deg, #fff8d6, #ffec9f);
+}
+.farm-timer-card.is-complete {
+  border-color: #dcebdd;
+  background: #fffdf9;
+}
+.farm-timer-card.is-complete .farm-timer-state {
+  min-height: 52px;
+  justify-content: center;
+}
+.farm-complete-title {
+  color: #2d8a51;
+  font-size: 1.42rem;
+  line-height: 1.2;
+  letter-spacing: -.02em;
 }
 .farm-crop-subtitle {
   margin: 2px 0 0;
@@ -166,33 +179,9 @@
   font-size: .78rem;
   font-weight: 700;
 }
-
-/* W4 has elapsed: completed card stays still; no upward counter. */
-.farm-timer-card.is-complete {
-  border-color: #d8eadb;
-  background: #fffdf9;
-}
-.farm-timer-card.is-complete .farm-progress-fill {
-  width: calc(100% - var(--w4-gap)) !important;
-}
-.farm-timer-card.is-complete .farm-timer-state {
-  min-height: 52px;
-  justify-content: center;
-}
-.farm-complete-title {
-  margin-top: 2px;
-  color: #2d8a51;
-  font-size: 1.42rem;
-  line-height: 1.2;
-  letter-spacing: -.02em;
-}
-
-@media (max-width: 720px) {
+@media (max-width:720px) {
   .farm-progress-line { --w4-gap: 42px; }
   .farm-marker-w3 b,
-  .farm-marker-w4 b {
-    min-width: 48px;
-    font-size: .63rem;
-  }
-  .farm-w4-gap { right: 14px; }
+  .farm-marker-w4 b { min-width:48px; font-size:.63rem; }
+  .farm-w4-gap { right:13px; }
 }
