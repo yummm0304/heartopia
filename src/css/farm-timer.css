@@ -1,27 +1,33 @@
-/* Farm timer v6: rebuilt layout and timer states */
+/* Farm timer — clean single-source stylesheet */
 .farm-ui-v6 {
   max-width: 900px;
   margin: 0 auto;
   padding: 24px 16px 56px;
 }
-.farm-ui-v6 * { box-sizing: border-box; }
+.farm-ui-v6, .farm-ui-v6 * { box-sizing: border-box; }
+
 .farm-hero-v6 {
-  display:flex; justify-content:space-between; align-items:center; gap:18px;
-  padding:24px 26px; border-radius:24px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:24px 26px; border:1px solid #f1dce8; border-radius:24px;
   background:linear-gradient(110deg,#fff9ee,#fff4f8);
-  border:1px solid #f1dce8;
   box-shadow:0 8px 24px rgba(68,55,74,.08);
 }
 .farm-hero-v6 .eyebrow { margin:0 0 5px; color:#f16b9c; font-weight:800; }
 .farm-hero-v6 h1 { margin:0; color:#3f3026; font-size:clamp(1.65rem,4vw,2.35rem); }
 .farm-hero-v6 .farm-lead { margin:5px 0 0; color:#66594c; font-weight:600; }
-.farm-hero-v6 .notification-button { border:0; border-radius:999px; padding:11px 15px; background:#fff; color:#3a8a56; font:inherit; font-weight:800; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+.notification-button {
+  border:0; border-radius:999px; padding:11px 15px; background:#fff; color:#3a8a56;
+  font:inherit; font-weight:800; box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
 
 .farm-help-v6 {
   margin-top:14px; overflow:hidden; border:1px solid #d8ead5; border-radius:22px;
   background:linear-gradient(110deg,#fff9ed,#eef9ec); box-shadow:0 5px 0 rgba(94,154,93,.08);
 }
-.farm-help-toggle { width:100%; border:0; background:transparent; padding:17px 20px; display:flex; justify-content:space-between; align-items:center; color:#4d402f; font:inherit; font-weight:800; cursor:pointer; }
+.farm-help-toggle {
+  width:100%; border:0; background:transparent; padding:17px 20px; display:flex;
+  align-items:center; justify-content:space-between; color:#4d402f; font:inherit; font-weight:800; cursor:pointer;
+}
 .farm-help-chevron { color:#ab885f; transition:transform .2s ease; }
 .farm-help-toggle[aria-expanded="false"] .farm-help-chevron { transform:rotate(180deg); }
 .farm-help-content { padding:2px 20px 26px; text-align:center; }
@@ -34,21 +40,31 @@
 .farm-help-list b { min-width:25px; color:#28834c; }
 
 .farm-form-v6, .farm-active-v6 {
-  margin-top:16px; padding:20px; border-radius:24px; background:#fffdf9;
-  border:2px solid #f3dfab; box-shadow:0 7px 0 rgba(198,163,91,.12);
+  margin-top:16px; padding:20px; border:2px solid #f3dfab; border-radius:24px; background:#fffdf9;
+  box-shadow:0 7px 0 rgba(198,163,91,.12);
 }
+.farm-active-v6 { border-color:#edf0f2; box-shadow:0 7px 0 rgba(88,97,117,.08); }
 .farm-notice-v6 { padding:8px 12px; border-radius:999px; background:#edf8ef; color:#287d4b; text-align:center; font-size:.84rem; font-weight:800; }
 .farm-form-v6 h2 { margin:18px 0 12px; color:#433629; font-size:1rem; }
+
 .crop-grid-v6 { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
-.farm-crop-card { position:relative; min-height:103px; border:1.5px solid #f0e4c9; border-radius:18px; background:#fffdfa; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; cursor:pointer; font:inherit; color:#453529; box-shadow:0 3px 0 rgba(188,157,94,.09); }
+.farm-crop-card {
+  position:relative; min-height:103px; border:1.5px solid #f0e4c9; border-radius:18px; background:#fffdfa;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; cursor:pointer;
+  color:#453529; font:inherit; box-shadow:0 3px 0 rgba(188,157,94,.09);
+}
 .farm-crop-card:hover { transform:translateY(-1px); border-color:#e9bb50; }
 .farm-crop-card.is-selected { border:2px solid #efb32d; background:#ffedac; box-shadow:0 4px 0 rgba(218,161,32,.18); }
 .farm-crop-icon { font-size:1.95rem; line-height:1; }
 .farm-crop-card strong { font-size:.9rem; }
 .farm-crop-card small { color:#b89065; font-size:.75rem; }
 .farm-new { position:absolute; left:-4px; top:8px; padding:3px 6px; border-radius:5px 5px 5px 0; background:#ff8b74; color:#fff; font-size:.58rem; font-weight:900; }
+
 .farm-label-field-v6 { display:flex; flex-direction:column; gap:7px; margin-top:18px; color:#4c3e30; font-size:.9rem; font-weight:800; }
-.farm-label-field-v6 input { width:100%; border:1.5px solid #f3e0b6; border-radius:999px; background:#fffaf0; padding:13px 15px; color:#4b3d30; font:inherit; }
+.farm-label-field-v6 input {
+  width:100%; border:1.5px solid #f3e0b6; border-radius:999px; background:#fffaf0; padding:13px 15px;
+  color:#4b3d30; font:inherit;
+}
 .farm-check-v6 { display:flex; align-items:center; gap:8px; margin-top:14px; color:#45382c; font-size:.92rem; font-weight:800; cursor:pointer; }
 .farm-check-v6 input { width:17px; height:17px; accent-color:#4ba96c; }
 .farm-remaining-v6 { margin-top:10px; padding:12px; border:1px solid #f1dfbb; border-radius:15px; background:#fff9ec; }
@@ -60,55 +76,101 @@
 .farm-selection-summary { min-height:1.3em; margin:14px 0 9px; color:#b0875d; font-size:.86rem; font-weight:700; }
 .farm-plant-v6 { width:100%; min-height:56px; border:0; border-radius:999px; background:#56b878; box-shadow:inset 0 -4px 0 #338958; color:#fff; font:inherit; font-size:1.08rem; font-weight:900; cursor:pointer; }
 .farm-plant-v6:disabled { opacity:.45; cursor:not-allowed; }
-.farm-active-v6 { border-color:#edf0f2; box-shadow:0 7px 0 rgba(88,97,117,.08); }
-.farm-active-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+
+.farm-active-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .farm-active-heading h2 { margin:0; color:#3f3228; font-size:1rem; }
 .farm-clear-button { border:0; background:transparent; color:#f06e9f; font:inherit; font-weight:900; cursor:pointer; }
 .farm-timer-list-v6 { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,410px)); gap:15px; margin-top:15px; }
 .farm-empty-v6 { margin:16px 0 0; padding:20px; border:1px dashed #e3d9ca; border-radius:15px; color:#85796e; text-align:center; font-size:.9rem; }
 
-.farm-timer-card { padding:16px; border:2px solid #f1dfaf; border-radius:22px; background:#fffdf9; box-shadow:0 5px 0 rgba(196,158,82,.12); cursor:pointer; }
-.farm-timer-card.is-mature { border-color:#f3be3f; background:linear-gradient(135deg,#fff8d2,#fff1aa); }
-.farm-timer-card.is-after { border-color:#e4bd58; background:linear-gradient(135deg,#fff5cd,#ffeda3); }
-.farm-timer-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+/* Timer cards */
+.farm-timer-card {
+  padding:16px; border:2px solid #f1dfaf; border-radius:22px; background:#fffdf9;
+  box-shadow:0 5px 0 rgba(196,158,82,.12); cursor:pointer;
+}
+.farm-timer-card.is-mature { border-color:#f2c34c; background:linear-gradient(135deg,#fff8d6,#ffec9f); }
+.farm-timer-card.is-complete { border-color:#dcebdd; background:#fffdf9; }
+.farm-timer-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
 .farm-timer-title { display:flex; align-items:center; gap:10px; min-width:0; }
 .farm-timer-icon { width:45px; height:45px; display:grid; place-items:center; border-radius:14px; background:#eef8f0; font-size:1.75rem; }
 .farm-timer-title h3 { margin:0; color:#423328; font-size:1.08rem; }
-.farm-timer-title p { margin:2px 0 0; color:#9b7d61; font-size:.78rem; }
+.farm-timer-title p, .farm-crop-subtitle { margin:2px 0 0; color:#9b7d61; font-size:.78rem; font-weight:700; }
 .farm-delete { border:0; background:transparent; color:#c39563; cursor:pointer; }
-.farm-timer-state { display:flex; flex-direction:column; align-items:flex-start; margin-top:17px; }
+.farm-timer-state { display:flex; flex-direction:column; align-items:flex-start; min-height:58px; margin-top:17px; }
 .farm-card-status { color:#5c9d70; font-size:.82rem; font-weight:900; }
-.farm-status-mature, .farm-status-after { color:#d48919; }
+.farm-status-mature { color:#d48919; }
 .farm-timer-state strong { margin-top:2px; color:#2d8a51; font-size:2rem; line-height:1; font-variant-numeric:tabular-nums; }
-.farm-timer-card.is-mature .farm-timer-state strong, .farm-timer-card.is-after .farm-timer-state strong { color:#d38815; }
+.farm-timer-card.is-mature .farm-timer-state strong { color:#d38815; }
 .farm-timer-state em { margin-top:7px; padding:5px 8px; border-radius:999px; background:#ffc438; color:#fff; font-style:normal; font-size:.71rem; font-weight:900; }
-.farm-progress-line { position:relative; height:56px; margin-top:21px; }
-.farm-progress-line::before { content:""; position:absolute; top:7px; left:0; right:0; height:13px; border-radius:999px; background:#fff0d7; }
-.farm-progress-fill { position:absolute; z-index:1; top:7px; left:0; height:13px; border-radius:999px; background:#69bf86; transition:width .7s linear; }
-.farm-marker { position:absolute; top:0; z-index:2; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; color:#bd9567; font-size:.66rem; white-space:nowrap; }
-.farm-marker i { display:block; width:6px; height:23px; box-sizing:content-box; border-radius:999px; border:2px solid #fffdf9; background:#ffba25; }
+.farm-complete-title { align-self:flex-start; margin-top:4px; color:#2d8a51; font-size:1.42rem; line-height:1.2; letter-spacing:-.02em; }
+
+/* Clean timeline: W3 ends the green lane; dots are centered in the only empty W3→W4 lane. */
+.farm-progress-line {
+  position:relative;
+  --bar-top:7px;
+  --bar-height:13px;
+  --w4-lane:74px;
+  --w3-position:calc(100% - var(--w4-lane));
+  height:64px;
+  margin-top:18px;
+}
+.farm-progress-line::before {
+  content:""; position:absolute; left:0; right:var(--w4-lane); top:var(--bar-top); height:var(--bar-height);
+  border-radius:999px; background:#fff0d7;
+}
+.farm-progress-fill {
+  position:absolute; z-index:1; left:0; top:var(--bar-top); height:var(--bar-height);
+  max-width:calc(100% - var(--w4-lane)); border-radius:999px; background:#69bf86; transition:width .7s linear;
+}
+.farm-marker {
+  position:absolute; z-index:2; top:0; display:flex; flex-direction:column; align-items:center;
+  color:#bd9567; font-size:.66rem; white-space:nowrap; transform:translateX(-50%);
+}
+.farm-marker i {
+  display:block; width:6px; height:23px; box-sizing:content-box; border:2px solid #fffdf9;
+  border-radius:999px; background:#ffba25;
+}
 .farm-marker.is-passed i { background:#57b574; }
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.18); }
-.farm-marker b { margin-top:4px; font-weight:700; }
+.farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
+.farm-marker-w1 { left:33.333%; }
+.farm-marker-w2 { left:66.666%; }
+.farm-marker-w3 { left:var(--w3-position); }
+.farm-marker-w4 { left:100%; transform:translateX(-100%); }
+.farm-marker-w3 b { min-width:56px; }
+.farm-marker-w4 b { min-width:48px; transform:translateX(-10px); }
+
+/* exact geometric midpoint: green lane endpoint to W4 marker */
+.farm-w4-gap {
+  position:absolute; z-index:2;
+  left:calc(100% - (var(--w4-lane) / 2));
+  top:calc(var(--bar-top) + (var(--bar-height) / 2));
+  transform:translate(-50%,-50%);
+  color:#d5b688; letter-spacing:2px; font-size:1rem; font-weight:900; line-height:1;
+}
 .farm-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .farm-stage-chips { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .farm-stage-chip { padding:4px 9px; border-radius:999px; background:#fff1bd; color:#bd8e1e; font-size:.72rem; font-weight:900; }
 .farm-stage-chip.is-passed { background:#eaf8ec; color:#42985c; }
 .farm-stage-dot { color:#c4a071; }
 .farm-harvest-note { color:#b98f62; font-size:.72rem; font-weight:700; white-space:nowrap; }
+.farm-timer-card.is-complete .farm-progress-fill { width:calc(100% - var(--w4-lane)) !important; }
+.farm-timer-card.is-complete .farm-timer-state { justify-content:center; }
 
+/* Detail popup */
 .farm-modal[hidden] { display:none !important; }
 .farm-modal { position:fixed; inset:0; z-index:9999; display:grid; place-items:center; padding:20px; }
 .farm-modal-backdrop { position:absolute; inset:0; background:rgba(45,40,33,.38); backdrop-filter:blur(4px); }
 .farm-modal-panel { position:relative; z-index:1; width:min(100%,620px); padding:12px; border-radius:25px; background:#fffdf9; box-shadow:0 20px 55px rgba(0,0,0,.22); }
-.farm-modal-close { position:absolute; right:17px; top:14px; z-index:2; width:34px; height:34px; border:1px solid #f0dfbc; border-radius:50%; background:#fff; color:#bd9367; font-size:1.5rem; cursor:pointer; }
-.farm-modal-card { cursor:default; border:0; box-shadow:none; padding:20px; }
+.farm-modal-close { position:absolute; right:14px; top:12px; z-index:2; width:36px; height:36px; border:1px solid #f0dfbc; border-radius:50%; background:#fff; color:#bd9367; font-size:1.4rem; line-height:1; cursor:pointer; }
+.farm-modal-panel .farm-delete { display:none !important; }
+.farm-modal-panel .farm-modal-card { padding:22px 18px 18px; cursor:default; border:0; box-shadow:none; }
 .farm-modal-open { overflow:hidden; }
 
 @media (max-width:720px) {
   .farm-ui-v6 { padding:14px 10px 44px; }
   .farm-hero-v6 { padding:18px; border-radius:20px; }
-  .farm-hero-v6 .notification-button { font-size:.78rem; padding:9px 11px; }
+  .notification-button { font-size:.78rem; padding:9px 11px; }
   .farm-help-v6 { border-radius:18px; }
   .farm-help-content { padding:2px 15px 21px; }
   .farm-help-section p { font-size:.84rem; }
@@ -119,397 +181,15 @@
   .farm-timer-list-v6 { grid-template-columns:1fr; }
   .farm-time-row { gap:7px; }
   .farm-time-row input { width:61px; }
-  .farm-card-bottom { align-items:flex-start; flex-direction:column; gap:7px; }
+  .farm-card-bottom { flex-direction:column; align-items:flex-start; gap:7px; }
+  .farm-progress-line {
+    --w4-lane:66px;
+    height:62px;
+  }
+  .farm-marker { font-size:.61rem; }
+  .farm-marker-w3 b { min-width:52px; }
+  .farm-marker-w4 b { min-width:44px; transform:translateX(-9px); }
 }
 @media (max-width:380px) {
   .crop-grid-v6 { grid-template-columns:repeat(2,minmax(0,1fr)); }
-}
-
-
-/* v8 urgent behaviour fix */
-.farm-progress-line {
-  --w4-gap: 47px;
-}
-.farm-progress-line::before {
-  right: var(--w4-gap);
-}
-.farm-progress-fill {
-  max-width: calc(100% - var(--w4-gap));
-}
-.farm-w4-gap {
-  position: absolute;
-  z-index: 3;
-  top: -1px;
-  right: 15px;
-  color: #d5b688;
-  letter-spacing: 2px;
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1;
-}
-.farm-marker-w3 { transform: translateX(-68%); }
-.farm-marker-w4 { transform: translateX(-100%); }
-.farm-marker-w3 b,
-.farm-marker-w4 b {
-  display: block;
-  min-width: 55px;
-  text-align: center;
-}
-.farm-timer-card.is-mature {
-  border-color: #f2c34c;
-  background: linear-gradient(135deg, #fff8d6, #ffec9f);
-}
-.farm-timer-card.is-complete {
-  border-color: #dcebdd;
-  background: #fffdf9;
-}
-.farm-timer-card.is-complete .farm-timer-state {
-  min-height: 52px;
-  justify-content: center;
-}
-.farm-complete-title {
-  color: #2d8a51;
-  font-size: 1.42rem;
-  line-height: 1.2;
-  letter-spacing: -.02em;
-}
-.farm-crop-subtitle {
-  margin: 2px 0 0;
-  color: #9b7d61;
-  font-size: .78rem;
-  font-weight: 700;
-}
-@media (max-width:720px) {
-  .farm-progress-line { --w4-gap: 42px; }
-  .farm-marker-w3 b,
-  .farm-marker-w4 b { min-width:48px; font-size:.63rem; }
-  .farm-w4-gap { right:13px; }
-}
-
-
-/* Timeline label layout fix: W2 / W3 / W4 never overlap. */
-.farm-progress-line {
-  --w4-gap: 46px;
-  height: 64px;
-}
-.farm-marker {
-  font-size: .64rem;
-}
-.farm-marker-w1 b,
-.farm-marker-w2 b {
-  transform: translateX(-50%);
-}
-.farm-marker-w3 {
-  transform: translateX(-78%);
-}
-.farm-marker-w4 {
-  transform: translateX(-100%);
-}
-.farm-marker-w3 b {
-  transform: translateX(-7px);
-  min-width: 56px;
-  text-align: center;
-}
-.farm-marker-w4 b {
-  transform: translateX(-18px);
-  min-width: 50px;
-  text-align: center;
-}
-.farm-w4-gap {
-  right: 16px;
-  top: -1px;
-}
-@media (max-width:720px) {
-  .farm-progress-line {
-    height: 62px;
-  }
-  .farm-marker {
-    font-size: .61rem;
-  }
-  .farm-marker-w3 b {
-    min-width: 52px;
-    transform: translateX(-6px);
-  }
-  .farm-marker-w4 b {
-    min-width: 47px;
-    transform: translateX(-15px);
-  }
-}
-
-
-/* v9 — exact W3/W4 visual lanes and cleaner timer modal */
-.farm-progress-line {
-  --w4-zone: 54px;
-  --w3-offset: 22px;
-  height: 64px;
-}
-
-/* The normal progress lane ends before the dotted W3→W4 section. */
-.farm-progress-line::before {
-  left: 0;
-  right: var(--w4-zone);
-}
-.farm-progress-fill {
-  max-width: calc(100% - var(--w4-zone));
-}
-
-/* Fixed marker lanes: no inline percent values, so labels never collapse together. */
-.farm-marker-w1 { left: 33.333% !important; transform: translateX(-50%) !important; }
-.farm-marker-w2 { left: 66.666% !important; transform: translateX(-50%) !important; }
-.farm-marker-w3 {
-  left: calc(100% - var(--w4-zone) - var(--w3-offset)) !important;
-  transform: translateX(-50%) !important;
-}
-.farm-marker-w4 {
-  left: 100% !important;
-  transform: translateX(-100%) !important;
-}
-
-.farm-marker-w1 b,
-.farm-marker-w2 b,
-.farm-marker-w3 b,
-.farm-marker-w4 b {
-  min-width: auto;
-  transform: none;
-  text-align: center;
-}
-.farm-marker-w3 b {
-  min-width: 56px;
-}
-.farm-marker-w4 b {
-  min-width: 50px;
-  transform: translateX(-10px);
-}
-
-/* Dots sit in the empty W3→W4 lane instead of overlapping any labels. */
-.farm-w4-gap {
-  right: 16px;
-  top: -1px;
-  letter-spacing: 3px;
-}
-
-/* The popup already has an X: do not show a second trash icon inside it. */
-.farm-modal-panel .farm-delete {
-  display: none !important;
-}
-.farm-modal-panel .farm-modal-card {
-  padding: 22px 18px 18px;
-}
-.farm-modal-close {
-  right: 14px;
-  top: 12px;
-  width: 36px;
-  height: 36px;
-  font-size: 1.4rem;
-  line-height: 1;
-}
-
-/* Completion stays white, with all four completed stage chips. */
-.farm-timer-card.is-complete .farm-progress-fill {
-  width: calc(100% - var(--w4-zone)) !important;
-}
-
-@media (max-width: 720px) {
-  .farm-progress-line {
-    --w4-zone: 50px;
-    --w3-offset: 19px;
-    height: 62px;
-  }
-  .farm-marker { font-size: .61rem; }
-  .farm-marker-w3 b { min-width: 52px; }
-  .farm-marker-w4 b { min-width: 46px; transform: translateX(-8px); }
-  .farm-w4-gap { right: 13px; }
-}
-
-
-/* v10 — final W1/W2/W3/W4 geometry.
-   W3 and W4 are intentionally in separate lanes, matching the requested reference:
-   long green lane → W3 → dotted empty gap → W4 at the far right. */
-.farm-progress-line {
-  --final-w4-lane: 74px;
-  --final-w3-right: 104px;
-  height: 66px;
-}
-
-/* Green timeline ends before the dotted W3→W4 waiting lane. */
-.farm-progress-line::before {
-  left: 0 !important;
-  right: var(--final-w4-lane) !important;
-}
-.farm-progress-fill {
-  left: 0 !important;
-  right: auto !important;
-  max-width: calc(100% - var(--final-w4-lane)) !important;
-}
-
-/* Fixed marker positions — override every older mobile/desktop rule. */
-.farm-progress-line .farm-marker-w1 {
-  left: 30% !important;
-  transform: translateX(-50%) !important;
-}
-.farm-progress-line .farm-marker-w2 {
-  left: 60% !important;
-  transform: translateX(-50%) !important;
-}
-.farm-progress-line .farm-marker-w3 {
-  left: calc(100% - var(--final-w3-right)) !important;
-  transform: translateX(-50%) !important;
-}
-.farm-progress-line .farm-marker-w4 {
-  left: calc(100% - 2px) !important;
-  transform: translateX(-100%) !important;
-}
-
-/* Labels sit directly under their own marker; no horizontal nudging into neighbors. */
-.farm-progress-line .farm-marker b,
-.farm-progress-line .farm-marker-w1 b,
-.farm-progress-line .farm-marker-w2 b,
-.farm-progress-line .farm-marker-w3 b,
-.farm-progress-line .farm-marker-w4 b {
-  min-width: 0 !important;
-  transform: none !important;
-  text-align: center;
-  white-space: nowrap;
-}
-.farm-progress-line .farm-marker-w3 b {
-  width: 56px;
-}
-.farm-progress-line .farm-marker-w4 b {
-  width: 48px;
-  transform: translateX(-11px) !important;
-}
-
-/* Dots are centered in the dedicated empty gap, never next to a label. */
-.farm-progress-line .farm-w4-gap {
-  left: calc(100% - 57px) !important;
-  right: auto !important;
-  top: -1px !important;
-  transform: translateX(-50%);
-  letter-spacing: 3px;
-}
-
-@media (max-width: 720px) {
-  .farm-progress-line {
-    --final-w4-lane: 66px;
-    --final-w3-right: 90px;
-    height: 64px;
-  }
-  .farm-progress-line .farm-marker {
-    font-size: .62rem;
-  }
-  .farm-progress-line .farm-marker-w3 b {
-    width: 51px;
-  }
-  .farm-progress-line .farm-marker-w4 b {
-    width: 44px;
-    transform: translateX(-9px) !important;
-  }
-  .farm-progress-line .farm-w4-gap {
-    left: calc(100% - 51px) !important;
-  }
-}
-
-
-/* v11 — place the W3→W4 dots on the timeline itself, not above it. */
-.farm-progress-line .farm-w4-gap {
-  top: 6px !important;
-  line-height: 13px !important;
-}
-@media (max-width: 720px) {
-  .farm-progress-line .farm-w4-gap {
-    top: 6px !important;
-  }
-}
-
-
-/* v12 — dots sit exactly at the midpoint between the green lane end and W4 marker. */
-.farm-progress-line {
-  --timeline-bar-top: 7px;
-  --timeline-bar-height: 13px;
-  --timeline-w4-lane: 74px;
-  --timeline-gap-mid: 38px; /* midpoint of 74px lane */
-}
-.farm-progress-line::before {
-  top: var(--timeline-bar-top) !important;
-  height: var(--timeline-bar-height) !important;
-  right: var(--timeline-w4-lane) !important;
-}
-.farm-progress-fill {
-  top: var(--timeline-bar-top) !important;
-  height: var(--timeline-bar-height) !important;
-  max-width: calc(100% - var(--timeline-w4-lane)) !important;
-}
-
-/* Keep W4's bar marker centered at the far-right endpoint. */
-.farm-progress-line .farm-marker-w4 {
-  left: calc(100% - 2px) !important;
-  transform: translateX(-50%) !important;
-}
-
-/* The dots are vertically centered on the green gauge and horizontally centered in the empty lane. */
-.farm-progress-line .farm-w4-gap {
-  left: calc(100% - var(--timeline-gap-mid)) !important;
-  right: auto !important;
-  top: var(--timeline-bar-top) !important;
-  height: var(--timeline-bar-height) !important;
-  display: flex !important;
-  align-items: center !important;
-  transform: translateX(-50%) !important;
-  line-height: 1 !important;
-  letter-spacing: 2px !important;
-}
-
-@media (max-width: 720px) {
-  .farm-progress-line {
-    --timeline-w4-lane: 66px;
-    --timeline-gap-mid: 34px;
-  }
-}
-
-
-/* v13 — exact dot position:
-   horizontal midpoint between the green gauge endpoint and the W4 marker,
-   vertical midpoint of the 13px gauge itself. */
-.farm-timer-card .farm-progress-line {
-  --dot-lane-width: 74px;       /* green endpoint → W4 center lane */
-  --dot-middle-offset: 38px;    /* (74px lane + 2px W4 inset) / 2 */
-  --dot-bar-top: 7px;
-  --dot-bar-height: 13px;
-}
-.farm-timer-card .farm-progress-line::before {
-  top: var(--dot-bar-top) !important;
-  height: var(--dot-bar-height) !important;
-  right: var(--dot-lane-width) !important;
-}
-.farm-timer-card .farm-progress-line .farm-progress-fill {
-  top: var(--dot-bar-top) !important;
-  height: var(--dot-bar-height) !important;
-  max-width: calc(100% - var(--dot-lane-width)) !important;
-}
-
-/* W4 marker center = 100% - 2px. */
-.farm-timer-card .farm-progress-line .farm-marker-w4 {
-  left: calc(100% - 2px) !important;
-  transform: translateX(-50%) !important;
-}
-
-/* Dot center = exact midpoint between green end (100%-74px) and W4 center (100%-2px). */
-.farm-timer-card .farm-progress-line > .farm-w4-gap {
-  position: absolute !important;
-  left: calc(100% - var(--dot-middle-offset)) !important;
-  right: auto !important;
-  top: calc(var(--dot-bar-top) + (var(--dot-bar-height) / 2)) !important;
-  width: auto !important;
-  height: auto !important;
-  display: block !important;
-  transform: translate(-50%, -50%) !important;
-  line-height: 1 !important;
-  letter-spacing: 2px !important;
-}
-
-@media (max-width: 720px) {
-  .farm-timer-card .farm-progress-line {
-    --dot-lane-width: 66px;
-    --dot-middle-offset: 34px; /* (66px + 2px) / 2 */
-  }
 }

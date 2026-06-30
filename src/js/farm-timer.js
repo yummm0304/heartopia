@@ -15,7 +15,6 @@
     { id:"lettuce", name:"양상추", ja:"レタス", minutes:480, icon:"🥬" },
     { id:"grape", name:"포도", ja:"ブドウ", minutes:600, icon:"🍇" },
     { id:"corn", name:"옥수수", ja:"トウモロコシ", minutes:720, icon:"🌽" },
-    { id:"teaPowder", name:"찻잎", ja:"茶葉", minutes:45, icon:"🍵" },
     { id:"cacao", name:"카카오", ja:"カカオ", minutes:300, icon:"🍫" },
     { id:"avocado", name:"아보카도", ja:"アボカド", minutes:840, icon:"🥑" }
   ];
