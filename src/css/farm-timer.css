@@ -320,3 +320,91 @@
   .farm-marker-w4 b { min-width: 46px; transform: translateX(-8px); }
   .farm-w4-gap { right: 13px; }
 }
+
+
+/* v10 — final W1/W2/W3/W4 geometry.
+   W3 and W4 are intentionally in separate lanes, matching the requested reference:
+   long green lane → W3 → dotted empty gap → W4 at the far right. */
+.farm-progress-line {
+  --final-w4-lane: 74px;
+  --final-w3-right: 104px;
+  height: 66px;
+}
+
+/* Green timeline ends before the dotted W3→W4 waiting lane. */
+.farm-progress-line::before {
+  left: 0 !important;
+  right: var(--final-w4-lane) !important;
+}
+.farm-progress-fill {
+  left: 0 !important;
+  right: auto !important;
+  max-width: calc(100% - var(--final-w4-lane)) !important;
+}
+
+/* Fixed marker positions — override every older mobile/desktop rule. */
+.farm-progress-line .farm-marker-w1 {
+  left: 30% !important;
+  transform: translateX(-50%) !important;
+}
+.farm-progress-line .farm-marker-w2 {
+  left: 60% !important;
+  transform: translateX(-50%) !important;
+}
+.farm-progress-line .farm-marker-w3 {
+  left: calc(100% - var(--final-w3-right)) !important;
+  transform: translateX(-50%) !important;
+}
+.farm-progress-line .farm-marker-w4 {
+  left: calc(100% - 2px) !important;
+  transform: translateX(-100%) !important;
+}
+
+/* Labels sit directly under their own marker; no horizontal nudging into neighbors. */
+.farm-progress-line .farm-marker b,
+.farm-progress-line .farm-marker-w1 b,
+.farm-progress-line .farm-marker-w2 b,
+.farm-progress-line .farm-marker-w3 b,
+.farm-progress-line .farm-marker-w4 b {
+  min-width: 0 !important;
+  transform: none !important;
+  text-align: center;
+  white-space: nowrap;
+}
+.farm-progress-line .farm-marker-w3 b {
+  width: 56px;
+}
+.farm-progress-line .farm-marker-w4 b {
+  width: 48px;
+  transform: translateX(-11px) !important;
+}
+
+/* Dots are centered in the dedicated empty gap, never next to a label. */
+.farm-progress-line .farm-w4-gap {
+  left: calc(100% - 57px) !important;
+  right: auto !important;
+  top: -1px !important;
+  transform: translateX(-50%);
+  letter-spacing: 3px;
+}
+
+@media (max-width: 720px) {
+  .farm-progress-line {
+    --final-w4-lane: 66px;
+    --final-w3-right: 90px;
+    height: 64px;
+  }
+  .farm-progress-line .farm-marker {
+    font-size: .62rem;
+  }
+  .farm-progress-line .farm-marker-w3 b {
+    width: 51px;
+  }
+  .farm-progress-line .farm-marker-w4 b {
+    width: 44px;
+    transform: translateX(-9px) !important;
+  }
+  .farm-progress-line .farm-w4-gap {
+    left: calc(100% - 51px) !important;
+  }
+}
