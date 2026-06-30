@@ -14,5 +14,8 @@
     "findBird": "새 찾기",
     "recipe": "요리 레시피",
     "comingSoon": "준비중"
+  },
+  "main": {
+    "heroTitle": "다이어트 꼭 성공하세요!"
   }
 }
