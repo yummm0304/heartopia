@@ -908,7 +908,7 @@
     "eyebrow": "🌱 星5作物サポート",
     "title": "農場タイマー",
     "description": "作物ごとの雑草タイミングと収穫時間をまとめて管理しましょう。",
-    "helpTitle": "⭐ 星5作物のタイミング案内",
+    "helpTitle": "ヘルプ",
     "helpIntro": "肥料1回と雑草4回の除去を逃さないよう、通知を設定できます。",
     "w1": "W1 · 成長時間の1/3地点",
     "w2": "W2 · 成長時間の2/3地点",
@@ -936,6 +936,21 @@
     "afterMature": "成熟後",
     "harvestAt": "収穫予定 {time}",
     "harvestReady": "🌱 栽培完了！",
-    "pickerAlert": "通知オン — 雑草のタイミングをお知らせします"
+    "pickerAlert": "通知オン — 雑草のタイミングをお知らせします",
+    "hourLabel": "時間",
+    "minuteLabel": "分",
+    "remainingHelp": "例：1分なら左に0、右に1を入力してください。",
+    "helpConditionTitle": "星5作物の条件",
+    "helpConditionText": "ハートピアで作物の星5確率を上げるには、",
+    "helpConditionStrong": "肥料1回＋雑草4回の除去が必要です。",
+    "helpWeedTitle": "雑草のタイミング（W1～W4）",
+    "helpW1": "成長時間の1/3地点",
+    "helpW2": "2/3地点",
+    "helpW3": "成熟の約1分前",
+    "helpW4": "成熟の約1分後",
+    "helpTipTitle": "最後の雑草（W4）を取るコツ",
+    "helpTipText1": "最後の雑草は成熟後に生えるため、",
+    "helpTipStrong": "自分のアカウントで取ると作物も一緒に収穫されます。",
+    "helpTipText2": "フレンドやサブアカウントを使うか、バッグをいっぱいにしてから先に雑草を取りましょう。"
   }
 }

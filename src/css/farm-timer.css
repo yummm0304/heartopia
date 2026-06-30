@@ -426,3 +426,129 @@ html[lang="ja"] .harvest-clock {
     .crop-grid-v4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .timeline-bottom { align-items: flex-start; flex-direction: column; gap: 7px; }
 }
+
+
+/* v4 fix2 — clearer remaining-time entry */
+.time-inputs-labeled {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 360px;
+}
+.time-inputs-labeled input {
+    width: 76px;
+    text-align: center;
+}
+.time-inputs-labeled .time-unit {
+    color: #886a4c;
+    font-size: .88rem;
+    font-weight: 700;
+}
+.remaining-help {
+    display: block;
+    margin-top: 7px;
+    color: #a07d5d;
+    font-size: .78rem;
+}
+
+
+/* ===== Farm Help v5 =====
+   Open by default so it remains visible even if a mobile browser delays JS. */
+.farm-help-v5 {
+    margin-top: 14px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #dcefd9;
+    border-radius: 23px;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(255, 244, 225, .72), transparent 40%),
+        linear-gradient(110deg, #fffaf0 0%, #eff9ed 100%);
+    box-shadow: 0 5px 0 rgba(136, 179, 130, .10);
+}
+.farm-help-v5 .help-toggle {
+    padding: 18px 20px;
+    color: #4a3b2b;
+    font-size: 1rem;
+    font-weight: 800;
+}
+.farm-help-v5 .help-chevron {
+    color: #b58e5f;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.farm-help-v5 .help-toggle[aria-expanded="false"] .help-chevron {
+    transform: rotate(180deg);
+}
+.farm-help-v5 .help-body[hidden] {
+    display: none !important;
+}
+.farm-help-v5 .help-body:not([hidden]) {
+    display: block !important;
+}
+.farm-help-body-v5 {
+    padding: 8px 20px 27px;
+    text-align: center;
+}
+.help-block + .help-block {
+    margin-top: 27px;
+}
+.help-block h3 {
+    margin: 0 0 8px;
+    color: #277544;
+    font-size: 1.03rem;
+    font-weight: 800;
+    letter-spacing: -.015em;
+}
+.help-block p {
+    margin: 3px 0;
+    color: #7b705f;
+    font-size: .91rem;
+    line-height: 1.55;
+}
+.help-block .help-emphasis {
+    color: #5a4937;
+    font-weight: 800;
+}
+.help-timing-list {
+    display: inline-grid;
+    gap: 5px;
+    text-align: left;
+}
+.help-timing-list p {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+}
+.help-timing-list b {
+    min-width: 24px;
+    color: #28824d;
+    font-weight: 900;
+}
+.help-timing-list span {
+    color: #7e756a;
+}
+
+@media (max-width: 720px) {
+    .farm-help-v5 {
+        margin-top: 12px;
+        border-radius: 18px;
+    }
+    .farm-help-v5 .help-toggle {
+        padding: 15px 16px;
+        font-size: .95rem;
+    }
+    .farm-help-body-v5 {
+        padding: 5px 16px 21px;
+    }
+    .help-block + .help-block {
+        margin-top: 23px;
+    }
+    .help-block h3 {
+        font-size: .98rem;
+    }
+    .help-block p,
+    .help-timing-list span {
+        font-size: .86rem;
+    }
+}

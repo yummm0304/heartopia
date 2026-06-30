@@ -26,7 +26,7 @@
     "eyebrow": "🌱 5성 작물 도우미",
     "title": "농장 타이머",
     "description": "작물별 잡초 시점과 수확 시간을 한 번에 관리하세요.",
-    "helpTitle": "⭐ 5성 작물 타이밍 안내",
+    "helpTitle": "도움말",
     "helpIntro": "비료 1번과 잡초 4번 제거를 놓치지 않도록 알림을 설정할 수 있어요.",
     "w1": "W1 · 성장 시간의 1/3 지점",
     "w2": "W2 · 성장 시간의 2/3 지점",
@@ -54,6 +54,21 @@
     "afterMature": "성숙 후",
     "harvestAt": "수확 예정 {time}",
     "harvestReady": "🌱 재배 완료!",
-    "pickerAlert": "알림 ON — 잡초 시점에 알려드릴게요"
+    "pickerAlert": "알림 ON — 잡초 시점에 알려드릴게요",
+    "hourLabel": "시간",
+    "minuteLabel": "분",
+    "remainingHelp": "예: 1분이면 왼쪽 0, 오른쪽 1을 입력하세요.",
+    "helpConditionTitle": "5성 작물 조건",
+    "helpConditionText": "두근두근타운에서 작물 5성 확률을 높이려면",
+    "helpConditionStrong": "비료 1번 + 잡초 4번 제거가 필요해요.",
+    "helpWeedTitle": "잡초 시점 (W1 ~ W4)",
+    "helpW1": "자라는 시간의 1/3 지점",
+    "helpW2": "2/3 지점",
+    "helpW3": "성숙 약 1분 전",
+    "helpW4": "성숙 약 1분 후",
+    "helpTipTitle": "마지막 잡초(W4) 제거 팁",
+    "helpTipText1": "마지막 잡초는 성숙 이후 자라기 때문에,",
+    "helpTipStrong": "본인 계정으로 제거 시 작물이 같이 수확됩니다.",
+    "helpTipText2": "친구 계정 혹은 부계정을 이용하거나, 가방을 꽉 채운 뒤 잡초를 먼저 제거해보세요."
   }
 }
