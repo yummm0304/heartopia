@@ -420,3 +420,48 @@
     top: 6px !important;
   }
 }
+
+
+/* v12 — dots sit exactly at the midpoint between the green lane end and W4 marker. */
+.farm-progress-line {
+  --timeline-bar-top: 7px;
+  --timeline-bar-height: 13px;
+  --timeline-w4-lane: 74px;
+  --timeline-gap-mid: 38px; /* midpoint of 74px lane */
+}
+.farm-progress-line::before {
+  top: var(--timeline-bar-top) !important;
+  height: var(--timeline-bar-height) !important;
+  right: var(--timeline-w4-lane) !important;
+}
+.farm-progress-fill {
+  top: var(--timeline-bar-top) !important;
+  height: var(--timeline-bar-height) !important;
+  max-width: calc(100% - var(--timeline-w4-lane)) !important;
+}
+
+/* Keep W4's bar marker centered at the far-right endpoint. */
+.farm-progress-line .farm-marker-w4 {
+  left: calc(100% - 2px) !important;
+  transform: translateX(-50%) !important;
+}
+
+/* The dots are vertically centered on the green gauge and horizontally centered in the empty lane. */
+.farm-progress-line .farm-w4-gap {
+  left: calc(100% - var(--timeline-gap-mid)) !important;
+  right: auto !important;
+  top: var(--timeline-bar-top) !important;
+  height: var(--timeline-bar-height) !important;
+  display: flex !important;
+  align-items: center !important;
+  transform: translateX(-50%) !important;
+  line-height: 1 !important;
+  letter-spacing: 2px !important;
+}
+
+@media (max-width: 720px) {
+  .farm-progress-line {
+    --timeline-w4-lane: 66px;
+    --timeline-gap-mid: 34px;
+  }
+}
