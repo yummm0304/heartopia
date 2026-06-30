@@ -96,16 +96,9 @@
   function safeInt(value, max) {
     return Math.max(0, Math.min(max, Number.parseInt(value, 10) || 0));
   }
-  function loadTimers() {
-    const arrays = [];
-    for (const key of [STORAGE_KEY, "heartopia_farm_timers_v1"]) {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(key) || "[]");
-        if (Array.isArray(parsed)) arrays.push(...parsed);
-      } catch {}
-    }
+  function normaliseTimers(rawTimers) {
     const unique = new Map();
-    arrays.forEach(raw => {
+    (Array.isArray(rawTimers) ? rawTimers : []).forEach(raw => {
       if (!raw || !raw.id || !raw.cropId) return;
       const crop = getCrop(raw.cropId);
       if (!crop) return;
@@ -113,14 +106,33 @@
       const harvestAt = Number(raw.harvestAt) || ((Number(raw.plantedAt) || Date.now()) + durationMs);
       const plantedAt = Number(raw.plantedAt) || (harvestAt - durationMs);
       unique.set(raw.id, {
-        id: raw.id, cropId: raw.cropId, plantedAt, harvestAt, durationMs,
-        label: String(raw.label || ""), repeat: Boolean(raw.repeat)
+        id: raw.id,
+        cropId: raw.cropId,
+        plantedAt,
+        harvestAt,
+        durationMs,
+        label: String(raw.label || ""),
+        repeat: Boolean(raw.repeat)
       });
     });
     return [...unique.values()].slice(-30);
   }
+  function loadTimers() {
+    try {
+      const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (Array.isArray(current)) return normaliseTimers(current);
+
+      // 한 번만 기존 v1 기록을 옮긴 뒤 v1은 더 이상 읽지 않는다.
+      const legacy = JSON.parse(localStorage.getItem("heartopia_farm_timers_v1") || "[]");
+      return normaliseTimers(legacy);
+    } catch {
+      return [];
+    }
+  }
   function saveTimers() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(timers));
+    // 삭제한 타이머가 예전 v1 저장값에서 다시 살아나는 문제를 막는다.
+    localStorage.removeItem("heartopia_farm_timers_v1");
   }
   function getHarvestAt(timer) { return Number(timer.harvestAt); }
   function stageData(timer) {
@@ -254,10 +266,15 @@
     const now = Date.now();
     const harvest = getHarvestAt(timer);
     const stages = stageData(timer);
-    if (now >= stages[3].at) return { kind:"after", label:t("afterMature"), time: now - stages[3].at };
-    if (now >= harvest) return { kind:"mature", label:t("mature"), time: now - harvest };
-    const next = stages.find(stage => now < stage.at) || { id:"HARVEST", at:harvest };
-    return { kind:"growing", label:t("nextWeed").replace("{stage}", next.id), time: next.at - now, next };
+    const w4 = stages[3];
+
+    // 성장 → 성숙(W4 대기) → W4 완료 순서.
+    // W4가 끝난 뒤에는 절대 경과시간으로 다시 올라가지 않는다.
+    if (now >= w4.at) return { kind:"complete", time:0, next:null };
+    if (now >= harvest) return { kind:"mature", time:w4.at - now, next:w4 };
+
+    const next = stages.find(stage => now < stage.at) || { id:"W3", at:harvest };
+    return { kind:"growing", time:next.at - now, next };
   }
   function progressPercent(timer) {
     const full = timer.durationMs;
@@ -266,23 +283,28 @@
   function renderTimerCard(timer, options = {}) {
     const crop = getCrop(timer.cropId);
     if (!crop) return "";
+
     const state = timerState(timer);
     const stages = stageData(timer);
     const now = Date.now();
-    const compact = Boolean(options.compact);
-    const progress = progressPercent(timer);
+    const rawProgress = progressPercent(timer);
+    // Green growth ends at W3. W3→W4 stays as a visibly separate dotted lane.
+    const visualProgress = Math.min(78, rawProgress * 0.78);
+
     const statusLine = state.kind === "growing"
-      ? `<span class="farm-card-status">${esc(state.label)}</span><strong>${esc(countdownText(state.time))}</strong>`
+      ? `<span class="farm-card-status">${esc(t("nextWeed").replace("{stage}", state.next.id))}</span>
+         <strong>${esc(countdownText(state.time))}</strong>`
       : state.kind === "mature"
-        ? `<span class="farm-card-status farm-status-mature">${esc(t("mature"))}</span><strong>${esc(countdownText(Math.max(0, stages[3].at - now)))}</strong><em>${esc(t("matureTip"))}</em>`
-        : `<span class="farm-card-status farm-status-after">${esc(t("afterMature"))}</span><strong>${esc(countdownText(Math.max(0, now - stages[3].at)) )}</strong><em>${esc(t("harvestReady"))}</em>`;
+        ? `<span class="farm-card-status farm-status-mature">${esc(t("nextWeed").replace("{stage}", "W4"))}</span>
+           <strong>${esc(countdownText(state.time))}</strong>
+           <em>${esc(t("matureTip"))}</em>`
+        : `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
 
     const markers = stages.map((stage, index) => {
       const passed = now >= stage.at;
-      const current = state.kind === "growing" && state.next?.id === stage.id;
-      // W3/W4 are separated visually so their labels never sit on top of each other.
-      const pos = [33.333, 66.666, 79, 100][index];
-      return `<span class="farm-marker ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}" style="left:${pos}%">
+      const current = state.next && state.next.id === stage.id;
+      const pos = [33.333, 66.666, 78, 100][index];
+      return `<span class="farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}" style="left:${pos}%">
         <i></i><b>${esc(stage.label)}</b>
       </span>`;
     }).join("");
@@ -292,7 +314,11 @@
       return `<span class="farm-stage-chip ${passed ? "is-passed" : ""}">${passed ? "✓ " : ""}${stage.id}</span>`;
     }).join('<span class="farm-stage-dot">·</span>');
 
-    return `<article class="farm-timer-card ${state.kind === "mature" ? "is-mature" : ""} ${state.kind === "after" ? "is-after" : ""}" data-timer="${esc(timer.id)}">
+    const lowerRight = state.kind === "complete"
+      ? ""
+      : `<span class="farm-harvest-note">${esc(t("harvestAt").replace("{time}", countdownText(Math.max(0, getHarvestAt(timer) - now))))}</span>`;
+
+    return `<article class="farm-timer-card ${state.kind === "mature" ? "is-mature" : ""} ${state.kind === "complete" ? "is-complete" : ""}" data-timer="${esc(timer.id)}">
       <div class="farm-timer-top">
         <div class="farm-timer-title">
           <span class="farm-timer-icon">${crop.icon}</span>
@@ -305,12 +331,13 @@
       </div>
       <div class="farm-timer-state">${statusLine}</div>
       <div class="farm-progress-line" aria-hidden="true">
-        <span class="farm-progress-fill" style="width:${progress}%"></span>
+        <span class="farm-progress-fill" style="width:${visualProgress}%"></span>
         ${markers}
+        <span class="farm-w4-gap">···</span>
       </div>
       <div class="farm-card-bottom">
         <div class="farm-stage-chips">${chips}</div>
-        <span class="farm-harvest-note">${state.kind === "growing" ? esc(t("harvestAt").replace("{time}", countdownText(getHarvestAt(timer) - now))) : esc(t("harvestReady"))}</span>
+        ${lowerRight}
       </div>
     </article>`;
   }
@@ -381,10 +408,6 @@
   function init() {
     $("notification-button").addEventListener("click", requestNotifications);
     $("start-mode").addEventListener("change", onRemainingToggle);
-    $("farm-label").addEventListener("input", () => {
-      // The value is stored when planting; this keeps the current form responsive without adding example text.
-      $("farm-label").value = $("farm-label").value.slice(0, 30);
-    });
     ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
     plantButton.addEventListener("click", plant);
     $("clear-all-button").addEventListener("click", clearAll);
@@ -399,6 +422,8 @@
       renderTimers();
     });
 
+    // 기존 v1 기록이 있으면 이 시점에 v2로 확정 저장하고 v1을 비운다.
+    saveTimers();
     renderNotificationButton();
     renderCrops();
     refreshForm();
