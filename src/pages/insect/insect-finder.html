@@ -418,7 +418,7 @@
                     <tr>
                         <td class="col-fish-img">${insect.image
                             ? `<img class="fish-thumb" src="../../../public/images/insect_img/insect${insect.image}.webp" alt="${getLocalizedName(insect)}" onerror="handleInsectImgError(this)">`
-                            : `<div class="fish-thumb-placeholder">🦋</div>`}</td>
+                            : `<div class="fish-thumb-placeholder insect-photo-missing" title="사진 없음">🐞<span>사진 없음</span></div>`}</td>
                         <td class="item-name">${getSpecialIcon(insect.special)}${getLocalizedName(insect)}</td>
                         <td class="col-habitat-bird">${getHabitatIcon(insect.habitat)}${insect.habitat}</td>
                         <td><span class="level-badge">Lv.${insect.level}</span></td>

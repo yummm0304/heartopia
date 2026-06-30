@@ -1280,3 +1280,25 @@ html[lang="ja"] .cards-grid .card h3 {
 html[lang="ja"] .hero-content h1 {
     font-weight: 700;
 }
+
+
+/* Missing insect image: use a neutral insect marker, never a butterfly stand-in. */
+.insect-photo-missing {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: #f4f4f4 !important;
+  color: #7d7d7d;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.insect-photo-missing span {
+  display: block;
+  color: #9a9a9a;
+  font-size: .55rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
