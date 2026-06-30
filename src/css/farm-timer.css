@@ -408,3 +408,15 @@
     left: calc(100% - 51px) !important;
   }
 }
+
+
+/* v11 — place the W3→W4 dots on the timeline itself, not above it. */
+.farm-progress-line .farm-w4-gap {
+  top: 6px !important;
+  line-height: 13px !important;
+}
+@media (max-width: 720px) {
+  .farm-progress-line .farm-w4-gap {
+    top: 6px !important;
+  }
+}
