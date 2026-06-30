@@ -855,6 +855,21 @@
       "season": "일반",
       "buff": "빠른 발걸음",
       "nameJa": "タラバガニ蒸し"
+    },
+    {
+      "name": "황금 킹크랩찜",
+      "sellPrice": 2980,
+      "stamina": 100,
+      "ingredients": [
+        "황금킹크랩",
+        "황금킹크랩",
+        "황금킹크랩",
+        "버터"
+      ],
+      "image": "goldsteamcrab",
+      "season": "일반",
+      "buff": "빠른 발걸음",
+      "nameJa": "蒸し黄金タラバガニ"
     }
   ]
 }

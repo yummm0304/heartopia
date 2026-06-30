@@ -328,6 +328,33 @@
             gap: 10px;
         }
 
+        /* 시즌 물고기는 일반 물고기와 섞이지 않도록 별도 구역으로 표시 */
+        .pet-food-section { margin-top: 22px; }
+        .pet-food-section:first-child { margin-top: 0; }
+        .pet-season-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0 0 10px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-soft);
+            background: var(--color-surface-light);
+            border: 1px solid var(--color-border);
+        }
+        .pet-season-banner.ice {
+            color: #2e74a8;
+            background: #eef9ff;
+            border-color: #b9e1f5;
+        }
+        .pet-season-banner.dreamlight {
+            color: #7550a8;
+            background: #f6efff;
+            border-color: #d8c4f3;
+        }
+
         /* 개별 아이템 카드
            ─ 기본: 선명한 상태
            ─ .tried: opacity 낮춤 + grayscale (먹여봤다)
@@ -580,12 +607,33 @@
     // 고양이가 먹을 수 있는 채집 아이템 이름 목록
     const CAT_GATHER_NAMES = new Set(['고양이 사료', '동물 공용 음식']);
 
+    // 고양이가 먹지 않는 물고기 — 목록과 기존 기록 모두에서 제외
+    const CAT_FISH_EXCLUDED = new Set([
+        '해마', '유럽참개구리', '두툽상어', '큰진주조개', '귀상어', '청상아리'
+    ]);
+
+    // 고양이가 먹는 일반 물고기 — 레벨 제한과 관계없이 표시
+    const CAT_FISH_ADDED = new Set([
+        '킹크랩', '황금킹크랩', '줄자돔', '양쥐돔', '쏠배감펭'
+    ]);
+
+    // 고양이가 먹는 시즌 물고기 — 일반 물고기 아래에서 시즌별로 따로 표시
+    const CAT_ICE_FISH_NAMES = new Set([
+        '얼음 결정 킹크랩', '얼음 결정 개복치', '얼음 결정 복어', '얼음 결정 해마', '얼음 결정 고래상어'
+    ]);
+    const CAT_DREAMLIGHT_FISH_NAMES = new Set([
+        '감청색 감독 난쟁이문어', '갈색 감독 난쟁이문어', '청록색 감독 난쟁이문어',
+        '갈색 감독 참문어', '꽃무늬 감독 참문어'
+    ]);
+
     // ── 상태 ────────────────────────────────────────────────────
-    let pets         = [];   // 펫 목록
-    let fishData     = [];   // 기본 어류
-    let recipeData   = [];   // 레시피 전체 (일반 + 시즌, feedable != false만)
-    let gatherData   = [];   // 채집 아이템 전체 (hidden 포함, 이름으로 필터링)
-    let activePetIdx = 0;    // 현재 선택된 펫 인덱스
+    let pets               = [];   // 펫 목록
+    let fishData           = [];   // 기본 어류
+    let iceFishData        = [];   // 빙설 시즌 어류
+    let dreamlightFishData = [];   // 꿈의 명암 시즌 어류
+    let recipeData         = [];   // 레시피 전체 (일반 + 시즌, feedable != false만)
+    let gatherData         = [];   // 채집 아이템 전체 (hidden 포함, 이름으로 필터링)
+    let activePetIdx       = 0;    // 현재 선택된 펫 인덱스
 
     // ── 초기화 ──────────────────────────────────────────────────
     async function init() {
@@ -598,27 +646,30 @@
         try {
             // 모든 데이터 병렬 로드
             // 시즌 레시피도 강아지 목록에 포함하므로 함께 로드
-            const [fishRes, recipeRes, gatherRes, iceRes, dlRes] = await Promise.all([
+            const [fishRes, recipeRes, gatherRes, iceRecipeRes, dreamRecipeRes, iceFishRes, dreamFishRes] = await Promise.all([
                 fetch(`${BASE}/src/data/fish_data.json`),
                 fetch(`${BASE}/src/data/recipes.json`),
                 fetch(`${BASE}/src/data/gather.json`),
                 fetch(`${BASE}/src/data/season_ice/season_ice_recipes.json`).catch(() => null),
                 fetch(`${BASE}/src/data/season_dreamlight/season_dreamlight_recipes.json`).catch(() => null),
-                fetch(`${BASE}/src/data/season_blocktown/season_blocktown_recipes.json`).catch(() => null),
+                fetch(`${BASE}/src/data/season_ice/season_ice_fish.json`).catch(() => null),
+                fetch(`${BASE}/src/data/season_dreamlight/season_dreamlight_fish.json`).catch(() => null),
             ]);
 
             fishData   = await fishRes.json();
             gatherData = await gatherRes.json();   // hidden 포함 전체 (이름으로 필터)
+            iceFishData = iceFishRes?.ok ? await iceFishRes.json() : [];
+            dreamlightFishData = dreamFishRes?.ok ? await dreamFishRes.json() : [];
 
             // 레시피: 일반 + 시즌 합산, feedable=false 제외
             const rj = await recipeRes.json();
             let allRecipes = [...rj.items];
-            if (iceRes?.ok) {
-                const ij = await iceRes.json();
+            if (iceRecipeRes?.ok) {
+                const ij = await iceRecipeRes.json();
                 allRecipes = allRecipes.concat(ij.items || []);
             }
-            if (dlRes?.ok) {
-                const dj = await dlRes.json();
+            if (dreamRecipeRes?.ok) {
+                const dj = await dreamRecipeRes.json();
                 allRecipes = allRecipes.concat(dj.items || []);
             }
             // feedable: false 인 항목 제외 (명시적으로 false일 때만 제외, 없으면 먹을 수 있음)
@@ -634,24 +685,49 @@
 
     // ── 펫 타입별 아이템 목록 반환 ──────────────────────────────
     // 각 아이템에 _src 필드를 추가해 이미지 경로 분기에 사용
-    function getPetItems(pet) {
+    function getPetItemSections(pet) {
         if (pet.type === 'cat') {
-            // 어류 전체
-            // 고양이는 10레벨 이하 어류만 표시 (11레벨 이상은 숨김)
-            const fish = fishData.filter(f => (f.level ?? 0) <= 10).map(f => ({ ...f, _src: 'fish' }));
-            // gather에서 고양이 전용 아이템
+            // 일반 물고기와 사료
+            const normalFish = fishData
+                .filter(f => ((f.level ?? 0) <= 10 || CAT_FISH_ADDED.has(f.name)) && !CAT_FISH_EXCLUDED.has(f.name))
+                .map(f => ({ ...f, _src: 'fish' }));
             const catGather = gatherData
                 .filter(g => CAT_GATHER_NAMES.has(g.name))
                 .map(g => ({ ...g, _src: 'gather' }));
-            return [...fish, ...catGather];
-        } else {
-            // 레시피 전체 (이미 feedable 필터링됨)
-            const recipes = recipeData.map(r => ({ ...r, _src: 'recipe' }));
-            // gather에서 강아지 전용 아이템
-            const dogGather = gatherData
-                .filter(g => DOG_GATHER_NAMES.has(g.name))
-                .map(g => ({ ...g, _src: 'gather' }));
-            return [...recipes, ...dogGather];
+
+            // 시즌 물고기는 항상 맨 아래에 시즌별로 구분
+            const iceFish = iceFishData
+                .filter(f => CAT_ICE_FISH_NAMES.has(f.name))
+                .map(f => ({ ...f, _src: 'fish' }));
+            const dreamlightFish = dreamlightFishData
+                .filter(f => CAT_DREAMLIGHT_FISH_NAMES.has(f.name))
+                .map(f => ({ ...f, _src: 'fish' }));
+
+            return [
+                { items: [...normalFish, ...catGather] },
+                { label: '❄️ 빙설 시즌', labelJa: '❄️ 氷雪シーズン', className: 'ice', items: iceFish },
+                { label: '🌙 꿈의 명암 시즌', labelJa: '🌙 夢の明暗シーズン', className: 'dreamlight', items: dreamlightFish }
+            ].filter(section => section.items.length > 0);
+        }
+
+        const recipes = recipeData.map(r => ({ ...r, _src: 'recipe' }));
+        const dogGather = gatherData
+            .filter(g => DOG_GATHER_NAMES.has(g.name))
+            .map(g => ({ ...g, _src: 'gather' }));
+        return [{ items: [...recipes, ...dogGather] }];
+    }
+
+    function getPetItems(pet) {
+        return getPetItemSections(pet).flatMap(section => section.items);
+    }
+
+    // 목록에서 빠진 음식은 기존 먹여봄/좋아함/싫어함 기록에서도 제거한다.
+    function pruneUnavailableRecords(pet, items) {
+        const allowed = new Set(items.map(getItemId));
+        for (const key of ['tried', 'liked', 'disliked']) {
+            for (const itemId of Object.keys(pet[key] || {})) {
+                if (!allowed.has(itemId)) delete pet[key][itemId];
+            }
         }
     }
 
@@ -970,7 +1046,10 @@
     /* 콘텐츠 영역 렌더 */
     function renderContent() {
         const pet        = pets[activePetIdx];
-        const items      = getPetItems(pet);    // 고양이/강아지별 전체 목록
+        const itemSections = getPetItemSections(pet);
+        const items        = itemSections.flatMap(section => section.items);
+        pruneUnavailableRecords(pet, items);
+        savePets();
         const total         = items.length;
         const triedCount    = Object.keys(pet.tried).length;
         const likedCount    = Object.keys(pet.liked).length;
@@ -1032,10 +1111,17 @@
                     </div>
                 </div>
 
-                <!-- 아이템 그리드 -->
-                <div class="item-grid">
-                    ${items.map(item => renderItemCard(pet, item)).join('')}
-                </div>
+                <!-- 일반 음식 뒤에 시즌 음식은 시즌별로 분리 -->
+                ${itemSections.map(section => `
+                    <section class="pet-food-section">
+                        ${section.label ? `<div class="pet-season-banner ${section.className}">${
+                            (window.getSiteLanguage && window.getSiteLanguage() === 'ja') ? section.labelJa : section.label
+                        }</div>` : ''}
+                        <div class="item-grid">
+                            ${section.items.map(item => renderItemCard(pet, item)).join('')}
+                        </div>
+                    </section>
+                `).join('')}
 
             </div>
         `;
