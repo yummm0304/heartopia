@@ -27,8 +27,8 @@
       plant:"작물 심기", continue:"이어서 시작", remainingRequired:"남은 시간을 1초 이상 입력해 주세요.",
       remainingTooLong:"입력한 시간이 작물 전체 성장 시간보다 길어요. 최대 {time}으로 적용했어요.",
       delete:"삭제", deleteConfirm:"이 작물을 삭제할까요?", clearConfirm:"진행 중인 작물을 모두 삭제할까요?",
-      nextWeed:"🌱 다음 잡초 · {stage}", mature:"성숙! 마지막 잡초를 제거하세요", afterMature:"성숙 후 · 마지막 잡초 제거",
-      harvestReady:"🌱 재배 완료!", harvestAt:"수확까지 {time}", matureTip:"✨ 성숙! 잡초 후 마지막 잡초 제거",
+      nextWeed:"🌱 다음 잡초 · {stage}", mature:"성숙됨! 잠시 후 마지막 잡초 제거", afterMature:"성숙 후 · 마지막 잡초 제거",
+      harvestReady:"🌱 재배 완료!", harvestAt:"수확까지 {time}", matureTip:"✨ 성숙됨! 잠시 후 마지막 잡초 제거",
       justBefore:"성숙 직전", after:"성숙 후", noTimers:"아직 심은 작물이 없어요. 위에서 작물을 선택해 시작해 보세요."
     },
     ja: {
@@ -281,7 +281,7 @@
     const state = timerState(timer);
     const stages = stageData(timer);
     const progress = Math.max(0, Math.min(100, ((now - timer.plantedAt) / timer.durationMs) * 100));
-    const growProgress = Math.min(78, progress * 0.78);
+    const growProgress = Math.min(88, progress * 0.88);
 
     let statusLine = "";
     if (state.kind === "growing") {
@@ -295,12 +295,11 @@
       statusLine = `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
     }
 
-    const markers = stages.map((stage, index) => {
+    const markers = stages.map(stage => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
-      const pos = [33.333, 66.666, 78, 100][index];
       const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
-      return `<span class="${cls}" style="left:${pos}%"><i></i><b>${esc(stage.label)}</b></span>`;
+      return `<span class="${cls}"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
 
     const chips = stages.map(stage => {

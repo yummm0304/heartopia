@@ -185,3 +185,138 @@
   .farm-marker-w4 b { min-width:48px; font-size:.63rem; }
   .farm-w4-gap { right:13px; }
 }
+
+
+/* Timeline label layout fix: W2 / W3 / W4 never overlap. */
+.farm-progress-line {
+  --w4-gap: 46px;
+  height: 64px;
+}
+.farm-marker {
+  font-size: .64rem;
+}
+.farm-marker-w1 b,
+.farm-marker-w2 b {
+  transform: translateX(-50%);
+}
+.farm-marker-w3 {
+  transform: translateX(-78%);
+}
+.farm-marker-w4 {
+  transform: translateX(-100%);
+}
+.farm-marker-w3 b {
+  transform: translateX(-7px);
+  min-width: 56px;
+  text-align: center;
+}
+.farm-marker-w4 b {
+  transform: translateX(-18px);
+  min-width: 50px;
+  text-align: center;
+}
+.farm-w4-gap {
+  right: 16px;
+  top: -1px;
+}
+@media (max-width:720px) {
+  .farm-progress-line {
+    height: 62px;
+  }
+  .farm-marker {
+    font-size: .61rem;
+  }
+  .farm-marker-w3 b {
+    min-width: 52px;
+    transform: translateX(-6px);
+  }
+  .farm-marker-w4 b {
+    min-width: 47px;
+    transform: translateX(-15px);
+  }
+}
+
+
+/* v9 — exact W3/W4 visual lanes and cleaner timer modal */
+.farm-progress-line {
+  --w4-zone: 54px;
+  --w3-offset: 22px;
+  height: 64px;
+}
+
+/* The normal progress lane ends before the dotted W3→W4 section. */
+.farm-progress-line::before {
+  left: 0;
+  right: var(--w4-zone);
+}
+.farm-progress-fill {
+  max-width: calc(100% - var(--w4-zone));
+}
+
+/* Fixed marker lanes: no inline percent values, so labels never collapse together. */
+.farm-marker-w1 { left: 33.333% !important; transform: translateX(-50%) !important; }
+.farm-marker-w2 { left: 66.666% !important; transform: translateX(-50%) !important; }
+.farm-marker-w3 {
+  left: calc(100% - var(--w4-zone) - var(--w3-offset)) !important;
+  transform: translateX(-50%) !important;
+}
+.farm-marker-w4 {
+  left: 100% !important;
+  transform: translateX(-100%) !important;
+}
+
+.farm-marker-w1 b,
+.farm-marker-w2 b,
+.farm-marker-w3 b,
+.farm-marker-w4 b {
+  min-width: auto;
+  transform: none;
+  text-align: center;
+}
+.farm-marker-w3 b {
+  min-width: 56px;
+}
+.farm-marker-w4 b {
+  min-width: 50px;
+  transform: translateX(-10px);
+}
+
+/* Dots sit in the empty W3→W4 lane instead of overlapping any labels. */
+.farm-w4-gap {
+  right: 16px;
+  top: -1px;
+  letter-spacing: 3px;
+}
+
+/* The popup already has an X: do not show a second trash icon inside it. */
+.farm-modal-panel .farm-delete {
+  display: none !important;
+}
+.farm-modal-panel .farm-modal-card {
+  padding: 22px 18px 18px;
+}
+.farm-modal-close {
+  right: 14px;
+  top: 12px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* Completion stays white, with all four completed stage chips. */
+.farm-timer-card.is-complete .farm-progress-fill {
+  width: calc(100% - var(--w4-zone)) !important;
+}
+
+@media (max-width: 720px) {
+  .farm-progress-line {
+    --w4-zone: 50px;
+    --w3-offset: 19px;
+    height: 62px;
+  }
+  .farm-marker { font-size: .61rem; }
+  .farm-marker-w3 b { min-width: 52px; }
+  .farm-marker-w4 b { min-width: 46px; transform: translateX(-8px); }
+  .farm-w4-gap { right: 13px; }
+}
