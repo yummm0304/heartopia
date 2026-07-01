@@ -380,16 +380,12 @@
         }
 
         // 시간 필터
-        // 선택한 시간 조합과 출현 시간이 정확히 같은 항목만 표시한다.
-        // 예: 맑음이 아니라 시간 기준으로, '아침'만 체크하면 아침에만 등장하는 항목만,
-        // '아침+낮'을 체크하면 아침과 낮에 등장하는 항목만 남긴다.
+        // 체크한 시간은 모두 포함되어야 한다.
+        // 예: 아침만 체크하면 아침에 나오는 항목, 아침+낮이면 두 시간 모두 나오는 항목.
         if (filters.times.length > 0) {
-            const selectedTimes = new Set(filters.times);
             filteredinsects = filteredinsects.filter(insect => {
                 if (!insect.time || insect.time.length === 0) return false;
-                const itemTimes = new Set(insect.time);
-                return itemTimes.size === selectedTimes.size
-                    && [...selectedTimes].every(time => itemTimes.has(time));
+                return filters.times.every(time => insect.time.includes(time));
             });
         }
 
@@ -407,12 +403,9 @@
                 return insect.weather.length === 1 && insect.weather[0] === exclusiveWeather;
             });
         } else if (filters.weathers.length > 0) {
-            const selectedWeathers = new Set(filters.weathers);
             filteredinsects = filteredinsects.filter(insect => {
                 if (!insect.weather || insect.weather.length === 0) return false;
-                const itemWeathers = new Set(insect.weather);
-                return itemWeathers.size === selectedWeathers.size
-                    && [...selectedWeathers].every(weather => itemWeathers.has(weather));
+                return filters.weathers.every(weather => insect.weather.includes(weather));
             });
         }
 
