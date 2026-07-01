@@ -91,13 +91,13 @@
                 <h3>🔒 전용 날씨</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
-                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음 포함
+                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음에만 등장
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비 포함
+                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비에만 등장
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개 포함
+                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개에만 등장
                     </label>
                 </div>
             </div>
@@ -404,26 +404,40 @@
             filteredFish = filteredFish.filter(fish => !collectedFish.has(fish.name));
         }
 
-        // 시간 필터: 선택한 시간 중 하나라도 포함되면 표시 (OR 조건)
+        // 시간 필터
+        // 선택한 시간 조합과 출현 시간이 정확히 같은 항목만 표시한다.
+        // 예: 맑음이 아니라 시간 기준으로, '아침'만 체크하면 아침에만 등장하는 항목만,
+        // '아침+낮'을 체크하면 아침과 낮에 등장하는 항목만 남긴다.
         if (filters.times.length > 0) {
+            const selectedTimes = new Set(filters.times);
             filteredFish = filteredFish.filter(fish => {
                 if (!fish.time || fish.time.length === 0) return false;
-                return fish.time.some(t => filters.times.includes(t));
+                const itemTimes = new Set(fish.time);
+                return itemTimes.size === selectedTimes.size
+                    && [...selectedTimes].every(time => itemTimes.has(time));
             });
         }
 
         // 날씨 필터 로직
-        // 일반 날씨와 '포함' 체크는 같은 방식으로 처리한다.
-        // 예: ["비", "무지개"] 물고기는 비·무지개 둘 다에서 표시된다.
-        const selectedWeathers = new Set(filters.weathers);
-        if (filters.sunnyOnly) selectedWeathers.add("맑음");
-        if (filters.rainyOnly) selectedWeathers.add("비");
-        if (filters.rainbowOnly) selectedWeathers.add("무지개");
+        // 전용 날씨: 해당 날씨 한 가지에만 등장하는 항목만 표시한다.
+        // 포함할 날씨: 체크한 날씨 조합과 정확히 같은 항목만 표시한다.
+        const exclusiveWeather = filters.rainbowOnly ? "무지개"
+            : filters.sunnyOnly ? "맑음"
+            : filters.rainyOnly ? "비"
+            : null;
 
-        if (selectedWeathers.size > 0) {
-            filteredFish = filteredFish.filter(item => {
-                if (!item.weather || item.weather.length === 0) return false;
-                return item.weather.some(weather => selectedWeathers.has(weather));
+        if (exclusiveWeather) {
+            filteredFish = filteredFish.filter(fish => {
+                if (!fish.weather || fish.weather.length === 0) return false;
+                return fish.weather.length === 1 && fish.weather[0] === exclusiveWeather;
+            });
+        } else if (filters.weathers.length > 0) {
+            const selectedWeathers = new Set(filters.weathers);
+            filteredFish = filteredFish.filter(fish => {
+                if (!fish.weather || fish.weather.length === 0) return false;
+                const itemWeathers = new Set(fish.weather);
+                return itemWeathers.size === selectedWeathers.size
+                    && [...selectedWeathers].every(weather => itemWeathers.has(weather));
             });
         }
 

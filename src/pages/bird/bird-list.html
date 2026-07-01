@@ -84,13 +84,13 @@
                 <h3>🔒 전용 날씨</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
-                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음 포함
+                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음에만 등장
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비 포함
+                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비에만 등장
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개 포함
+                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개에만 등장
                     </label>
                 </div>
             </div>
@@ -268,7 +268,7 @@
 
     function getSelectedFilters() {
         const timeCheckboxes = document.querySelectorAll('.filter-group:nth-child(1) input[type="checkbox"]:checked');
-        const weatherCheckboxes = document.querySelectorAll('.filter-group:nth-child(2) input[type="checkbox"]:checked');
+        const weatherCheckboxes = document.querySelectorAll('.filter-group:nth-child(2) input[type="checkbox"]:checked:not(#rainbowOnly):not(#sunnyOnly):not(#rainyOnly)');
         const rainbowOnly = document.getElementById('rainbowOnly')?.checked || false;
         const sunnyOnly = document.getElementById('sunnyOnly')?.checked || false;
         const rainyOnly = document.getElementById('rainyOnly')?.checked || false;
@@ -404,25 +404,39 @@
         }
 
         // 시간 필터
+        // 선택한 시간 조합과 출현 시간이 정확히 같은 항목만 표시한다.
+        // 예: 맑음이 아니라 시간 기준으로, '아침'만 체크하면 아침에만 등장하는 항목만,
+        // '아침+낮'을 체크하면 아침과 낮에 등장하는 항목만 남긴다.
         if (filters.times.length > 0) {
+            const selectedTimes = new Set(filters.times);
             filteredbirds = filteredbirds.filter(bird => {
                 if (!bird.time || bird.time.length === 0) return false;
-                return bird.time.some(t => filters.times.includes(t));
+                const itemTimes = new Set(bird.time);
+                return itemTimes.size === selectedTimes.size
+                    && [...selectedTimes].every(time => itemTimes.has(time));
             });
         }
 
         // 날씨 필터 로직
-        // 일반 날씨와 '포함' 체크는 같은 방식으로 처리한다.
-        // 예: ["비", "무지개"] 물고기는 비·무지개 둘 다에서 표시된다.
-        const selectedWeathers = new Set(filters.weathers);
-        if (filters.sunnyOnly) selectedWeathers.add("맑음");
-        if (filters.rainyOnly) selectedWeathers.add("비");
-        if (filters.rainbowOnly) selectedWeathers.add("무지개");
+        // 전용 날씨: 해당 날씨 한 가지에만 등장하는 항목만 표시한다.
+        // 포함할 날씨: 체크한 날씨 조합과 정확히 같은 항목만 표시한다.
+        const exclusiveWeather = filters.rainbowOnly ? "무지개"
+            : filters.sunnyOnly ? "맑음"
+            : filters.rainyOnly ? "비"
+            : null;
 
-        if (selectedWeathers.size > 0) {
-            filteredbirds = filteredbirds.filter(item => {
-                if (!item.weather || item.weather.length === 0) return false;
-                return item.weather.some(weather => selectedWeathers.has(weather));
+        if (exclusiveWeather) {
+            filteredbirds = filteredbirds.filter(bird => {
+                if (!bird.weather || bird.weather.length === 0) return false;
+                return bird.weather.length === 1 && bird.weather[0] === exclusiveWeather;
+            });
+        } else if (filters.weathers.length > 0) {
+            const selectedWeathers = new Set(filters.weathers);
+            filteredbirds = filteredbirds.filter(bird => {
+                if (!bird.weather || bird.weather.length === 0) return false;
+                const itemWeathers = new Set(bird.weather);
+                return itemWeathers.size === selectedWeathers.size
+                    && [...selectedWeathers].every(weather => itemWeathers.has(weather));
             });
         }
 
