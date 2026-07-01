@@ -91,13 +91,13 @@
                 <h3>🔒 전용 날씨</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
-                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음에만 등장
+                        <input id="sunnyOnly" onchange="applyFilters()" type="checkbox"> ☀️ 맑음 포함
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비에만 등장
+                        <input id="rainyOnly" onchange="applyFilters()" type="checkbox"> 🌧️ 비 포함
                     </label>
                     <label class="checkbox-label">
-                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개에만 등장
+                        <input id="rainbowOnly" onchange="applyFilters()" type="checkbox"> 🌈 무지개 포함
                     </label>
                 </div>
             </div>
@@ -413,35 +413,17 @@
         }
 
         // 날씨 필터 로직
-        // "무지개에만 등장" 필터
-        if (filters.rainbowOnly) {
-            filteredFish = filteredFish.filter(fish => {
-                if (!fish.weather || fish.weather.length === 0) return false;
-                // 날씨가 정확히 ["무지개"]만 있는 물고기
-                return fish.weather.length === 1 && fish.weather[0] === "무지개";
-            });
-        }
-        // "맑음에만 등장" 필터 (맑음 + 무지개는 OK, 비가 포함되면 안 됨)
-        else if (filters.sunnyOnly) {
-            filteredFish = filteredFish.filter(fish => {
-                if (!fish.weather || fish.weather.length === 0) return false;
-                // 맑음이 포함되어야 하고, 비가 포함되면 안 됨 (무지개는 상관없음)
-                return fish.weather.includes("맑음") && !fish.weather.includes("비");
-            });
-        }
-        // "비에만 등장" 필터 (비 + 무지개는 OK, 맑음이 포함되면 안 됨)
-        else if (filters.rainyOnly) {
-            filteredFish = filteredFish.filter(fish => {
-                if (!fish.weather || fish.weather.length === 0) return false;
-                // 비가 포함되어야 하고, 맑음이 포함되면 안 됨 (무지개는 상관없음)
-                return fish.weather.includes("비") && !fish.weather.includes("맑음");
-            });
-        }
-        // 일반 날씨 필터: 선택한 날씨 중 하나라도 포함되면 표시 (OR 조건)
-        else if (filters.weathers.length > 0) {
-            filteredFish = filteredFish.filter(fish => {
-                if (!fish.weather || fish.weather.length === 0) return false;
-                return fish.weather.some(w => filters.weathers.includes(w));
+        // 일반 날씨와 '포함' 체크는 같은 방식으로 처리한다.
+        // 예: ["비", "무지개"] 물고기는 비·무지개 둘 다에서 표시된다.
+        const selectedWeathers = new Set(filters.weathers);
+        if (filters.sunnyOnly) selectedWeathers.add("맑음");
+        if (filters.rainyOnly) selectedWeathers.add("비");
+        if (filters.rainbowOnly) selectedWeathers.add("무지개");
+
+        if (selectedWeathers.size > 0) {
+            filteredFish = filteredFish.filter(item => {
+                if (!item.weather || item.weather.length === 0) return false;
+                return item.weather.some(weather => selectedWeathers.has(weather));
             });
         }
 
