@@ -404,12 +404,13 @@
         }
 
         // 시간 필터
-        // 체크한 시간은 모두 포함되어야 한다.
-        // 예: 아침만 체크하면 아침에 나오는 항목, 아침+낮이면 두 시간 모두 나오는 항목.
+        // 체크한 시간 중 하나라도 포함되면 표시한다.
+        // 예: 아침을 체크하면 아침이 포함된 모든 항목이 나오며,
+        // 하루 종일(새벽·아침·낮·저녁) 항목도 함께 표시된다.
         if (filters.times.length > 0) {
             filteredbirds = filteredbirds.filter(bird => {
                 if (!bird.time || bird.time.length === 0) return false;
-                return filters.times.every(time => bird.time.includes(time));
+                return filters.times.some(time => bird.time.includes(time));
             });
         }
 
