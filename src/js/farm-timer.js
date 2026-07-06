@@ -5,7 +5,7 @@
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
   // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
   const REPEAT_ALARM_INTERVAL_MS = 850;
-  const BUILD_VERSION = "20260707-07";
+  const BUILD_VERSION = "20260707-08";
   const ALERT_GRACE_MS = 90 * 1000;
   // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
   const PROGRESS_LEAD_MS = 0;
@@ -482,10 +482,14 @@
     const markers = stages.map(stage => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
-      const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
+      const warning = stage.id === "W3" || stage.id === "W4";
+      const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${warning ? "is-warning" : ""} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
       const position = timeline[stage.id.toLowerCase()];
       return `<span class="${cls}" style="left:${position}%" title="${esc(`${stage.id} · ${stage.label}`)}"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
+    // The dots visually show the short final interval between W3 (mature soon)
+    // and W4 (mature after), without adding another alarm stage.
+    const finalGapDots = `<span class="farm-final-gap-dots" style="left:${(timeline.w3 + timeline.w4) / 2}%" aria-hidden="true">···</span>`;
 
     const chips = stages.map(stage => {
       const passed = now >= stage.at;
@@ -507,9 +511,10 @@
         <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
       </div>
       <div class="farm-timer-state">${statusLine}</div>
-      <div class="farm-progress-line" aria-hidden="true">
-        <span class="farm-progress-fill" style="width:${state.kind === "complete" ? 100 : progress}%"></span>
+      <div class="farm-progress-line" aria-hidden="true" style="--w3-position:${timeline.w3}%">
+        <span class="farm-progress-fill ${now >= stages[2].at ? "is-warning" : ""}" style="width:${state.kind === "complete" ? 100 : progress}%"></span>
         ${markers}
+        ${finalGapDots}
       </div>
       <div class="farm-card-bottom">
         <div class="farm-stage-chips">${chips}</div>

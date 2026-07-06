@@ -128,6 +128,16 @@
   position:absolute; z-index:1; left:0; top:var(--bar-top); height:var(--bar-height);
   max-width:100%; border-radius:999px; background:#69bf86; transition:none;
 }
+/* From W3 (성숙 직전) onward, the filled portion turns into the warning colour. */
+.farm-progress-fill.is-warning {
+  background:linear-gradient(90deg,
+    #69bf86 0,
+    #69bf86 var(--w3-position),
+    #f1b431 var(--w3-position),
+    #f7ad27 92%,
+    #ff9b2f 100%);
+}
+
 .farm-marker {
   position:absolute; z-index:2; top:0; display:flex; flex-direction:column; align-items:center;
   color:#bd9567; font-size:.66rem; white-space:nowrap; transform:translateX(-50%);
@@ -137,8 +147,28 @@
   border-radius:999px; background:#ffba25;
 }
 .farm-marker.is-passed i { background:#57b574; }
-.farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.18); }
+/* W3/W4 are warning stages even after they have passed. */
+.farm-marker.is-warning i,
+.farm-marker.is-warning.is-passed i { background:#f2b32a; }
+.farm-marker-w4.is-warning i,
+.farm-marker-w4.is-warning.is-passed i { background:#ff9b2f; }
+.farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.20); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
+
+/* Visual pause between W3 and W4: mirrors the in-game timing gap. */
+.farm-final-gap-dots {
+  position:absolute;
+  z-index:2;
+  top:5px;
+  transform:translateX(-50%);
+  color:#e5ae3b;
+  font-size:.9rem;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+
 .farm-marker-w3 b, .farm-marker-w4 b {
   position:absolute;
   top:28px;
