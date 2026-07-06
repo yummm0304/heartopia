@@ -145,9 +145,10 @@
 .farm-marker.is-passed i { background:#57b574; }
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.18); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
-.farm-marker-w3 b { min-width:56px; }
+/* W3/W4 labels are intentionally omitted from the line on short crops;
+   the stage chips below still show both names without collisions. */
+.farm-marker-w3 b, .farm-marker-w4 b { display:none; }
 .farm-marker-w4 { transform:translateX(-100%); }
-.farm-marker-w4 b { min-width:48px; transform:translateX(-10px); }
 .farm-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .farm-stage-chips { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .farm-stage-chip { padding:4px 9px; border-radius:999px; background:#fff1bd; color:#bd8e1e; font-size:.72rem; font-weight:900; }
@@ -188,8 +189,7 @@
   .farm-alarm-setting-v6 { align-items:flex-start; flex-direction:column; }
   .farm-progress-line { height:62px; }
   .farm-marker { font-size:.61rem; }
-  .farm-marker-w3 b { min-width:52px; }
-  .farm-marker-w4 b { min-width:44px; transform:translateX(-9px); }
+
 }
 @media (max-width:380px) {
   .crop-grid-v6 { grid-template-columns:repeat(2,minmax(0,1fr)); }
