@@ -2,6 +2,10 @@
   "use strict";
 
   const STORAGE_KEY = "heartopia_farm_timers_v2";
+  const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
+  const ALERT_GRACE_MS = 90 * 1000;
+  let audioContext = null;
+  const repeatingAlerts = new Map();
   const crops = [
     { id:"tomato", name:"토마토", ja:"トマト", minutes:15, icon:"🍅" },
     { id:"rice", name:"벼", ja:"米", minutes:20, icon:"🍚", isNew:true },
@@ -110,7 +114,8 @@
         harvestAt,
         durationMs,
         label: String(raw.label || ""),
-        repeat: Boolean(raw.repeat)
+        repeat: Boolean(raw.repeat),
+        notifiedStages: raw.notifiedStages && typeof raw.notifiedStages === "object" ? raw.notifiedStages : {}
       });
     });
     return [...unique.values()].slice(-30);
@@ -129,6 +134,16 @@
     localStorage.removeItem("heartopia_farm_timers_v1");
   }
   function getHarvestAt(timer) { return Number(timer.harvestAt); }
+  function timelineData(timer) {
+    const full = timer.durationMs;
+    const virtualDuration = full + 60000; // W4 is one minute after harvest.
+    return {
+      virtualDuration,
+      w1: (full / 3) / virtualDuration * 100,
+      w2: (full * 2 / 3) / virtualDuration * 100,
+      w3: Math.max(0, (full - 60000) / virtualDuration * 100)
+    };
+  }
   function stageData(timer) {
     const harvest = getHarvestAt(timer);
     const planted = timer.plantedAt;
@@ -139,6 +154,88 @@
       { id:"W3", at: harvest - 60000, label: t("justBefore") },
       { id:"W4", at: harvest + 60000, label: t("after") }
     ];
+  }
+  function getAlarmSound() {
+    return localStorage.getItem(ALARM_SOUND_KEY) || "bell";
+  }
+  function setAlarmSound(value) {
+    localStorage.setItem(ALARM_SOUND_KEY, value);
+  }
+  function ensureAudioContext() {
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtor) return null;
+    if (!audioContext) audioContext = new AudioCtor();
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
+    return audioContext;
+  }
+  function playTone(context, frequency, start, duration, type = "sine", volume = 0.12) {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, start);
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    oscillator.connect(gain).connect(context.destination);
+    oscillator.start(start);
+    oscillator.stop(start + duration + 0.03);
+  }
+  function playAlarm(sound = getAlarmSound()) {
+    if (sound === "none") return;
+    const context = ensureAudioContext();
+    if (!context || context.state !== "running") return;
+    const at = context.currentTime + 0.04;
+    if (sound === "beep") {
+      playTone(context, 880, at, 0.18, "square", 0.07);
+      playTone(context, 880, at + 0.26, 0.18, "square", 0.07);
+    } else if (sound === "chime") {
+      playTone(context, 523.25, at, 0.48, "sine", 0.09);
+      playTone(context, 659.25, at + 0.12, 0.52, "sine", 0.075);
+      playTone(context, 783.99, at + 0.24, 0.58, "sine", 0.06);
+    } else {
+      playTone(context, 1046.5, at, 0.16, "sine", 0.11);
+      playTone(context, 1318.5, at + 0.19, 0.22, "sine", 0.09);
+      playTone(context, 1046.5, at + 0.46, 0.25, "sine", 0.1);
+    }
+  }
+  function notifyTimer(timer, stage) {
+    const crop = getCrop(timer.cropId);
+    if ("Notification" in window && Notification.permission === "granted") {
+      try {
+        new Notification(`🌱 ${cropName(crop)} · ${stage.id}`, {
+          body: timer.label || (language() === "ja" ? "雑草を取りましょう。" : "잡초를 뽑을 시간이에요.")
+        });
+      } catch (_) {}
+    }
+  }
+  function stopRepeatingAlert(timerId) {
+    const interval = repeatingAlerts.get(timerId);
+    if (interval) clearInterval(interval);
+    repeatingAlerts.delete(timerId);
+  }
+  function startRepeatingAlert(timer) {
+    stopRepeatingAlert(timer.id);
+    if (!timer.repeat || getAlarmSound() === "none") return;
+    const interval = setInterval(() => playAlarm(), 5000);
+    repeatingAlerts.set(timer.id, interval);
+  }
+  function checkTimerAlerts(initial = false) {
+    const now = Date.now();
+    let changed = false;
+    timers.forEach(timer => {
+      const notified = timer.notifiedStages || (timer.notifiedStages = {});
+      stageData(timer).forEach(stage => {
+        if (now < stage.at || notified[stage.id]) return;
+        notified[stage.id] = true;
+        changed = true;
+        if (!initial && now - stage.at <= ALERT_GRACE_MS) {
+          playAlarm();
+          notifyTimer(timer, stage);
+          startRepeatingAlert(timer);
+        }
+      });
+    });
+    if (changed) saveTimers();
   }
   function requestNotifications() {
     if (!("Notification" in window)) return;
@@ -248,7 +345,8 @@
       harvestAt,
       durationMs,
       label: $("farm-label").value.trim(),
-      repeat: $("repeat-alert").checked
+      repeat: $("repeat-alert").checked,
+      notifiedStages: {}
     };
     timers.unshift(timer);
     timers = timers.slice(0, 30);
@@ -279,8 +377,9 @@
     const now = Date.now();
     const state = timerState(timer);
     const stages = stageData(timer);
-    const progress = Math.max(0, Math.min(100, ((now - timer.plantedAt) / timer.durationMs) * 100));
-    const growProgress = Math.min(88, progress * 0.88);
+    const timeline = timelineData(timer);
+    const progress = Math.max(0, Math.min(100, ((now - timer.plantedAt) / timeline.virtualDuration) * 100));
+    const alarmIsRepeating = repeatingAlerts.has(timer.id);
 
     let statusLine = "";
     if (state.kind === "growing") {
@@ -298,7 +397,8 @@
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
       const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
-      return `<span class="${cls}"><i></i><b>${esc(stage.label)}</b></span>`;
+      const position = stage.id === "W1" ? timeline.w1 : stage.id === "W2" ? timeline.w2 : stage.id === "W3" ? timeline.w3 : 100;
+      return `<span class="${cls}" style="left:${position}%"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
 
     const chips = stages.map(stage => {
@@ -321,14 +421,13 @@
         <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
       </div>
       <div class="farm-timer-state">${statusLine}</div>
-      <div class="farm-progress-line" aria-hidden="true">
-        <span class="farm-progress-fill" style="width:${state.kind === "complete" ? 78 : growProgress}%"></span>
+      <div class="farm-progress-line" style="--w3-position:${timeline.w3}%" aria-hidden="true">
+        <span class="farm-progress-fill" style="width:${state.kind === "complete" ? 100 : progress}%"></span>
         ${markers}
-        <span class="farm-w4-gap">···</span>
       </div>
       <div class="farm-card-bottom">
         <div class="farm-stage-chips">${chips}</div>
-        ${lowerRight}
+        <div class="farm-card-actions">${alarmIsRepeating ? `<button class="farm-alarm-ack" type="button" data-ack-alarm="${esc(timer.id)}">🔕 ${language() === "ja" ? "アラーム確認" : "알람 확인"}</button>` : ""}${lowerRight}</div>
       </div>
     </article>`;
   }
@@ -345,6 +444,13 @@
         removeTimer(button.dataset.delete);
       });
     });
+    timerList.querySelectorAll("[data-ack-alarm]").forEach(button => {
+      button.addEventListener("click", event => {
+        event.stopPropagation();
+        stopRepeatingAlert(button.dataset.ackAlarm);
+        renderTimers();
+      });
+    });
     timerList.querySelectorAll(".farm-timer-card").forEach(card => {
       card.addEventListener("click", event => {
         if (event.target.closest("[data-delete]")) return;
@@ -355,6 +461,7 @@
   }
   function removeTimer(id) {
     // Single-card trash: delete immediately, without the browser confirmation popup.
+    stopRepeatingAlert(id);
     timers = timers.filter(timer => timer.id !== id);
     saveTimers();
     if (activeModalId === id) closeModal();
@@ -362,6 +469,7 @@
   }
   function clearAll() {
     if (!timers.length || !confirm(t("clearConfirm"))) return;
+    repeatingAlerts.forEach((_, id) => stopRepeatingAlert(id));
     timers = [];
     saveTimers();
     closeModal();
@@ -398,9 +506,22 @@
   }
   function init() {
     $("notification-button").addEventListener("click", requestNotifications);
+    $("alarm-sound").value = getAlarmSound();
+    $("alarm-sound").addEventListener("change", event => {
+      setAlarmSound(event.target.value);
+      ensureAudioContext();
+      playAlarm(event.target.value);
+    });
+    $("test-alarm-button").addEventListener("click", () => {
+      ensureAudioContext();
+      playAlarm();
+    });
     $("start-mode").addEventListener("change", onRemainingToggle);
     ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
-    plantButton.addEventListener("click", plant);
+    plantButton.addEventListener("click", () => {
+      ensureAudioContext();
+      plant();
+    });
     $("clear-all-button").addEventListener("click", clearAll);
     $("modal-close").addEventListener("click", closeModal);
     modal.addEventListener("click", event => { if (event.target.matches("[data-close-modal]")) closeModal(); });
@@ -417,8 +538,12 @@
     renderNotificationButton();
     renderCrops();
     refreshForm();
+    checkTimerAlerts(true);
     renderTimers();
-    setInterval(renderTimers, 1000);
+    setInterval(() => {
+      checkTimerAlerts(false);
+      renderTimers();
+    }, 1000);
   }
   document.addEventListener("DOMContentLoaded", init);
 })();

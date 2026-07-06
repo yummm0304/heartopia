@@ -81,6 +81,19 @@
         <span data-i18n="farm.repeatAlert">확인할 때까지 계속 울리기</span>
       </label>
 
+      <div class="farm-alarm-setting-v6">
+        <label for="alarm-sound">🔊 알람 소리</label>
+        <div class="farm-alarm-controls">
+          <select id="alarm-sound">
+            <option value="bell">기본 벨</option>
+            <option value="chime">부드러운 차임</option>
+            <option value="beep">짧은 비프</option>
+            <option value="none">무음</option>
+          </select>
+          <button id="test-alarm-button" type="button">미리 듣기</button>
+        </div>
+      </div>
+
       <p id="selected-crop-summary" class="farm-selection-summary" aria-live="polite"></p>
       <button id="plant-button" type="button" class="farm-plant-v6" disabled>
         🌱 <span id="plant-button-label" data-i18n="farm.plant">작물 심기</span>
