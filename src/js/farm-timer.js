@@ -5,7 +5,7 @@
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
   // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
   const REPEAT_ALARM_INTERVAL_MS = 850;
-  const BUILD_VERSION = "20260707-08";
+  const BUILD_VERSION = "20260707-09";
   const ALERT_GRACE_MS = 90 * 1000;
   // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
   const PROGRESS_LEAD_MS = 0;
@@ -144,19 +144,17 @@
     localStorage.removeItem("heartopia_farm_timers_v1");
   }
   function getHarvestAt(timer) { return Number(timer.harvestAt); }
-  // The timeline runs from planting through the final W4 weed event.
-  // This keeps W1–W4 in their real chronological order and lets the bar
-  // continue naturally beyond harvest until W4.
-  function timelineData(timer) {
-    const full = timer.durationMs;
-    const total = full + 60000; // W4 is exactly one minute after harvest.
-    const point = (msFromPlanting) => Math.max(0, Math.min(100, (msFromPlanting / total) * 100));
+  // Visual timeline: W1/W2 follow normal growth, W3 is the exact 0-second
+  // maturity point, and the final W3→W4 window is deliberately widened so
+  // the warning segment, the ellipsis, and W4 stay readable on every card.
+  function timelineData() {
     return {
-      total,
-      w1: point(full / 3),
-      w2: point(full * 2 / 3),
-      w3: point(full - 60000),
-      w4: 100
+      w1: 31,
+      w2: 61,
+      w3: 75,
+      warningEnd: 84,
+      dots: 88.5,
+      w4: 96
     };
   }
   function stageData(timer) {
@@ -166,7 +164,8 @@
     return [
       { id:"W1", at: planted + full / 3, label: `${Math.round(full / 180000)}${language()==="ja" ? "分" : "분"}` },
       { id:"W2", at: planted + full * 2 / 3, label: `${Math.round(full / 90000)}${language()==="ja" ? "分" : "분"}` },
-      { id:"W3", at: harvest - 60000, label: t("justBefore") },
+      // W3 is exactly when the crop countdown reaches 0:00.
+      { id:"W3", at: harvest, label: t("justBefore") },
       { id:"W4", at: harvest + 60000, label: t("after") }
     ];
   }
@@ -448,10 +447,20 @@
     return { kind:"harvestSoon", time:harvest - now, next:null };
   }
   function progressPercent(timer, now = Date.now()) {
-    const elapsed = Math.max(0, now - timer.plantedAt);
-    // Use the same planting → W4 span as the marker layout.
-    const timelineTotal = timer.durationMs + 60000;
-    return Math.max(0, Math.min(100, (elapsed / timelineTotal) * 100));
+    const timeline = timelineData();
+    const harvest = getHarvestAt(timer);
+    const w4At = harvest + 60000;
+
+    // Before 0:00, the green bar grows normally and reaches W3 exactly at harvest.
+    if (now <= harvest) {
+      const grown = Math.max(0, now - timer.plantedAt);
+      return Math.max(0, Math.min(timeline.w3, (grown / timer.durationMs) * timeline.w3));
+    }
+
+    // After W3, only the small red warning segment advances. It intentionally
+    // stops before the ellipsis/W4 marker instead of filling the whole tail.
+    const finalFraction = Math.max(0, Math.min(1, (now - harvest) / (w4At - harvest)));
+    return timeline.w3 + finalFraction * (timeline.warningEnd - timeline.w3);
   }
   function renderTimerCard(timer, options = {}) {
     const crop = getCrop(timer.cropId);
@@ -482,14 +491,15 @@
     const markers = stages.map(stage => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
-      const warning = stage.id === "W3" || stage.id === "W4";
+      // W3 remains a green maturity marker. The red/orange warning begins
+      // immediately to its right and leads toward W4.
+      const warning = stage.id === "W4";
       const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${warning ? "is-warning" : ""} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
       const position = timeline[stage.id.toLowerCase()];
       return `<span class="${cls}" style="left:${position}%" title="${esc(`${stage.id} · ${stage.label}`)}"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
-    // The dots visually show the short final interval between W3 (mature soon)
-    // and W4 (mature after), without adding another alarm stage.
-    const finalGapDots = `<span class="farm-final-gap-dots" style="left:${(timeline.w3 + timeline.w4) / 2}%" aria-hidden="true">···</span>`;
+    // The dots are a deliberate visual gap after the red W3→W4 warning segment.
+    const finalGapDots = `<span class="farm-final-gap-dots" style="left:${timeline.dots}%" aria-hidden="true">···</span>`;
 
     const chips = stages.map(stage => {
       const passed = now >= stage.at;
@@ -511,8 +521,9 @@
         <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
       </div>
       <div class="farm-timer-state">${statusLine}</div>
-      <div class="farm-progress-line" aria-hidden="true" style="--w3-position:${timeline.w3}%">
-        <span class="farm-progress-fill ${now >= stages[2].at ? "is-warning" : ""}" style="width:${state.kind === "complete" ? 100 : progress}%"></span>
+      <div class="farm-progress-line" aria-hidden="true">
+        <span class="farm-progress-fill farm-progress-fill-green" style="width:${Math.min(progress, timeline.w3)}%"></span>
+        <span class="farm-progress-fill farm-progress-fill-warning" style="left:${timeline.w3}%;width:${Math.max(0, progress - timeline.w3)}%"></span>
         ${markers}
         ${finalGapDots}
       </div>

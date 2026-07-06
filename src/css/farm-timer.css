@@ -88,7 +88,7 @@
 .farm-active-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .farm-active-heading h2 { margin:0; color:#3f3228; font-size:1rem; }
 .farm-clear-button { border:0; background:transparent; color:#f06e9f; font:inherit; font-weight:900; cursor:pointer; }
-.farm-timer-list-v6 { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,410px)); gap:15px; margin-top:15px; }
+.farm-timer-list-v6 { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,460px)); gap:15px; margin-top:15px; }
 .farm-empty-v6 { margin:16px 0 0; padding:20px; border:1px dashed #e3d9ca; border-radius:15px; color:#85796e; text-align:center; font-size:.9rem; }
 
 /* Timer cards */
@@ -125,18 +125,12 @@
   border-radius:999px; background:#fff0d7;
 }
 .farm-progress-fill {
-  position:absolute; z-index:1; left:0; top:var(--bar-top); height:var(--bar-height);
-  max-width:100%; border-radius:999px; background:#69bf86; transition:none;
+  position:absolute; z-index:1; top:var(--bar-top); height:var(--bar-height);
+  max-width:100%; border-radius:999px; transition:none;
 }
-/* From W3 (성숙 직전) onward, the filled portion turns into the warning colour. */
-.farm-progress-fill.is-warning {
-  background:linear-gradient(90deg,
-    #69bf86 0,
-    #69bf86 var(--w3-position),
-    #f1b431 var(--w3-position),
-    #f7ad27 92%,
-    #ff9b2f 100%);
-}
+/* Green remains untouched through W3. A separate red segment starts only after W3. */
+.farm-progress-fill-green { left:0; background:#69bf86; }
+.farm-progress-fill-warning { background:#e95e4d; border-radius:0 999px 999px 0; }
 
 .farm-marker {
   position:absolute; z-index:2; top:0; display:flex; flex-direction:column; align-items:center;
@@ -147,11 +141,10 @@
   border-radius:999px; background:#ffba25;
 }
 .farm-marker.is-passed i { background:#57b574; }
-/* W3/W4 are warning stages even after they have passed. */
 .farm-marker.is-warning i,
-.farm-marker.is-warning.is-passed i { background:#f2b32a; }
+.farm-marker.is-warning.is-passed i { background:#e95e4d; }
 .farm-marker-w4.is-warning i,
-.farm-marker-w4.is-warning.is-passed i { background:#ff9b2f; }
+.farm-marker-w4.is-warning.is-passed i { background:#e95e4d; }
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.20); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
 
@@ -161,7 +154,7 @@
   z-index:2;
   top:5px;
   transform:translateX(-50%);
-  color:#e5ae3b;
+  color:#e95e4d;
   font-size:.9rem;
   font-weight:900;
   line-height:1;
@@ -175,11 +168,12 @@
   margin:0;
   font-size:.61rem;
   line-height:1.1;
+  text-align:center;
 }
-/* Keep the final two labels on opposite sides of their marks so they never overlap. */
-.farm-marker-w3 b { right:8px; width:58px; text-align:right; }
-.farm-marker-w4 { transform:translateX(-100%); }
-.farm-marker-w4 b { right:0; width:48px; text-align:right; }
+/* The wider final lane leaves each label under its own marker. */
+.farm-marker-w3 b { left:50%; transform:translateX(-50%); width:62px; }
+.farm-marker-w4 { transform:translateX(-50%); }
+.farm-marker-w4 b { left:50%; transform:translateX(-50%); width:50px; }
 .farm-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .farm-stage-chips { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .farm-stage-chip { padding:4px 9px; border-radius:999px; background:#fff1bd; color:#bd8e1e; font-size:.72rem; font-weight:900; }
@@ -188,7 +182,6 @@
 .farm-card-actions { display:flex; align-items:center; gap:7px; }
 .farm-harvest-note { color:#b98f62; font-size:.72rem; font-weight:700; white-space:nowrap; }
 .farm-alarm-ack { border:0; border-radius:999px; padding:5px 9px; background:#ffe6ea; color:#d85d78; font:inherit; font-size:.72rem; font-weight:900; cursor:pointer; }
-.farm-timer-card.is-complete .farm-progress-fill { width:100% !important; }
 .farm-timer-card.is-complete .farm-timer-state { justify-content:center; }
 
 /* Detail popup */
@@ -220,8 +213,8 @@
   .farm-alarm-setting-v6 { align-items:flex-start; flex-direction:column; }
   .farm-progress-line { height:62px; }
   .farm-marker { font-size:.61rem; }
-  .farm-marker-w3 b { width:52px; right:6px; font-size:.58rem; }
-  .farm-marker-w4 b { width:43px; font-size:.58rem; }
+  .farm-marker-w3 b { width:56px; font-size:.58rem; }
+  .farm-marker-w4 b { width:48px; font-size:.58rem; }
 
 }
 @media (max-width:380px) {
