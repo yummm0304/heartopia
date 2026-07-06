@@ -124,12 +124,6 @@
   content:""; position:absolute; left:0; right:0; top:var(--bar-top); height:var(--bar-height);
   border-radius:999px; background:#fff0d7;
 }
-/* The dotted final lane remains visible as a guide, but the real-time green bar can pass through it. */
-.farm-progress-line::after {
-  content:""; position:absolute; z-index:1; left:var(--w3-position); right:0;
-  top:calc(var(--bar-top) + (var(--bar-height) / 2)); border-top:2px dotted #d5b688;
-  pointer-events:none;
-}
 .farm-progress-fill {
   position:absolute; z-index:1; left:0; top:var(--bar-top); height:var(--bar-height);
   max-width:100%; border-radius:999px; background:#69bf86; transition:none;
@@ -145,10 +139,8 @@
 .farm-marker.is-passed i { background:#57b574; }
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.18); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
-/* W3/W4 labels are intentionally omitted from the line on short crops;
-   the stage chips below still show both names without collisions. */
-.farm-marker-w3 b, .farm-marker-w4 b { display:none; }
-.farm-marker-w4 { transform:translateX(-100%); }
+/* W3 sits close to harvest, so its label stays in the chips below. */
+.farm-marker-w3 b { display:none; }
 .farm-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .farm-stage-chips { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .farm-stage-chip { padding:4px 9px; border-radius:999px; background:#fff1bd; color:#bd8e1e; font-size:.72rem; font-weight:900; }
