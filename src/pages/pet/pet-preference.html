@@ -2,10 +2,11 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-store, max-age=0">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title data-i18n="pet.pageTitle" data-i18n-fallback="펫 먹이 선호도 - 두근두근타운">펫 먹이 선호도 - 두근두근타운</title>
-    <link href="../../css/common.css" rel="stylesheet">
-    <script src="../../../src/js/tracker.js"></script>
+    <link href="../../css/common.css?v=20260707-02" rel="stylesheet">
+    <script src="../../../src/js/tracker.js?v=20260707-02"></script>
 
     <style>
         /* ============================================================
@@ -532,7 +533,7 @@
 <div id="footer-placeholder"></div>
 
 <!-- 공통 스크립트 (헤더·푸터 로드, BASE 변수 정의) -->
-<script src="../../../src/js/common.js"></script>
+<script src="../../../src/js/common.js?v=20260707-02"></script>
 
 <script>
     /* ============================================================
@@ -601,6 +602,7 @@
     // ── 상수 ────────────────────────────────────────────────────
     const STORAGE_KEY        = 'heartopia_pet_preferences';
     const NOTICE_DISMISS_KEY = 'heartopia_pet_notice_dismissed';
+    const PET_DATA_VERSION  = '20260707-02';
 
     // 강아지가 먹을 수 있는 채집 아이템 이름 목록 (gather.json에서 이 이름만 추출)
     const DOG_GATHER_NAMES = new Set(['사과', '느타리버섯', '표고버섯', '양송이버섯', '강아지 사료', '동물 공용 음식']);
@@ -652,7 +654,7 @@
             // 모든 데이터 병렬 로드
             // 시즌 레시피도 강아지 목록에 포함하므로 함께 로드
             const [fishRes, recipeRes, gatherRes, iceRecipeRes, dreamRecipeRes, iceFishRes, dreamFishRes] = await Promise.all([
-                fetch(`${BASE}/src/data/fish_data.json`),
+                fetch(`${BASE}/src/data/fish_data.json?v=${PET_DATA_VERSION}`, { cache: 'no-store' }),
                 fetch(`${BASE}/src/data/recipes.json`),
                 fetch(`${BASE}/src/data/gather.json`),
                 fetch(`${BASE}/src/data/season_ice/season_ice_recipes.json`).catch(() => null),
@@ -696,11 +698,12 @@
             const normalFish = fishData
                 .filter(f => ((f.level ?? 0) <= 10 || CAT_FISH_ADDED.has(f.name)) && !CAT_FISH_EXCLUDED.has(f.name))
                 .map(f => ({ ...f, _src: 'fish' }));
-            // 기존 fish_data가 캐시되어 만새기가 빠진 경우에도 중복 없이 강제 추가
+            // 만새기는 fish_data 요청 실패·구버전 캐시와 관계없이 고양이 목록에 항상 포함한다.
+            // image 1004는 fish_1004.webp와 연결되는 고정 ID다.
             CAT_FISH_FALLBACKS.forEach(fallback => {
-                if (!normalFish.some(item => item.name === fallback.name)) {
-                    normalFish.push({ ...fallback, _src: 'fish' });
-                }
+                const index = normalFish.findIndex(item => item.name === fallback.name);
+                if (index === -1) normalFish.push({ ...fallback, _src: 'fish' });
+                else normalFish[index] = { ...normalFish[index], ...fallback, _src: 'fish' };
             });
             const catGather = gatherData
                 .filter(g => CAT_GATHER_NAMES.has(g.name))

@@ -3,8 +3,12 @@
 
   const STORAGE_KEY = "heartopia_farm_timers_v2";
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
+  const BUILD_VERSION = "20260707-02";
   const ALERT_GRACE_MS = 90 * 1000;
+  // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
+  const PROGRESS_LEAD_MS = 750;
   let audioContext = null;
+  let audioArmed = false;
   const repeatingAlerts = new Map();
   const crops = [
     { id:"tomato", name:"토마토", ja:"トマト", minutes:15, icon:"🍅" },
@@ -161,16 +165,30 @@
   function setAlarmSound(value) {
     localStorage.setItem(ALARM_SOUND_KEY, value);
   }
+  function setAlarmStatus(message, state = "") {
+    const status = $("alarm-status");
+    if (!status) return;
+    status.textContent = message || "";
+    status.className = `farm-alarm-status${state ? ` is-${state}` : ""}`;
+  }
   function ensureAudioContext() {
     const AudioCtor = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtor) return null;
     if (!audioContext) audioContext = new AudioCtor();
     return audioContext;
   }
-  async function unlockAlarmAudio() {
+  // Run inside a user gesture so later timer alerts are allowed to make sound.
+  function primeAlarmAudio() {
     const context = ensureAudioContext();
     if (!context) return null;
-    if (context.state === "suspended") {
+    audioArmed = true;
+    if (context.state === "suspended") context.resume().catch(() => {});
+    return context;
+  }
+  async function unlockAlarmAudio() {
+    const context = primeAlarmAudio();
+    if (!context) return null;
+    if (context.state !== "running") {
       try { await context.resume(); } catch (_) { return null; }
     }
     return context.state === "running" ? context : null;
@@ -190,8 +208,9 @@
   function playAlarm(sound = getAlarmSound()) {
     if (sound === "none") return false;
     const context = ensureAudioContext();
-    // Timed alarms can only sound after the page has been unlocked by a user click.
-    if (!context || context.state !== "running") return false;
+    // A timed alert still follows browser autoplay rules. It is enabled after
+    // the user presses preview, changes a sound, or starts a timer.
+    if (!audioArmed || !context || context.state !== "running") return false;
     const at = context.currentTime + 0.04;
     if (sound === "beep") {
       playTone(context, 880, at, 0.18, "square", 0.10);
@@ -205,6 +224,20 @@
       playTone(context, 1318.5, at + 0.19, 0.22, "sine", 0.13);
       playTone(context, 1046.5, at + 0.46, 0.25, "sine", 0.14);
     }
+    return true;
+  }
+  async function previewAlarm(sound = getAlarmSound()) {
+    if (sound === "none") {
+      setAlarmStatus(language() === "ja" ? "無音が選択されています。" : "무음이 선택되어 있어요.", "error");
+      return false;
+    }
+    primeAlarmAudio();
+    const context = await unlockAlarmAudio();
+    if (!context || !playAlarm(sound)) {
+      setAlarmStatus(language() === "ja" ? "ブラウザで音声がブロックされています。ページを一度タップしてからもう一度お試しください。" : "브라우저가 소리를 막고 있어요. 페이지를 한 번 누른 뒤 다시 시도해 주세요.", "error");
+      return false;
+    }
+    setAlarmStatus(language() === "ja" ? "テスト音を再生しました。タイマーもこの音で通知します。" : "테스트 소리를 재생했어요. 타이머도 이 소리로 알려드려요.", "success");
     return true;
   }
   function notifyTimer(timer, stage) {
@@ -375,9 +408,10 @@
     const next = stages.find(stage => now < stage.at) || { id:"W3", at:harvest };
     return { kind:"growing", time:next.at - now, next };
   }
-  function progressPercent(timer) {
-    const full = timer.durationMs;
-    return Math.max(0, Math.min(100, ((Date.now() - timer.plantedAt) / full) * 100));
+  function progressPercent(timer, now = Date.now()) {
+    const virtualDuration = timer.durationMs + 60000;
+    const elapsedWithLead = Math.max(0, now - timer.plantedAt + PROGRESS_LEAD_MS);
+    return Math.max(0, Math.min(100, (elapsedWithLead / virtualDuration) * 100));
   }
   function renderTimerCard(timer, options = {}) {
     const crop = getCrop(timer.cropId);
@@ -387,7 +421,7 @@
     const state = timerState(timer);
     const stages = stageData(timer);
     const timeline = timelineData(timer);
-    const progress = Math.max(0, Math.min(100, ((now - timer.plantedAt) / timeline.virtualDuration) * 100));
+    const progress = progressPercent(timer, now);
     const alarmIsRepeating = repeatingAlerts.has(timer.id);
 
     let statusLine = "";
@@ -514,22 +548,19 @@
     });
   }
   function init() {
+    document.documentElement.dataset.farmTimerBuild = BUILD_VERSION;
     $("notification-button").addEventListener("click", requestNotifications);
     $("alarm-sound").value = getAlarmSound();
-    $("alarm-sound").addEventListener("change", async event => {
+    $("alarm-sound").addEventListener("change", event => {
       setAlarmSound(event.target.value);
-      await unlockAlarmAudio();
-      playAlarm(event.target.value);
+      previewAlarm(event.target.value);
     });
-    $("test-alarm-button").addEventListener("click", async () => {
-      await unlockAlarmAudio();
-      playAlarm();
-    });
+    $("test-alarm-button").addEventListener("click", () => previewAlarm());
     $("start-mode").addEventListener("change", onRemainingToggle);
     ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
-    plantButton.addEventListener("click", async () => {
-      // This user gesture unlocks browser audio so the later timed alarm may play.
-      await unlockAlarmAudio();
+    plantButton.addEventListener("click", () => {
+      // Keep audio permission available for the scheduled weed notifications.
+      primeAlarmAudio();
       plant();
     });
     $("clear-all-button").addEventListener("click", clearAll);
@@ -550,10 +581,11 @@
     refreshForm();
     checkTimerAlerts(true);
     renderTimers();
+    // Frequent updates prevent the visible one-second progress-bar lag.
     setInterval(() => {
       checkTimerAlerts(false);
       renderTimers();
-    }, 1000);
+    }, 250);
   }
   document.addEventListener("DOMContentLoaded", init);
 })();

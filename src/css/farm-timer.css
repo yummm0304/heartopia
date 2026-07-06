@@ -67,10 +67,13 @@
 }
 .farm-check-v6 { display:flex; align-items:center; gap:8px; margin-top:14px; color:#45382c; font-size:.92rem; font-weight:800; cursor:pointer; }
 .farm-check-v6 input { width:17px; height:17px; accent-color:#4ba96c; }
-.farm-alarm-setting-v6 { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; padding:10px 12px; border:1px solid #f1dfbb; border-radius:15px; background:#fff9ec; color:#4c3d2f; font-size:.88rem; font-weight:800; }
+.farm-alarm-setting-v6 { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 12px; margin-top:12px; padding:10px 12px; border:1px solid #f1dfbb; border-radius:15px; background:#fff9ec; color:#4c3d2f; font-size:.88rem; font-weight:800; }
 .farm-alarm-controls { display:flex; align-items:center; gap:7px; }
 .farm-alarm-controls select, .farm-alarm-controls button { min-height:34px; border:1.5px solid #f3e3c0; border-radius:999px; background:#fffdf9; color:#4a3a2c; padding:6px 10px; font:inherit; font-size:.8rem; font-weight:800; }
 .farm-alarm-controls button { cursor:pointer; background:#fff0bd; }
+.farm-alarm-status { flex:0 0 100%; min-height:1.1em; color:#8b7052; font-size:.75rem; font-weight:700; }
+.farm-alarm-status.is-success { color:#2d8a51; }
+.farm-alarm-status.is-error { color:#c95b4c; }
 .farm-remaining-v6 { margin-top:10px; padding:12px; border:1px solid #f1dfbb; border-radius:15px; background:#fff9ec; }
 .farm-remaining-head { display:flex; align-items:center; justify-content:space-between; gap:10px; color:#4c3d2f; font-size:.9rem; }
 .farm-total-duration { color:#b38e65; font-size:.78rem; }
@@ -128,7 +131,7 @@
 }
 .farm-progress-fill {
   position:absolute; z-index:1; left:0; top:var(--bar-top); height:var(--bar-height);
-  max-width:100%; border-radius:999px; background:#69bf86; transition:width .35s linear;
+  max-width:100%; border-radius:999px; background:#69bf86; transition:none;
 }
 .farm-marker {
   position:absolute; z-index:2; top:0; display:flex; flex-direction:column; align-items:center;

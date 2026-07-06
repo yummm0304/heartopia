@@ -2,10 +2,11 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-store, max-age=0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="farm.pageTitle">농장 타이머</title>
-  <link rel="stylesheet" href="../../css/common.css">
-  <link rel="stylesheet" href="../../css/farm-timer.css">
+  <link rel="stylesheet" href="../../css/common.css?v=20260707-02">
+  <link rel="stylesheet" href="../../css/farm-timer.css?v=20260707-02">
 </head>
 <body>
   <div id="header-placeholder"></div>
@@ -92,6 +93,7 @@
           </select>
           <button id="test-alarm-button" type="button">미리 듣기</button>
         </div>
+        <span id="alarm-status" class="farm-alarm-status" role="status" aria-live="polite"></span>
       </div>
 
       <p id="selected-crop-summary" class="farm-selection-summary" aria-live="polite"></p>
@@ -120,7 +122,7 @@
     </article>
   </div>
 
-  <script src="../../js/common.js"></script>
-  <script src="../../js/farm-timer.js"></script>
+  <script src="../../js/common.js?v=20260707-02"></script>
+  <script src="../../js/farm-timer.js?v=20260707-02"></script>
 </body>
 </html>
