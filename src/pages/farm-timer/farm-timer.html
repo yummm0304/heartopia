@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="farm.pageTitle">농장 타이머</title>
   <link rel="stylesheet" href="../../css/common.css?v=20260707-02">
-  <link rel="stylesheet" href="../../css/farm-timer.css?v=20260707-02">
+  <link rel="stylesheet" href="../../css/farm-timer.css?v=20260707-04">
 </head>
 <body>
   <div id="header-placeholder"></div>
@@ -85,7 +85,7 @@
       <div class="farm-alarm-setting-v6">
         <label for="alarm-sound">🔊 알람 소리</label>
         <div class="farm-alarm-controls">
-          <select id="alarm-sound">
+          <select id="alarm-sound" aria-label="알람 소리">
             <option value="bell">기본 벨</option>
             <option value="chime">부드러운 차임</option>
             <option value="beep">짧은 비프</option>
@@ -93,6 +93,7 @@
           </select>
           <button id="test-alarm-button" type="button">미리 듣기</button>
         </div>
+        <span class="farm-alarm-hint">반복 알람은 카드의 <b>알람 확인</b>을 누를 때까지 짧은 간격으로 계속 울려요.</span>
         <span id="alarm-status" class="farm-alarm-status" role="status" aria-live="polite"></span>
       </div>
 
@@ -122,7 +123,7 @@
     </article>
   </div>
 
-  <script src="../../js/common.js?v=20260707-02"></script>
-  <script src="../../js/farm-timer.js?v=20260707-02"></script>
+  <script src="../../js/common.js?v=20260707-03"></script>
+  <script src="../../js/farm-timer.js?v=20260707-04"></script>
 </body>
 </html>

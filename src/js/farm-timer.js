@@ -3,7 +3,9 @@
 
   const STORAGE_KEY = "heartopia_farm_timers_v2";
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
-  const BUILD_VERSION = "20260707-02";
+  // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
+  const REPEAT_ALARM_INTERVAL_MS = 850;
+  const BUILD_VERSION = "20260707-04";
   const ALERT_GRACE_MS = 90 * 1000;
   // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
   const PROGRESS_LEAD_MS = 750;
@@ -119,6 +121,7 @@
         durationMs,
         label: String(raw.label || ""),
         repeat: Boolean(raw.repeat),
+        alarmActive: Boolean(raw.alarmActive),
         notifiedStages: raw.notifiedStages && typeof raw.notifiedStages === "object" ? raw.notifiedStages : {}
       });
     });
@@ -250,16 +253,28 @@
       } catch (_) {}
     }
   }
-  function stopRepeatingAlert(timerId) {
+  function stopRepeatingAlert(timerId, persist = true) {
     const interval = repeatingAlerts.get(timerId);
     if (interval) clearInterval(interval);
     repeatingAlerts.delete(timerId);
+    const timer = timers.find(item => item.id === timerId);
+    if (timer && timer.alarmActive) {
+      timer.alarmActive = false;
+      if (persist) saveTimers();
+    }
   }
   function startRepeatingAlert(timer) {
-    stopRepeatingAlert(timer.id);
+    stopRepeatingAlert(timer.id, false);
     if (!timer.repeat || getAlarmSound() === "none") return;
-    const interval = setInterval(() => playAlarm(), 5000);
+    timer.alarmActive = true;
+    // Keep the warning tight: each bell phrase is about 0.7s, leaving only a brief gap.
+    playAlarm();
+    const interval = setInterval(() => playAlarm(), REPEAT_ALARM_INTERVAL_MS);
     repeatingAlerts.set(timer.id, interval);
+    saveTimers();
+  }
+  function resumeActiveAlerts() {
+    timers.filter(timer => timer.alarmActive && timer.repeat).forEach(timer => startRepeatingAlert(timer));
   }
   function checkTimerAlerts(initial = false) {
     const now = Date.now();
@@ -271,9 +286,9 @@
         notified[stage.id] = true;
         changed = true;
         if (!initial && now - stage.at <= ALERT_GRACE_MS) {
-          playAlarm();
           notifyTimer(timer, stage);
-          startRepeatingAlert(timer);
+          if (timer.repeat) startRepeatingAlert(timer);
+          else playAlarm();
         }
       });
     });
@@ -388,6 +403,7 @@
       durationMs,
       label: $("farm-label").value.trim(),
       repeat: $("repeat-alert").checked,
+      alarmActive: false,
       notifiedStages: {}
     };
     timers.unshift(timer);
@@ -422,7 +438,7 @@
     const stages = stageData(timer);
     const timeline = timelineData(timer);
     const progress = progressPercent(timer, now);
-    const alarmIsRepeating = repeatingAlerts.has(timer.id);
+    const alarmIsRepeating = Boolean(timer.alarmActive);
 
     let statusLine = "";
     if (state.kind === "growing") {
@@ -537,6 +553,11 @@
     modalContent.innerHTML = renderTimerCard(timer, { compact:false });
     modalContent.querySelector(".farm-timer-card")?.classList.add("farm-modal-card");
     modalContent.querySelector("[data-delete]")?.addEventListener("click", () => removeTimer(timer.id));
+    modalContent.querySelector("[data-ack-alarm]")?.addEventListener("click", event => {
+      event.stopPropagation();
+      stopRepeatingAlert(timer.id);
+      renderTimers();
+    });
   }
   function bindHelp() {
     const button = $("help-toggle");
@@ -580,6 +601,7 @@
     renderCrops();
     refreshForm();
     checkTimerAlerts(true);
+    resumeActiveAlerts();
     renderTimers();
     // Frequent updates prevent the visible one-second progress-bar lag.
     setInterval(() => {
