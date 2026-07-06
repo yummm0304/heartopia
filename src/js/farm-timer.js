@@ -1,613 +1,703 @@
 (() => {
-  "use strict";
+  'use strict';
 
-  const STORAGE_KEY = "heartopia_farm_timers_v2";
-  const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
-  // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
-  const REPEAT_ALARM_INTERVAL_MS = 850;
-  const BUILD_VERSION = "20260707-04";
-  const ALERT_GRACE_MS = 90 * 1000;
-  // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
-  const PROGRESS_LEAD_MS = 750;
-  let audioContext = null;
-  let audioArmed = false;
-  const repeatingAlerts = new Map();
-  const crops = [
-    { id:"tomato", name:"토마토", ja:"トマト", minutes:15, icon:"🍅" },
-    { id:"rice", name:"벼", ja:"米", minutes:20, icon:"🍚", isNew:true },
-    { id:"pineapple", name:"파인애플", ja:"パイナップル", minutes:30, icon:"🍍" },
-    { id:"tea", name:"찻잎", ja:"茶葉", minutes:45, icon:"🍃" },
-    { id:"potato", name:"감자", ja:"ジャガイモ", minutes:60, icon:"🥔" },
-    { id:"carrot", name:"당근", ja:"ニンジン", minutes:120, icon:"🥕" },
-    { id:"wheat", name:"밀", ja:"小麦", minutes:240, icon:"🌾" },
-    { id:"strawberry", name:"딸기", ja:"いちご", minutes:360, icon:"🍓" },
-    { id:"eggplant", name:"가지", ja:"ナス", minutes:420, icon:"🍆" },
-    { id:"lettuce", name:"양상추", ja:"レタス", minutes:480, icon:"🥬" },
-    { id:"grape", name:"포도", ja:"ブドウ", minutes:600, icon:"🍇" },
-    { id:"corn", name:"옥수수", ja:"トウモロコシ", minutes:720, icon:"🌽" },
-    { id:"cacao", name:"카카오", ja:"カカオ", minutes:300, icon:"🍫" },
-    { id:"avocado", name:"아보카도", ja:"アボカド", minutes:840, icon:"🥑" }
+  const STORAGE_KEY = 'heartopia_farm_timers_v2';
+  const LEGACY_STORAGE_KEY = 'heartopia_farm_timers_v1';
+  const ALARM_SOUND_KEY = 'heartopia_farm_alarm_sound_v1';
+  const REPEAT_INTERVAL_MS = 800;
+  const ALERT_WINDOW_MS = 90_000;
+  const RENDER_INTERVAL_MS = 500;
+  const MAX_TIMERS = 30;
+
+  const CROPS = [
+    { id: 'tomato', name: '토마토', ja: 'トマト', minutes: 15, icon: '🍅' },
+    { id: 'rice', name: '벼', ja: '米', minutes: 20, icon: '🍚', isNew: true },
+    { id: 'pineapple', name: '파인애플', ja: 'パイナップル', minutes: 30, icon: '🍍' },
+    { id: 'tea', name: '찻잎', ja: '茶葉', minutes: 45, icon: '🍃' },
+    { id: 'potato', name: '감자', ja: 'ジャガイモ', minutes: 60, icon: '🥔' },
+    { id: 'carrot', name: '당근', ja: 'ニンジン', minutes: 120, icon: '🥕' },
+    { id: 'wheat', name: '밀', ja: '小麦', minutes: 240, icon: '🌾' },
+    { id: 'strawberry', name: '딸기', ja: 'いちご', minutes: 360, icon: '🍓' },
+    { id: 'eggplant', name: '가지', ja: 'ナス', minutes: 420, icon: '🍆' },
+    { id: 'lettuce', name: '양상추', ja: 'レタス', minutes: 480, icon: '🥬' },
+    { id: 'grape', name: '포도', ja: 'ブドウ', minutes: 600, icon: '🍇' },
+    { id: 'corn', name: '옥수수', ja: 'トウモロコシ', minutes: 720, icon: '🌽' },
+    { id: 'cacao', name: '카카오', ja: 'カカオ', minutes: 300, icon: '🍫' },
+    { id: 'avocado', name: '아보카도', ja: 'アボカド', minutes: 840, icon: '🥑' }
   ];
 
-  const copy = {
+  const COPY = {
     ko: {
-      allowNotifications:"🔔 알림 허용", notificationsEnabled:"🔔 알림 켜짐", cannotNotify:"알림을 지원하지 않는 브라우저예요.",
-      choosePrompt:"작물을 선택해 주세요.", cropDuration:"{name} · 수확까지 {time}", continuingDuration:"{name} · 총 {time} 중",
-      plant:"작물 심기", continue:"이어서 시작", remainingRequired:"남은 시간을 1초 이상 입력해 주세요.",
-      remainingTooLong:"입력한 시간이 작물 전체 성장 시간보다 길어요. 최대 {time}으로 적용했어요.",
-      delete:"삭제", deleteConfirm:"이 작물을 삭제할까요?", clearConfirm:"진행 중인 작물을 모두 삭제할까요?",
-      nextWeed:"🌱 다음 잡초 · {stage}", mature:"성숙됨! 잠시 후 마지막 잡초 제거", afterMature:"성숙 후 · 마지막 잡초 제거",
-      harvestReady:"🌱 재배 완료!", harvestAt:"수확까지 {time}", matureTip:"✨ 성숙됨! 잠시 후 마지막 잡초 제거",
-      justBefore:"성숙 직전", after:"성숙 후", noTimers:"아직 심은 작물이 없어요. 위에서 작물을 선택해 시작해 보세요."
+      allowNotifications: '🔔 알림 허용',
+      notificationsEnabled: '🔔 알림 켜짐',
+      cannotNotify: '알림을 지원하지 않는 브라우저예요.',
+      choosePrompt: '작물을 선택해 주세요.',
+      cropDuration: '{name} · 수확까지 {time}',
+      continuingDuration: '{name} · 총 {time} 중',
+      plant: '작물 심기',
+      continue: '이어서 시작',
+      remainingRequired: '남은 시간을 1초 이상 입력해 주세요.',
+      remainingTooLong: '입력한 시간이 작물 전체 성장 시간보다 길어요. 최대 {time}으로 적용했어요.',
+      delete: '삭제',
+      clearConfirm: '진행 중인 작물을 모두 삭제할까요?',
+      nextWeed: '🌱 다음 잡초 · {stage}',
+      harvestReady: '🌱 재배 완료!',
+      harvestAt: '수확까지 {time}',
+      matureTip: '✨ 성숙됨! 잠시 후 마지막 잡초 제거',
+      justBefore: '성숙 직전',
+      after: '성숙 후'
     },
     ja: {
-      allowNotifications:"🔔 通知を許可", notificationsEnabled:"🔔 通知オン", cannotNotify:"このブラウザは通知に対応していません。",
-      choosePrompt:"作物を選んでください。", cropDuration:"{name} · 収穫まで {time}", continuingDuration:"{name} · 合計 {time} 中",
-      plant:"作物を植える", continue:"続きから開始", remainingRequired:"残り時間を1秒以上入力してください。",
-      remainingTooLong:"入力した時間が作物の成長時間より長いため、最大 {time} で設定しました。",
-      delete:"削除", deleteConfirm:"この作物を削除しますか？", clearConfirm:"栽培中の作物をすべて削除しますか？",
-      nextWeed:"🌱 次の雑草 · {stage}", mature:"成熟！最後の雑草を取りましょう", afterMature:"成熟後 · 最後の雑草を取る",
-      harvestReady:"🌱 栽培完了！", harvestAt:"収穫まで {time}", matureTip:"✨ 成熟！最後の雑草を取りましょう",
-      justBefore:"成熟直前", after:"成熟後", noTimers:"まだ植えた作物がありません。上から作物を選んで始めましょう。"
+      allowNotifications: '🔔 通知を許可',
+      notificationsEnabled: '🔔 通知オン',
+      cannotNotify: 'このブラウザは通知に対応していません。',
+      choosePrompt: '作物を選んでください。',
+      cropDuration: '{name} · 収穫まで {time}',
+      continuingDuration: '{name} · 合計 {time} 中',
+      plant: '作物を植える',
+      continue: '続きから開始',
+      remainingRequired: '残り時間を1秒以上入力してください。',
+      remainingTooLong: '入力した時間が作物の成長時間より長いため、最大 {time}で設定しました。',
+      delete: '削除',
+      clearConfirm: '栽培中の作物をすべて削除しますか？',
+      nextWeed: '🌱 次の雑草 · {stage}',
+      harvestReady: '🌱 栽培完了！',
+      harvestAt: '収穫まで {time}',
+      matureTip: '✨ 成熟！少し後に最後の雑草を取りましょう',
+      justBefore: '成熟直前',
+      after: '成熟後'
     }
   };
 
   const $ = (id) => document.getElementById(id);
-  const cropGrid = $("crop-grid");
-  const timerList = $("timer-list");
-  const emptyState = $("empty-state");
-  const plantButton = $("plant-button");
-  const plantButtonLabel = $("plant-button-label");
-  const modal = $("timer-modal");
-  const modalContent = $("timer-modal-content");
+  const cropGrid = $('crop-grid');
+  const timerList = $('timer-list');
+  const emptyState = $('empty-state');
+  const plantButton = $('plant-button');
+  const plantButtonLabel = $('plant-button-label');
+  const modal = $('timer-modal');
+  const modalContent = $('timer-modal-content');
 
   let selectedCropId = null;
   let timers = loadTimers();
   let activeModalId = null;
+  let audioContext = null;
+  let audioUnlocked = false;
+  const repeatingAlarms = new Map();
 
   function language() {
-    return window.getSiteLanguage ? window.getSiteLanguage() : "ko";
+    return window.getSiteLanguage?.() || 'ko';
   }
-  function t(key) {
-    const table = copy[language()] || copy.ko;
-    return table[key] || copy.ko[key] || "";
+
+  function text(key) {
+    return (COPY[language()] || COPY.ko)[key] || COPY.ko[key] || '';
   }
+
   function cropName(crop) {
-    return language() === "ja" ? crop.ja : crop.name;
+    return language() === 'ja' ? crop.ja : crop.name;
   }
-  function esc(value) {
-    return String(value ?? "").replace(/[&<>"']/g, c => ({
-      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-    }[c]));
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char]));
   }
-  function getCrop(id) {
-    return crops.find(crop => crop.id === id);
+
+  function getCrop(cropId) {
+    return CROPS.find((crop) => crop.id === cropId);
   }
+
   function durationText(totalSeconds) {
     const seconds = Math.max(0, Math.round(totalSeconds));
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    const units = language() === "ja"
-      ? { h:"時間", m:"分", s:"秒" }
-      : { h:"시간", m:"분", s:"초" };
-    if (hours) return minutes ? `${hours}${units.h} ${minutes}${units.m}` : `${hours}${units.h}`;
-    if (minutes) return `${minutes}${units.m}`;
-    return `${secs}${units.s}`;
+    const unit = language() === 'ja' ? { h: '時間', m: '分', s: '秒' } : { h: '시간', m: '분', s: '초' };
+
+    if (hours) return minutes ? `${hours}${unit.h} ${minutes}${unit.m}` : `${hours}${unit.h}`;
+    if (minutes) return `${minutes}${unit.m}`;
+    return `${secs}${unit.s}`;
   }
-  function countdownText(ms) {
-    const total = Math.max(0, Math.ceil(ms / 1000));
-    const h = Math.floor(total / 3600);
-    const m = Math.floor((total % 3600) / 60);
-    const s = total % 60;
-    return h ? `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}` : `${m}:${String(s).padStart(2,"0")}`;
+
+  function countdownText(milliseconds) {
+    const total = Math.max(0, Math.ceil(milliseconds / 1000));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
+    return hours
+      ? `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+      : `${minutes}:${String(seconds).padStart(2, '0')}`;
   }
-  function safeInt(value, max) {
+
+  function clampInteger(value, max) {
     return Math.max(0, Math.min(max, Number.parseInt(value, 10) || 0));
   }
-  function cleanTimers(value) {
+
+  function timerId() {
+    return window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  }
+
+  function normalizeTimers(rawTimers) {
     const unique = new Map();
-    (Array.isArray(value) ? value : []).forEach(raw => {
-      if (!raw || !raw.id || !raw.cropId || !getCrop(raw.cropId)) return;
-      const crop = getCrop(raw.cropId);
-      const durationMs = Number(raw.durationMs) || crop.minutes * 60000;
-      const harvestAt = Number(raw.harvestAt) || ((Number(raw.plantedAt) || Date.now()) + durationMs);
-      const plantedAt = Number(raw.plantedAt) || (harvestAt - durationMs);
+
+    for (const raw of Array.isArray(rawTimers) ? rawTimers : []) {
+      const crop = getCrop(raw?.cropId);
+      if (!raw?.id || !crop) continue;
+
+      const durationMs = Number(raw.durationMs) || crop.minutes * 60_000;
+      const plantedAt = Number(raw.plantedAt) || Date.now();
+      const harvestAt = Number(raw.harvestAt) || plantedAt + durationMs;
+
       unique.set(raw.id, {
-        id: raw.id,
-        cropId: raw.cropId,
-        plantedAt,
+        id: String(raw.id),
+        cropId: crop.id,
+        plantedAt: harvestAt - durationMs,
         harvestAt,
         durationMs,
-        label: String(raw.label || ""),
+        label: String(raw.label || '').slice(0, 30),
         repeat: Boolean(raw.repeat),
         alarmActive: Boolean(raw.alarmActive),
-        notifiedStages: raw.notifiedStages && typeof raw.notifiedStages === "object" ? raw.notifiedStages : {}
+        notifiedStages: raw.notifiedStages && typeof raw.notifiedStages === 'object' ? raw.notifiedStages : {}
       });
-    });
-    return [...unique.values()].slice(-30);
+    }
+
+    return [...unique.values()].slice(-MAX_TIMERS);
   }
+
   function loadTimers() {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      return cleanTimers(saved);
+      return normalizeTimers(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
     } catch {
       return [];
     }
   }
+
   function saveTimers() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(timers));
-    // Old v1 data must not revive deleted cards when revisiting this page.
-    localStorage.removeItem("heartopia_farm_timers_v1");
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
   }
-  function getHarvestAt(timer) { return Number(timer.harvestAt); }
-  function timelineData(timer) {
-    const full = timer.durationMs;
-    const virtualDuration = full + 60000; // W4 is one minute after harvest.
-    return {
-      virtualDuration,
-      w1: (full / 3) / virtualDuration * 100,
-      w2: (full * 2 / 3) / virtualDuration * 100,
-      w3: Math.max(0, (full - 60000) / virtualDuration * 100)
-    };
-  }
-  function stageData(timer) {
-    const harvest = getHarvestAt(timer);
-    const planted = timer.plantedAt;
-    const full = timer.durationMs;
+
+  function stagesFor(timer) {
+    const { plantedAt, harvestAt, durationMs } = timer;
+    const minute = 60_000;
+    const units = language() === 'ja' ? '分' : '분';
+
     return [
-      { id:"W1", at: planted + full / 3, label: `${Math.round(full / 180000)}${language()==="ja" ? "分" : "분"}` },
-      { id:"W2", at: planted + full * 2 / 3, label: `${Math.round(full / 90000)}${language()==="ja" ? "分" : "분"}` },
-      { id:"W3", at: harvest - 60000, label: t("justBefore") },
-      { id:"W4", at: harvest + 60000, label: t("after") }
+      { id: 'W1', at: plantedAt + durationMs / 3, label: `${Math.round(durationMs / 180_000)}${units}` },
+      { id: 'W2', at: plantedAt + (durationMs * 2) / 3, label: `${Math.round(durationMs / 90_000)}${units}` },
+      { id: 'W3', at: harvestAt - minute, label: text('justBefore') },
+      { id: 'W4', at: harvestAt + minute, label: text('after') }
     ];
   }
-  function getAlarmSound() {
-    return localStorage.getItem(ALARM_SOUND_KEY) || "bell";
+
+  function timelineFor(timer) {
+    const stages = stagesFor(timer);
+    const start = timer.plantedAt;
+    const end = stages.at(-1).at;
+    const width = Math.max(1, end - start);
+    const positionOf = (at) => Math.max(0, Math.min(100, ((at - start) / width) * 100));
+
+    return {
+      start,
+      end,
+      positions: Object.fromEntries(stages.map((stage) => [stage.id, positionOf(stage.at)]))
+    };
   }
+
+  function progressPercent(timer, now = Date.now()) {
+    const timeline = timelineFor(timer);
+    const raw = Math.max(0, Math.min(100, ((now - timeline.start) / (timeline.end - timeline.start)) * 100));
+    const latestPassed = stagesFor(timer).filter((stage) => now >= stage.at).at(-1);
+
+    // Once a weed moment has passed, the fill is visually just beyond its marker.
+    if (!latestPassed) return raw;
+    return Math.min(100, Math.max(raw, timeline.positions[latestPassed.id] + 0.25));
+  }
+
+  function timerState(timer, now = Date.now()) {
+    const stages = stagesFor(timer);
+    const harvestAt = timer.harvestAt;
+    const w4 = stages[3];
+
+    if (now >= w4.at) return { kind: 'complete', next: null, remainingMs: 0 };
+    if (now >= harvestAt) return { kind: 'mature', next: w4, remainingMs: w4.at - now };
+
+    const next = stages.find((stage) => now < stage.at) || w4;
+    return { kind: 'growing', next, remainingMs: next.at - now };
+  }
+
+  function getAlarmSound() {
+    return localStorage.getItem(ALARM_SOUND_KEY) || 'bell';
+  }
+
   function setAlarmSound(value) {
     localStorage.setItem(ALARM_SOUND_KEY, value);
   }
-  function setAlarmStatus(message, state = "") {
-    const status = $("alarm-status");
+
+  function setAlarmStatus(message, state = '') {
+    const status = $('alarm-status');
     if (!status) return;
-    status.textContent = message || "";
-    status.className = `farm-alarm-status${state ? ` is-${state}` : ""}`;
+    status.textContent = message;
+    status.className = `farm-alarm-status${state ? ` is-${state}` : ''}`;
   }
-  function ensureAudioContext() {
-    const AudioCtor = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtor) return null;
-    if (!audioContext) audioContext = new AudioCtor();
+
+  function getAudioContext() {
+    const Constructor = window.AudioContext || window.webkitAudioContext;
+    if (!Constructor) return null;
+    if (!audioContext) audioContext = new Constructor();
     return audioContext;
   }
-  // Run inside a user gesture so later timer alerts are allowed to make sound.
-  function primeAlarmAudio() {
-    const context = ensureAudioContext();
+
+  async function unlockAudio() {
+    const context = getAudioContext();
     if (!context) return null;
-    audioArmed = true;
-    if (context.state === "suspended") context.resume().catch(() => {});
-    return context;
-  }
-  async function unlockAlarmAudio() {
-    const context = primeAlarmAudio();
-    if (!context) return null;
-    if (context.state !== "running") {
-      try { await context.resume(); } catch (_) { return null; }
+
+    try {
+      if (context.state === 'suspended') await context.resume();
+      audioUnlocked = context.state === 'running';
+      return audioUnlocked ? context : null;
+    } catch {
+      audioUnlocked = false;
+      return null;
     }
-    return context.state === "running" ? context : null;
   }
-  function playTone(context, frequency, start, duration, type = "sine", volume = 0.12) {
+
+  function tone(context, frequency, startAt, duration, type = 'sine', volume = 0.12) {
     const oscillator = context.createOscillator();
     const gain = context.createGain();
+
     oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    oscillator.frequency.setValueAtTime(frequency, startAt);
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(volume, startAt + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
     oscillator.connect(gain).connect(context.destination);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.03);
+    oscillator.start(startAt);
+    oscillator.stop(startAt + duration + 0.03);
   }
+
   function playAlarm(sound = getAlarmSound()) {
-    if (sound === "none") return false;
-    const context = ensureAudioContext();
-    // A timed alert still follows browser autoplay rules. It is enabled after
-    // the user presses preview, changes a sound, or starts a timer.
-    if (!audioArmed || !context || context.state !== "running") return false;
-    const at = context.currentTime + 0.04;
-    if (sound === "beep") {
-      playTone(context, 880, at, 0.18, "square", 0.10);
-      playTone(context, 880, at + 0.26, 0.18, "square", 0.10);
-    } else if (sound === "chime") {
-      playTone(context, 523.25, at, 0.48, "sine", 0.13);
-      playTone(context, 659.25, at + 0.12, 0.52, "sine", 0.11);
-      playTone(context, 783.99, at + 0.24, 0.58, "sine", 0.09);
+    if (sound === 'none' || !audioUnlocked) return false;
+    const context = getAudioContext();
+    if (!context || context.state !== 'running') return false;
+
+    const at = context.currentTime + 0.03;
+    if (sound === 'beep') {
+      tone(context, 880, at, 0.16, 'square', 0.10);
+      tone(context, 880, at + 0.22, 0.16, 'square', 0.10);
+    } else if (sound === 'chime') {
+      tone(context, 523.25, at, 0.40, 'sine', 0.13);
+      tone(context, 659.25, at + 0.12, 0.45, 'sine', 0.11);
+      tone(context, 783.99, at + 0.24, 0.50, 'sine', 0.09);
     } else {
-      playTone(context, 1046.5, at, 0.16, "sine", 0.15);
-      playTone(context, 1318.5, at + 0.19, 0.22, "sine", 0.13);
-      playTone(context, 1046.5, at + 0.46, 0.25, "sine", 0.14);
+      tone(context, 1046.5, at, 0.14, 'sine', 0.15);
+      tone(context, 1318.5, at + 0.17, 0.20, 'sine', 0.13);
+      tone(context, 1046.5, at + 0.41, 0.22, 'sine', 0.14);
     }
     return true;
   }
+
   async function previewAlarm(sound = getAlarmSound()) {
-    if (sound === "none") {
-      setAlarmStatus(language() === "ja" ? "無音が選択されています。" : "무음이 선택되어 있어요.", "error");
-      return false;
+    if (sound === 'none') {
+      setAlarmStatus(language() === 'ja' ? '無音が選択されています。' : '무음이 선택되어 있어요.', 'error');
+      return;
     }
-    primeAlarmAudio();
-    const context = await unlockAlarmAudio();
+
+    const context = await unlockAudio();
     if (!context || !playAlarm(sound)) {
-      setAlarmStatus(language() === "ja" ? "ブラウザで音声がブロックされています。ページを一度タップしてからもう一度お試しください。" : "브라우저가 소리를 막고 있어요. 페이지를 한 번 누른 뒤 다시 시도해 주세요.", "error");
-      return false;
+      setAlarmStatus(language() === 'ja' ? 'ブラウザで音声がブロックされています。ページを一度タップしてからもう一度お試しください。' : '브라우저가 소리를 막고 있어요. 페이지를 한 번 누른 뒤 다시 시도해 주세요.', 'error');
+      return;
     }
-    setAlarmStatus(language() === "ja" ? "テスト音を再生しました。タイマーもこの音で通知します。" : "테스트 소리를 재생했어요. 타이머도 이 소리로 알려드려요.", "success");
-    return true;
+
+    setAlarmStatus(language() === 'ja' ? 'テスト音を再生しました。' : '테스트 소리를 재생했어요.', 'success');
   }
-  function notifyTimer(timer, stage) {
+
+  function notify(timer, stage) {
     const crop = getCrop(timer.cropId);
-    if ("Notification" in window && Notification.permission === "granted") {
-      try {
-        new Notification(`🌱 ${cropName(crop)} · ${stage.id}`, {
-          body: timer.label || (language() === "ja" ? "雑草を取りましょう。" : "잡초를 뽑을 시간이에요.")
-        });
-      } catch (_) {}
+    if (!crop || !('Notification' in window) || Notification.permission !== 'granted') return;
+
+    try {
+      new Notification(`🌱 ${cropName(crop)} · ${stage.id}`, {
+        body: timer.label || (language() === 'ja' ? '雑草を取りましょう。' : '잡초를 뽑을 시간이에요.')
+      });
+    } catch {
+      // Browser notification failures are non-fatal.
     }
   }
-  function stopRepeatingAlert(timerId, persist = true) {
-    const interval = repeatingAlerts.get(timerId);
+
+  function stopRepeatingAlarm(timerId, persist = true) {
+    const interval = repeatingAlarms.get(timerId);
     if (interval) clearInterval(interval);
-    repeatingAlerts.delete(timerId);
-    const timer = timers.find(item => item.id === timerId);
+    repeatingAlarms.delete(timerId);
+
+    const timer = timers.find((item) => item.id === timerId);
     if (timer && timer.alarmActive) {
       timer.alarmActive = false;
       if (persist) saveTimers();
     }
   }
-  function startRepeatingAlert(timer) {
-    stopRepeatingAlert(timer.id, false);
-    if (!timer.repeat || getAlarmSound() === "none") return;
+
+  function startRepeatingAlarm(timer) {
+    stopRepeatingAlarm(timer.id, false);
+    if (!timer.repeat || getAlarmSound() === 'none') return;
+
     timer.alarmActive = true;
-    // Keep the warning tight: each bell phrase is about 0.7s, leaving only a brief gap.
     playAlarm();
-    const interval = setInterval(() => playAlarm(), REPEAT_ALARM_INTERVAL_MS);
-    repeatingAlerts.set(timer.id, interval);
+    repeatingAlarms.set(timer.id, window.setInterval(() => playAlarm(), REPEAT_INTERVAL_MS));
     saveTimers();
   }
-  function resumeActiveAlerts() {
-    timers.filter(timer => timer.alarmActive && timer.repeat).forEach(timer => startRepeatingAlert(timer));
+
+  function resumeVisibleAlarmStates() {
+    for (const timer of timers) {
+      if (timer.alarmActive && timer.repeat) startRepeatingAlarm(timer);
+    }
   }
-  function checkTimerAlerts(initial = false) {
+
+  function checkAlerts(initialLoad = false) {
     const now = Date.now();
     let changed = false;
-    timers.forEach(timer => {
+
+    for (const timer of timers) {
       const notified = timer.notifiedStages || (timer.notifiedStages = {});
-      stageData(timer).forEach(stage => {
-        if (now < stage.at || notified[stage.id]) return;
+      for (const stage of stagesFor(timer)) {
+        if (notified[stage.id] || now < stage.at) continue;
         notified[stage.id] = true;
         changed = true;
-        if (!initial && now - stage.at <= ALERT_GRACE_MS) {
-          notifyTimer(timer, stage);
-          if (timer.repeat) startRepeatingAlert(timer);
+
+        if (!initialLoad && now - stage.at <= ALERT_WINDOW_MS) {
+          notify(timer, stage);
+          if (timer.repeat) startRepeatingAlarm(timer);
           else playAlarm();
         }
-      });
-    });
+      }
+    }
+
     if (changed) saveTimers();
   }
+
   function requestNotifications() {
-    if (!("Notification" in window)) return;
-    Notification.requestPermission().finally(renderNotificationButton);
+    if ('Notification' in window) Notification.requestPermission().finally(renderNotificationButton);
   }
+
   function renderNotificationButton() {
-    const button = $("notification-button");
-    if (!("Notification" in window)) {
-      button.textContent = t("cannotNotify");
+    const button = $('notification-button');
+    if (!button) return;
+
+    if (!('Notification' in window)) {
+      button.textContent = text('cannotNotify');
       button.disabled = true;
-      return;
-    }
-    if (Notification.permission === "granted") {
-      button.textContent = t("notificationsEnabled");
+    } else if (Notification.permission === 'granted') {
+      button.textContent = text('notificationsEnabled');
       button.disabled = true;
     } else {
-      button.textContent = t("allowNotifications");
+      button.textContent = text('allowNotifications');
       button.disabled = false;
     }
   }
+
   function renderCrops() {
-    cropGrid.innerHTML = crops.map(crop => {
+    cropGrid.innerHTML = CROPS.map((crop) => {
       const selected = crop.id === selectedCropId;
-      return `<button class="farm-crop-card ${selected ? "is-selected" : ""}" type="button" data-crop="${esc(crop.id)}" aria-pressed="${selected}">
-        ${crop.isNew ? '<span class="farm-new">NEW</span>' : ""}
+      return `<button class="farm-crop-card ${selected ? 'is-selected' : ''}" type="button" data-crop="${escapeHtml(crop.id)}" aria-pressed="${selected}">
+        ${crop.isNew ? '<span class="farm-new">NEW</span>' : ''}
         <span class="farm-crop-icon">${crop.icon}</span>
-        <strong>${esc(cropName(crop))}</strong>
-        <small>${esc(durationText(crop.minutes * 60))}</small>
+        <strong>${escapeHtml(cropName(crop))}</strong>
+        <small>${escapeHtml(durationText(crop.minutes * 60))}</small>
       </button>`;
-    }).join("");
-    cropGrid.querySelectorAll("[data-crop]").forEach(button => {
-      button.addEventListener("click", () => {
+    }).join('');
+
+    cropGrid.querySelectorAll('[data-crop]').forEach((button) => {
+      button.addEventListener('click', () => {
         selectedCropId = button.dataset.crop;
         renderCrops();
         refreshForm();
       });
     });
   }
+
   function setRemainingDefaults() {
     const crop = getCrop(selectedCropId);
     if (!crop) return;
-    const total = crop.minutes * 60;
-    const h = Math.floor(total / 3600);
-    const m = Math.floor((total % 3600) / 60);
-    $("remaining-hours").value = h;
-    $("remaining-minutes").value = m;
-    $("remaining-seconds").value = 0;
+
+    const seconds = crop.minutes * 60;
+    $('remaining-hours').value = Math.floor(seconds / 3600);
+    $('remaining-minutes').value = Math.floor((seconds % 3600) / 60);
+    $('remaining-seconds').value = 0;
   }
+
   function remainingSeconds() {
-    const h = safeInt($("remaining-hours").value, 99);
-    const m = safeInt($("remaining-minutes").value, 59);
-    const s = safeInt($("remaining-seconds").value, 59);
-    return h * 3600 + m * 60 + s;
+    return clampInteger($('remaining-hours').value, 99) * 3600
+      + clampInteger($('remaining-minutes').value, 59) * 60
+      + clampInteger($('remaining-seconds').value, 59);
   }
-  function isRemainingMode() {
-    return $("start-mode").checked;
+
+  function remainingMode() {
+    return $('start-mode').checked;
   }
+
   function refreshForm() {
     const crop = getCrop(selectedCropId);
-    const remaining = isRemainingMode();
-    $("remaining-field").hidden = !remaining;
+    const useRemaining = remainingMode();
+    $('remaining-field').hidden = !useRemaining;
 
     if (!crop) {
-      $("selected-crop-summary").textContent = t("choosePrompt");
-      $("total-duration").textContent = "";
+      $('selected-crop-summary').textContent = text('choosePrompt');
+      $('total-duration').textContent = '';
       plantButton.disabled = true;
-      plantButtonLabel.textContent = t("plant");
+      plantButtonLabel.textContent = text('plant');
       return;
     }
 
     const totalSeconds = crop.minutes * 60;
-    $("total-duration").textContent = (language() === "ja" ? `合計 ${durationText(totalSeconds)} 中` : `총 ${durationText(totalSeconds)} 중`);
-    $("selected-crop-summary").textContent = remaining
-      ? t("continuingDuration").replace("{name}", cropName(crop)).replace("{time}", durationText(totalSeconds))
-      : t("cropDuration").replace("{name}", cropName(crop)).replace("{time}", durationText(totalSeconds));
-    plantButtonLabel.textContent = remaining ? t("continue") : t("plant");
+    $('total-duration').textContent = language() === 'ja' ? `合計 ${durationText(totalSeconds)} 中` : `총 ${durationText(totalSeconds)} 중`;
+    $('selected-crop-summary').textContent = (useRemaining ? text('continuingDuration') : text('cropDuration'))
+      .replace('{name}', cropName(crop))
+      .replace('{time}', durationText(totalSeconds));
+    plantButtonLabel.textContent = useRemaining ? text('continue') : text('plant');
     plantButton.disabled = false;
   }
-  function onRemainingToggle() {
-    if (isRemainingMode()) setRemainingDefaults();
-    refreshForm();
-  }
-  function plant() {
+
+  function createTimer() {
     const crop = getCrop(selectedCropId);
     if (!crop) return;
-    const fullSeconds = crop.minutes * 60;
-    const usingRemaining = isRemainingMode();
-    let remain = usingRemaining ? remainingSeconds() : fullSeconds;
 
-    if (usingRemaining && remain < 1) {
-      alert(t("remainingRequired"));
+    const fullSeconds = crop.minutes * 60;
+    let remaining = remainingMode() ? remainingSeconds() : fullSeconds;
+
+    if (remainingMode() && remaining < 1) {
+      alert(text('remainingRequired'));
       return;
     }
-    if (remain > fullSeconds) {
-      alert(t("remainingTooLong").replace("{time}", durationText(fullSeconds)));
-      remain = fullSeconds;
+    if (remaining > fullSeconds) {
+      alert(text('remainingTooLong').replace('{time}', durationText(fullSeconds)));
+      remaining = fullSeconds;
     }
 
     const now = Date.now();
     const durationMs = fullSeconds * 1000;
-    const harvestAt = now + remain * 1000;
-    const plantedAt = harvestAt - durationMs;
-    const timer = {
-      id: crypto.randomUUID ? crypto.randomUUID() : `${now}-${Math.random()}`,
+    timers.unshift({
+      id: timerId(),
       cropId: crop.id,
-      plantedAt,
-      harvestAt,
+      plantedAt: now + remaining * 1000 - durationMs,
+      harvestAt: now + remaining * 1000,
       durationMs,
-      label: $("farm-label").value.trim(),
-      repeat: $("repeat-alert").checked,
+      label: $('farm-label').value.trim(),
+      repeat: $('repeat-alert').checked,
       alarmActive: false,
       notifiedStages: {}
-    };
-    timers.unshift(timer);
-    timers = timers.slice(0, 30);
+    });
+    timers = timers.slice(0, MAX_TIMERS);
     saveTimers();
-    $("farm-label").value = "";
+    $('farm-label').value = '';
     renderTimers();
   }
-  function timerState(timer) {
-    const now = Date.now();
-    const harvest = getHarvestAt(timer);
-    const stages = stageData(timer);
-    const w4 = stages[3];
 
-    if (now >= w4.at) return { kind:"complete", time:0, next:null };
-    if (now >= harvest) return { kind:"mature", time:w4.at - now, next:w4 };
-
-    const next = stages.find(stage => now < stage.at) || { id:"W3", at:harvest };
-    return { kind:"growing", time:next.at - now, next };
-  }
-  function progressPercent(timer, now = Date.now()) {
-    const virtualDuration = timer.durationMs + 60000;
-    const elapsedWithLead = Math.max(0, now - timer.plantedAt + PROGRESS_LEAD_MS);
-    return Math.max(0, Math.min(100, (elapsedWithLead / virtualDuration) * 100));
-  }
-  function renderTimerCard(timer, options = {}) {
+  function renderTimerCard(timer) {
     const crop = getCrop(timer.cropId);
-    if (!crop) return "";
+    if (!crop) return '';
 
     const now = Date.now();
-    const state = timerState(timer);
-    const stages = stageData(timer);
-    const timeline = timelineData(timer);
-    const progress = progressPercent(timer, now);
-    const alarmIsRepeating = Boolean(timer.alarmActive);
+    const stages = stagesFor(timer);
+    const timeline = timelineFor(timer);
+    const state = timerState(timer, now);
+    const progress = state.kind === 'complete' ? 100 : progressPercent(timer, now);
 
-    let statusLine = "";
-    if (state.kind === "growing") {
-      statusLine = `<span class="farm-card-status">${esc(t("nextWeed").replace("{stage}", state.next.id))}</span>
-                    <strong>${esc(countdownText(state.time))}</strong>`;
-    } else if (state.kind === "mature") {
-      statusLine = `<span class="farm-card-status farm-status-mature">${esc(t("nextWeed").replace("{stage}", "W4"))}</span>
-                    <strong>${esc(countdownText(state.time))}</strong>
-                    <em>✨ ${esc(language() === "ja" ? "成熟！少し後に最後の雑草を取りましょう" : "성숙됨! 잠시 후 마지막 잡초 제거")}</em>`;
+    let status = '';
+    if (state.kind === 'complete') {
+      status = `<strong class="farm-complete-title">${escapeHtml(text('harvestReady'))}</strong>`;
+    } else if (state.kind === 'mature') {
+      status = `<span class="farm-card-status farm-status-mature">${escapeHtml(text('nextWeed').replace('{stage}', 'W4'))}</span>
+        <strong>${escapeHtml(countdownText(state.remainingMs))}</strong>
+        <em>${escapeHtml(text('matureTip'))}</em>`;
     } else {
-      statusLine = `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
+      status = `<span class="farm-card-status">${escapeHtml(text('nextWeed').replace('{stage}', state.next.id))}</span>
+        <strong>${escapeHtml(countdownText(state.remainingMs))}</strong>`;
     }
 
-    const markers = stages.map(stage => {
+    const markers = stages.map((stage) => {
       const passed = now >= stage.at;
-      const current = state.next && state.next.id === stage.id;
-      const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
-      const position = stage.id === "W1" ? timeline.w1 : stage.id === "W2" ? timeline.w2 : stage.id === "W3" ? timeline.w3 : 100;
-      return `<span class="${cls}" style="left:${position}%"><i></i><b>${esc(stage.label)}</b></span>`;
-    }).join("");
+      const current = state.next?.id === stage.id;
+      const position = timeline.positions[stage.id];
+      return `<span class="farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? 'is-passed' : ''} ${current ? 'is-current' : ''}" style="left:${position}%">
+        <i></i><b>${escapeHtml(stage.label)}</b>
+      </span>`;
+    }).join('');
 
-    const chips = stages.map(stage => {
+    const chips = stages.map((stage) => {
       const passed = now >= stage.at;
-      return `<span class="farm-stage-chip ${passed ? "is-passed" : ""}">${passed ? "✓ " : ""}${stage.id}</span>`;
+      return `<span class="farm-stage-chip ${passed ? 'is-passed' : ''}">${passed ? '✓ ' : ''}${stage.id}</span>`;
     }).join('<span class="farm-stage-dot">·</span>');
 
-    const lowerRight = state.kind === "complete" ? "" :
-      `<span class="farm-harvest-note">${esc(t("harvestAt").replace("{time}", countdownText(Math.max(0, getHarvestAt(timer) - now))))}</span>`;
+    const remainingHarvest = state.kind === 'complete'
+      ? ''
+      : `<span class="farm-harvest-note">${escapeHtml(text('harvestAt').replace('{time}', countdownText(Math.max(0, timer.harvestAt - now))))}</span>`;
 
-    return `<article class="farm-timer-card ${state.kind === "mature" ? "is-mature" : ""} ${state.kind === "complete" ? "is-complete" : ""}" data-timer="${esc(timer.id)}">
+    const acknowledge = timer.alarmActive
+      ? `<button class="farm-alarm-ack" type="button" data-ack-alarm="${escapeHtml(timer.id)}">🔕 ${language() === 'ja' ? 'アラーム確認' : '알람 확인'}</button>`
+      : '';
+
+    return `<article class="farm-timer-card ${state.kind === 'mature' ? 'is-mature' : ''} ${state.kind === 'complete' ? 'is-complete' : ''}" data-timer="${escapeHtml(timer.id)}">
       <div class="farm-timer-top">
         <div class="farm-timer-title">
           <span class="farm-timer-icon">${crop.icon}</span>
           <div>
-            <h3>${esc(timer.label || cropName(crop))}</h3>
-            ${timer.label ? `<p class="farm-crop-subtitle">${esc(cropName(crop))}</p>` : ""}
+            <h3>${escapeHtml(timer.label || cropName(crop))}</h3>
+            ${timer.label ? `<p class="farm-crop-subtitle">${escapeHtml(cropName(crop))}</p>` : ''}
           </div>
         </div>
-        <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
+        <button class="farm-delete" type="button" data-delete="${escapeHtml(timer.id)}" aria-label="${escapeHtml(text('delete'))}">🗑</button>
       </div>
-      <div class="farm-timer-state">${statusLine}</div>
-      <div class="farm-progress-line" style="--w3-position:${timeline.w3}%" aria-hidden="true">
-        <span class="farm-progress-fill" style="width:${state.kind === "complete" ? 100 : progress}%"></span>
+      <div class="farm-timer-state">${status}</div>
+      <div class="farm-progress-line" style="--w3-position:${timeline.positions.W3}%" aria-hidden="true">
+        <span class="farm-progress-fill" style="width:${progress}%"></span>
         ${markers}
       </div>
       <div class="farm-card-bottom">
         <div class="farm-stage-chips">${chips}</div>
-        <div class="farm-card-actions">${alarmIsRepeating ? `<button class="farm-alarm-ack" type="button" data-ack-alarm="${esc(timer.id)}">🔕 ${language() === "ja" ? "アラーム確認" : "알람 확인"}</button>` : ""}${lowerRight}</div>
+        <div class="farm-card-actions">${acknowledge}${remainingHarvest}</div>
       </div>
     </article>`;
   }
-  function renderTimers() {
-    timers = timers.filter(timer => getCrop(timer.cropId));
-    saveTimers();
-    timerList.innerHTML = timers.map(timer => renderTimerCard(timer)).join("");
-    emptyState.hidden = timers.length > 0;
-    $("clear-all-button").hidden = timers.length === 0;
 
-    timerList.querySelectorAll("[data-delete]").forEach(button => {
-      button.addEventListener("click", event => {
+  function bindTimerCardEvents(root) {
+    root.querySelectorAll('[data-delete]').forEach((button) => {
+      button.addEventListener('click', (event) => {
         event.stopPropagation();
         removeTimer(button.dataset.delete);
       });
     });
-    timerList.querySelectorAll("[data-ack-alarm]").forEach(button => {
-      button.addEventListener("click", event => {
+
+    root.querySelectorAll('[data-ack-alarm]').forEach((button) => {
+      button.addEventListener('click', (event) => {
         event.stopPropagation();
-        stopRepeatingAlert(button.dataset.ackAlarm);
+        stopRepeatingAlarm(button.dataset.ackAlarm);
         renderTimers();
       });
     });
-    timerList.querySelectorAll(".farm-timer-card").forEach(card => {
-      card.addEventListener("click", event => {
-        if (event.target.closest("[data-delete]")) return;
+  }
+
+  function renderTimers() {
+    timers = timers.filter((timer) => getCrop(timer.cropId));
+    saveTimers();
+
+    timerList.innerHTML = timers.map(renderTimerCard).join('');
+    emptyState.hidden = timers.length > 0;
+    $('clear-all-button').hidden = timers.length === 0;
+    bindTimerCardEvents(timerList);
+
+    timerList.querySelectorAll('.farm-timer-card').forEach((card) => {
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('button')) return;
         openModal(card.dataset.timer);
       });
     });
+
     if (activeModalId) refreshModal();
   }
+
   function removeTimer(id) {
-    // Single-card trash: delete immediately, without the browser confirmation popup.
-    stopRepeatingAlert(id);
-    timers = timers.filter(timer => timer.id !== id);
+    stopRepeatingAlarm(id);
+    timers = timers.filter((timer) => timer.id !== id);
     saveTimers();
     if (activeModalId === id) closeModal();
     renderTimers();
   }
+
   function clearAll() {
-    if (!timers.length || !confirm(t("clearConfirm"))) return;
-    repeatingAlerts.forEach((_, id) => stopRepeatingAlert(id));
+    if (!timers.length || !confirm(text('clearConfirm'))) return;
+    for (const id of [...repeatingAlarms.keys()]) stopRepeatingAlarm(id, false);
     timers = [];
     saveTimers();
     closeModal();
     renderTimers();
   }
+
   function openModal(id) {
-    const timer = timers.find(item => item.id === id);
-    if (!timer) return;
+    if (!timers.some((timer) => timer.id === id)) return;
     activeModalId = id;
     refreshModal();
     modal.hidden = false;
-    document.body.classList.add("farm-modal-open");
+    document.body.classList.add('farm-modal-open');
   }
+
   function closeModal() {
     activeModalId = null;
     modal.hidden = true;
-    document.body.classList.remove("farm-modal-open");
+    document.body.classList.remove('farm-modal-open');
   }
+
   function refreshModal() {
-    const timer = timers.find(item => item.id === activeModalId);
-    if (!timer) { closeModal(); return; }
-    modalContent.innerHTML = renderTimerCard(timer, { compact:false });
-    modalContent.querySelector(".farm-timer-card")?.classList.add("farm-modal-card");
-    modalContent.querySelector("[data-delete]")?.addEventListener("click", () => removeTimer(timer.id));
-    modalContent.querySelector("[data-ack-alarm]")?.addEventListener("click", event => {
-      event.stopPropagation();
-      stopRepeatingAlert(timer.id);
-      renderTimers();
-    });
+    const timer = timers.find((item) => item.id === activeModalId);
+    if (!timer) {
+      closeModal();
+      return;
+    }
+
+    modalContent.innerHTML = renderTimerCard(timer);
+    const card = modalContent.querySelector('.farm-timer-card');
+    card?.classList.add('farm-modal-card');
+    bindTimerCardEvents(modalContent);
   }
+
   function bindHelp() {
-    const button = $("help-toggle");
-    const body = $("help-body");
-    button.addEventListener("click", () => {
-      const open = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", String(!open));
+    const button = $('help-toggle');
+    const body = $('help-body');
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!open));
       body.hidden = open;
     });
   }
-  function init() {
-    document.documentElement.dataset.farmTimerBuild = BUILD_VERSION;
-    $("notification-button").addEventListener("click", requestNotifications);
-    $("alarm-sound").value = getAlarmSound();
-    $("alarm-sound").addEventListener("change", event => {
+
+  function bindEvents() {
+    $('notification-button').addEventListener('click', requestNotifications);
+    $('alarm-sound').value = getAlarmSound();
+    $('alarm-sound').addEventListener('change', (event) => {
       setAlarmSound(event.target.value);
       previewAlarm(event.target.value);
     });
-    $("test-alarm-button").addEventListener("click", () => previewAlarm());
-    $("start-mode").addEventListener("change", onRemainingToggle);
-    ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
-    plantButton.addEventListener("click", () => {
-      // Keep audio permission available for the scheduled weed notifications.
-      primeAlarmAudio();
-      plant();
+    $('test-alarm-button').addEventListener('click', () => previewAlarm());
+    $('start-mode').addEventListener('change', () => {
+      if (remainingMode()) setRemainingDefaults();
+      refreshForm();
     });
-    $("clear-all-button").addEventListener("click", clearAll);
-    $("modal-close").addEventListener("click", closeModal);
-    modal.addEventListener("click", event => { if (event.target.matches("[data-close-modal]")) closeModal(); });
-    bindHelp();
+    ['remaining-hours', 'remaining-minutes', 'remaining-seconds'].forEach((id) => {
+      $(id).addEventListener('input', refreshForm);
+    });
+    plantButton.addEventListener('click', async () => {
+      await unlockAudio();
+      createTimer();
+    });
+    $('clear-all-button').addEventListener('click', clearAll);
+    $('modal-close').addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target.matches('[data-close-modal]')) closeModal();
+    });
 
-    document.addEventListener("site-language-changed", () => {
+    document.addEventListener('site-language-changed', () => {
       renderNotificationButton();
       renderCrops();
       refreshForm();
       renderTimers();
     });
+  }
 
+  function init() {
+    bindEvents();
+    bindHelp();
     saveTimers();
     renderNotificationButton();
     renderCrops();
     refreshForm();
-    checkTimerAlerts(true);
-    resumeActiveAlerts();
+    checkAlerts(true);
+    resumeVisibleAlarmStates();
     renderTimers();
-    // Frequent updates prevent the visible one-second progress-bar lag.
-    setInterval(() => {
-      checkTimerAlerts(false);
+
+    window.setInterval(() => {
+      checkAlerts(false);
       renderTimers();
-    }, 250);
+    }, RENDER_INTERVAL_MS);
   }
-  document.addEventListener("DOMContentLoaded", init);
+
+  document.addEventListener('DOMContentLoaded', init);
 })();

@@ -5,8 +5,8 @@
   <meta http-equiv="Cache-Control" content="no-store, max-age=0">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title data-i18n="pet.pageTitle" data-i18n-fallback="펫 먹이 선호도 - 두근두근타운">펫 먹이 선호도 - 두근두근타운</title>
-    <link href="../../css/common.css?v=20260707-02" rel="stylesheet">
-    <script src="../../../src/js/tracker.js?v=20260707-02"></script>
+    <link href="../../css/common.css?v=20260708-clean" rel="stylesheet">
+    <script src="../../../src/js/tracker.js?v=20260708-clean"></script>
 
     <style>
         /* ============================================================
@@ -602,7 +602,7 @@
     // ── 상수 ────────────────────────────────────────────────────
     const STORAGE_KEY        = 'heartopia_pet_preferences';
     const NOTICE_DISMISS_KEY = 'heartopia_pet_notice_dismissed';
-    const PET_DATA_VERSION  = '20260707-02';
+    const PET_DATA_VERSION  = '20260708-clean';
 
     // 강아지가 먹을 수 있는 채집 아이템 이름 목록 (gather.json에서 이 이름만 추출)
     const DOG_GATHER_NAMES = new Set(['사과', '느타리버섯', '표고버섯', '양송이버섯', '강아지 사료', '동물 공용 음식']);
@@ -618,11 +618,6 @@
     const CAT_FISH_ADDED = new Set([
         '킹크랩', '황금킹크랩', '줄자돔', '양쥐돔', '쏠배감펭', '만새기'
     ]);
-
-    // fish_data.json이 브라우저 캐시로 구버전이어도 이 항목은 고양이 목록에 반드시 표시한다.
-    const CAT_FISH_FALLBACKS = [
-        { name: '만새기', nameJa: 'シイラ', level: 12, image: 1004, habitat: '구해', size: '큼', time: ['아침', '낮'], weather: ['무지개'] }
-    ];
 
     // 고양이가 먹는 시즌 물고기 — 일반 물고기 아래에서 시즌별로 따로 표시
     const CAT_ICE_FISH_NAMES = new Set([
@@ -698,13 +693,6 @@
             const normalFish = fishData
                 .filter(f => ((f.level ?? 0) <= 10 || CAT_FISH_ADDED.has(f.name)) && !CAT_FISH_EXCLUDED.has(f.name))
                 .map(f => ({ ...f, _src: 'fish' }));
-            // 만새기는 fish_data 요청 실패·구버전 캐시와 관계없이 고양이 목록에 항상 포함한다.
-            // image 1004는 fish_1004.webp와 연결되는 고정 ID다.
-            CAT_FISH_FALLBACKS.forEach(fallback => {
-                const index = normalFish.findIndex(item => item.name === fallback.name);
-                if (index === -1) normalFish.push({ ...fallback, _src: 'fish' });
-                else normalFish[index] = { ...normalFish[index], ...fallback, _src: 'fish' };
-            });
             const catGather = gatherData
                 .filter(g => CAT_GATHER_NAMES.has(g.name))
                 .map(g => ({ ...g, _src: 'gather' }));
