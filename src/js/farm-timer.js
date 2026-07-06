@@ -5,7 +5,7 @@
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
   // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
   const REPEAT_ALARM_INTERVAL_MS = 850;
-  const BUILD_VERSION = "20260707-06";
+  const BUILD_VERSION = "20260707-07";
   const ALERT_GRACE_MS = 90 * 1000;
   // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
   const PROGRESS_LEAD_MS = 0;
@@ -144,14 +144,19 @@
     localStorage.removeItem("heartopia_farm_timers_v1");
   }
   function getHarvestAt(timer) { return Number(timer.harvestAt); }
-  // The visual bar represents crop growth only (planting → harvest).
-  // W4 happens after maturity, so it deliberately has no extra marker on the bar.
+  // The timeline runs from planting through the final W4 weed event.
+  // This keeps W1–W4 in their real chronological order and lets the bar
+  // continue naturally beyond harvest until W4.
   function timelineData(timer) {
     const full = timer.durationMs;
+    const total = full + 60000; // W4 is exactly one minute after harvest.
+    const point = (msFromPlanting) => Math.max(0, Math.min(100, (msFromPlanting / total) * 100));
     return {
-      w1: 100 / 3,
-      w2: 200 / 3,
-      w3: Math.max(0, Math.min(100, ((full - 60000) / full) * 100))
+      total,
+      w1: point(full / 3),
+      w2: point(full * 2 / 3),
+      w3: point(full - 60000),
+      w4: 100
     };
   }
   function stageData(timer) {
@@ -444,7 +449,9 @@
   }
   function progressPercent(timer, now = Date.now()) {
     const elapsed = Math.max(0, now - timer.plantedAt);
-    return Math.max(0, Math.min(100, (elapsed / timer.durationMs) * 100));
+    // Use the same planting → W4 span as the marker layout.
+    const timelineTotal = timer.durationMs + 60000;
+    return Math.max(0, Math.min(100, (elapsed / timelineTotal) * 100));
   }
   function renderTimerCard(timer, options = {}) {
     const crop = getCrop(timer.cropId);
@@ -472,14 +479,12 @@
       statusLine = `<strong class="farm-complete-title">${esc(t("harvestReady"))}</strong>`;
     }
 
-    const markers = stages.slice(0, 3).map(stage => {
+    const markers = stages.map(stage => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
       const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
-      const position = stage.id === "W1" ? timeline.w1 : stage.id === "W2" ? timeline.w2 : timeline.w3;
-      // The W3 text is intentionally omitted because it sits close to harvest.
-      const visibleLabel = stage.id === "W3" ? "" : stage.label;
-      return `<span class="${cls}" style="left:${position}%" title="${esc(`${stage.id} · ${stage.label}`)}"><i></i><b>${esc(visibleLabel)}</b></span>`;
+      const position = timeline[stage.id.toLowerCase()];
+      return `<span class="${cls}" style="left:${position}%" title="${esc(`${stage.id} · ${stage.label}`)}"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
 
     const chips = stages.map(stage => {

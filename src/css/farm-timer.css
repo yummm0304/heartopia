@@ -139,8 +139,17 @@
 .farm-marker.is-passed i { background:#57b574; }
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.18); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
-/* W3 sits close to harvest, so its label stays in the chips below. */
-.farm-marker-w3 b { display:none; }
+.farm-marker-w3 b, .farm-marker-w4 b {
+  position:absolute;
+  top:28px;
+  margin:0;
+  font-size:.61rem;
+  line-height:1.1;
+}
+/* Keep the final two labels on opposite sides of their marks so they never overlap. */
+.farm-marker-w3 b { right:8px; width:58px; text-align:right; }
+.farm-marker-w4 { transform:translateX(-100%); }
+.farm-marker-w4 b { right:0; width:48px; text-align:right; }
 .farm-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .farm-stage-chips { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
 .farm-stage-chip { padding:4px 9px; border-radius:999px; background:#fff1bd; color:#bd8e1e; font-size:.72rem; font-weight:900; }
@@ -181,6 +190,8 @@
   .farm-alarm-setting-v6 { align-items:flex-start; flex-direction:column; }
   .farm-progress-line { height:62px; }
   .farm-marker { font-size:.61rem; }
+  .farm-marker-w3 b { width:52px; right:6px; font-size:.58rem; }
+  .farm-marker-w4 b { width:43px; font-size:.58rem; }
 
 }
 @media (max-width:380px) {
