@@ -121,16 +121,16 @@
   margin-top:18px;
 }
 .farm-progress-line::before {
-  content:""; position:absolute; left:0; right:0; top:var(--bar-top); height:var(--bar-height);
+  content:""; position:absolute; left:0; right:auto; width:var(--timeline-end, 86.6%); top:var(--bar-top); height:var(--bar-height);
   border-radius:999px; background:#fff0d7;
 }
 .farm-progress-fill {
   position:absolute; z-index:1; top:var(--bar-top); height:var(--bar-height);
   max-width:100%; border-radius:999px; transition:none;
 }
-/* Green remains untouched through W3. A separate red segment starts only after W3. */
+/* Green remains untouched through W3. Only the W3→pause lane turns amber. */
 .farm-progress-fill-green { left:0; background:#69bf86; }
-.farm-progress-fill-warning { background:#e95e4d; border-radius:0 999px 999px 0; }
+.farm-progress-fill-warning { background:#f4a724; border-radius:0 999px 999px 0; }
 
 .farm-marker {
   position:absolute; z-index:2; top:0; display:flex; flex-direction:column; align-items:center;
@@ -148,7 +148,7 @@
 .farm-marker.is-current i { box-shadow:0 0 0 3px rgba(255,190,42,.20); }
 .farm-marker b { margin-top:4px; font-weight:700; text-align:center; white-space:nowrap; }
 
-/* Visual pause between W3 and W4: mirrors the in-game timing gap. */
+/* Visual pause between W3 and W4: centered on the bar and outside the rail. */
 .farm-final-gap-dots {
   position:absolute;
   z-index:2;

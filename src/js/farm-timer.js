@@ -152,8 +152,10 @@
       w1: 31,
       w2: 61,
       w3: 75,
-      warningEnd: 84,
-      dots: 88.5,
+      // The colored warning lane finishes immediately before the visual pause.
+      // There is intentionally no empty track behind it.
+      warningEnd: 86.6,
+      dots: 89.4,
       w4: 96
     };
   }
@@ -457,8 +459,8 @@
       return Math.max(0, Math.min(timeline.w3, (grown / timer.durationMs) * timeline.w3));
     }
 
-    // After W3, only the small red warning segment advances. It intentionally
-    // stops before the ellipsis/W4 marker instead of filling the whole tail.
+    // After W3, only the compact amber warning segment advances. It stops
+    // directly before the ellipsis and never fills the W4 lane.
     const finalFraction = Math.max(0, Math.min(1, (now - harvest) / (w4At - harvest)));
     return timeline.w3 + finalFraction * (timeline.warningEnd - timeline.w3);
   }
@@ -491,14 +493,15 @@
     const markers = stages.map(stage => {
       const passed = now >= stage.at;
       const current = state.next && state.next.id === stage.id;
-      // W3 remains a green maturity marker. The red/orange warning begins
-      // immediately to its right and leads toward W4.
+      // W3 remains green. The amber warning lane begins immediately to its
+      // right; W4 stays after the deliberate visual pause.
       const warning = stage.id === "W4";
       const cls = `farm-marker farm-marker-${stage.id.toLowerCase()} ${warning ? "is-warning" : ""} ${passed ? "is-passed" : ""} ${current ? "is-current" : ""}`;
       const position = timeline[stage.id.toLowerCase()];
       return `<span class="${cls}" style="left:${position}%" title="${esc(`${stage.id} · ${stage.label}`)}"><i></i><b>${esc(stage.label)}</b></span>`;
     }).join("");
-    // The dots are a deliberate visual gap after the red W3→W4 warning segment.
+    // The dots sit at the vertical center of the bar, immediately after the
+    // amber warning lane. There is no inactive rail after that lane.
     const finalGapDots = `<span class="farm-final-gap-dots" style="left:${timeline.dots}%" aria-hidden="true">···</span>`;
 
     const chips = stages.map(stage => {
@@ -521,7 +524,7 @@
         <button class="farm-delete" type="button" data-delete="${esc(timer.id)}" aria-label="${esc(t("delete"))}">🗑</button>
       </div>
       <div class="farm-timer-state">${statusLine}</div>
-      <div class="farm-progress-line" aria-hidden="true">
+      <div class="farm-progress-line" style="--timeline-end:${timeline.warningEnd}%" aria-hidden="true">
         <span class="farm-progress-fill farm-progress-fill-green" style="width:${Math.min(progress, timeline.w3)}%"></span>
         <span class="farm-progress-fill farm-progress-fill-warning" style="left:${timeline.w3}%;width:${Math.max(0, progress - timeline.w3)}%"></span>
         ${markers}
