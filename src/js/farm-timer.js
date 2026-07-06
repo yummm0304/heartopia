@@ -165,8 +165,15 @@
     const AudioCtor = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtor) return null;
     if (!audioContext) audioContext = new AudioCtor();
-    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
     return audioContext;
+  }
+  async function unlockAlarmAudio() {
+    const context = ensureAudioContext();
+    if (!context) return null;
+    if (context.state === "suspended") {
+      try { await context.resume(); } catch (_) { return null; }
+    }
+    return context.state === "running" ? context : null;
   }
   function playTone(context, frequency, start, duration, type = "sine", volume = 0.12) {
     const oscillator = context.createOscillator();
@@ -181,22 +188,24 @@
     oscillator.stop(start + duration + 0.03);
   }
   function playAlarm(sound = getAlarmSound()) {
-    if (sound === "none") return;
+    if (sound === "none") return false;
     const context = ensureAudioContext();
-    if (!context || context.state !== "running") return;
+    // Timed alarms can only sound after the page has been unlocked by a user click.
+    if (!context || context.state !== "running") return false;
     const at = context.currentTime + 0.04;
     if (sound === "beep") {
-      playTone(context, 880, at, 0.18, "square", 0.07);
-      playTone(context, 880, at + 0.26, 0.18, "square", 0.07);
+      playTone(context, 880, at, 0.18, "square", 0.10);
+      playTone(context, 880, at + 0.26, 0.18, "square", 0.10);
     } else if (sound === "chime") {
-      playTone(context, 523.25, at, 0.48, "sine", 0.09);
-      playTone(context, 659.25, at + 0.12, 0.52, "sine", 0.075);
-      playTone(context, 783.99, at + 0.24, 0.58, "sine", 0.06);
+      playTone(context, 523.25, at, 0.48, "sine", 0.13);
+      playTone(context, 659.25, at + 0.12, 0.52, "sine", 0.11);
+      playTone(context, 783.99, at + 0.24, 0.58, "sine", 0.09);
     } else {
-      playTone(context, 1046.5, at, 0.16, "sine", 0.11);
-      playTone(context, 1318.5, at + 0.19, 0.22, "sine", 0.09);
-      playTone(context, 1046.5, at + 0.46, 0.25, "sine", 0.1);
+      playTone(context, 1046.5, at, 0.16, "sine", 0.15);
+      playTone(context, 1318.5, at + 0.19, 0.22, "sine", 0.13);
+      playTone(context, 1046.5, at + 0.46, 0.25, "sine", 0.14);
     }
+    return true;
   }
   function notifyTimer(timer, stage) {
     const crop = getCrop(timer.cropId);
@@ -507,19 +516,20 @@
   function init() {
     $("notification-button").addEventListener("click", requestNotifications);
     $("alarm-sound").value = getAlarmSound();
-    $("alarm-sound").addEventListener("change", event => {
+    $("alarm-sound").addEventListener("change", async event => {
       setAlarmSound(event.target.value);
-      ensureAudioContext();
+      await unlockAlarmAudio();
       playAlarm(event.target.value);
     });
-    $("test-alarm-button").addEventListener("click", () => {
-      ensureAudioContext();
+    $("test-alarm-button").addEventListener("click", async () => {
+      await unlockAlarmAudio();
       playAlarm();
     });
     $("start-mode").addEventListener("change", onRemainingToggle);
     ["remaining-hours","remaining-minutes","remaining-seconds"].forEach(id => $(id).addEventListener("input", refreshForm));
-    plantButton.addEventListener("click", () => {
-      ensureAudioContext();
+    plantButton.addEventListener("click", async () => {
+      // This user gesture unlocks browser audio so the later timed alarm may play.
+      await unlockAlarmAudio();
       plant();
     });
     $("clear-all-button").addEventListener("click", clearAll);

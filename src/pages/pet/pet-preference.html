@@ -617,6 +617,11 @@
         '킹크랩', '황금킹크랩', '줄자돔', '양쥐돔', '쏠배감펭', '만새기'
     ]);
 
+    // fish_data.json이 브라우저 캐시로 구버전이어도 이 항목은 고양이 목록에 반드시 표시한다.
+    const CAT_FISH_FALLBACKS = [
+        { name: '만새기', nameJa: 'シイラ', level: 12, image: 1004, habitat: '구해', size: '큼', time: ['아침', '낮'], weather: ['무지개'] }
+    ];
+
     // 고양이가 먹는 시즌 물고기 — 일반 물고기 아래에서 시즌별로 따로 표시
     const CAT_ICE_FISH_NAMES = new Set([
         '얼음 결정 킹크랩', '얼음 결정 개복치', '얼음 결정 복어', '얼음 결정 해마', '얼음 결정 고래상어'
@@ -691,6 +696,12 @@
             const normalFish = fishData
                 .filter(f => ((f.level ?? 0) <= 10 || CAT_FISH_ADDED.has(f.name)) && !CAT_FISH_EXCLUDED.has(f.name))
                 .map(f => ({ ...f, _src: 'fish' }));
+            // 기존 fish_data가 캐시되어 만새기가 빠진 경우에도 중복 없이 강제 추가
+            CAT_FISH_FALLBACKS.forEach(fallback => {
+                if (!normalFish.some(item => item.name === fallback.name)) {
+                    normalFish.push({ ...fallback, _src: 'fish' });
+                }
+            });
             const catGather = gatherData
                 .filter(g => CAT_GATHER_NAMES.has(g.name))
                 .map(g => ({ ...g, _src: 'gather' }));
