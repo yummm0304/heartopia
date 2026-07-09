@@ -54,7 +54,7 @@
         </div>
 
         <div class="filter-groups">
-            <div class="filter-group">
+            <div class="filter-group" id="timeFilterGroup">
                 <h3>⏰ 출현 시간</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
@@ -72,7 +72,25 @@
                 </div>
             </div>
 
-            <div class="filter-group">
+            <div class="filter-group fish-area-group" id="fishAreaFilterGroup">
+                <h3>🧭 물고기 장소</h3>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input id="fishAreaAll" onchange="handleFishAreaAll(this)" type="checkbox" checked> 🌐 전체
+                    </label>
+                    <label class="checkbox-label">
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="river"> 🌊 강 물고기
+                    </label>
+                    <label class="checkbox-label">
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="lake"> 🏞️ 호수 물고기
+                    </label>
+                    <label class="checkbox-label">
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="sea"> ⚓ 바다 물고기
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-group" id="weatherFilterGroup">
                 <h3>🌤️ 포함할 날씨</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
@@ -87,7 +105,7 @@
                 </div>
             </div>
 
-            <div class="filter-group">
+            <div class="filter-group" id="exclusiveWeatherFilterGroup">
                 <h3>🔒 전용 날씨</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
@@ -179,6 +197,37 @@
         4: 4,
         5: 8
     };
+
+    const FISH_AREA_GROUPS = {
+        river: ["거목강", "고요한강", "노을강", "얕은강", "모든강"],
+        lake: ["근교호수", "숲속호수", "온천산호수", "초원호수", "모든호수"],
+        sea: ["고래바다", "구해", "동해", "잔잔한바다", "바다낚시"]
+    };
+
+    function normalizeHabitatName(value) {
+        return String(value || '').replace(/\s+/g, '').trim();
+    }
+
+    function getFishAreaKeysByHabitat(habitat) {
+        const normalized = normalizeHabitatName(habitat);
+        return Object.entries(FISH_AREA_GROUPS)
+            .filter(([, habitats]) => habitats.some(item => normalizeHabitatName(item) === normalized))
+            .map(([key]) => key);
+    }
+
+    function handleFishAreaAll(checkbox) {
+        if (checkbox.checked) {
+            document.querySelectorAll('.fish-area-checkbox').forEach(cb => cb.checked = false);
+        }
+        applyFilters();
+    }
+
+    function handleFishAreaOption() {
+        const selected = document.querySelectorAll('.fish-area-checkbox:checked');
+        const allCheckbox = document.getElementById('fishAreaAll');
+        if (allCheckbox) allCheckbox.checked = selected.length === 0;
+        applyFilters();
+    }
 
 
     async function loadFishData() {
@@ -277,8 +326,9 @@
 
 
     function getSelectedFilters() {
-        const timeCheckboxes = document.querySelectorAll('.filter-group:nth-child(1) input[type="checkbox"]:checked');
-        const weatherCheckboxes = document.querySelectorAll('.filter-group:nth-child(2) input[type="checkbox"]:checked:not(#rainbowOnly):not(#sunnyOnly):not(#rainyOnly)');
+        const timeCheckboxes = document.querySelectorAll('#timeFilterGroup input[type="checkbox"]:checked');
+        const weatherCheckboxes = document.querySelectorAll('#weatherFilterGroup input[type="checkbox"]:checked');
+        const areaCheckboxes = document.querySelectorAll('.fish-area-checkbox:checked');
         const rainbowOnly = document.getElementById('rainbowOnly')?.checked || false;
         const sunnyOnly = document.getElementById('sunnyOnly')?.checked || false;
         const rainyOnly = document.getElementById('rainyOnly')?.checked || false;
@@ -287,6 +337,7 @@
         return {
             times: Array.from(timeCheckboxes).map(cb => cb.value),
             weathers: Array.from(weatherCheckboxes).map(cb => cb.value),
+            areas: Array.from(areaCheckboxes).map(cb => cb.value),
             rainbowOnly: rainbowOnly,
             sunnyOnly: sunnyOnly,
             rainyOnly: rainyOnly,
@@ -299,13 +350,13 @@
     }
 
     function selectAllTime() {
-        const checkboxes = document.querySelectorAll('.filter-group:nth-child(1) input[type="checkbox"]');
+        const checkboxes = document.querySelectorAll('#timeFilterGroup input[type="checkbox"]');
         checkboxes.forEach(cb => cb.checked = true);
         applyFilters();
     }
 
     function selectAllWeather() {
-        const checkboxes = document.querySelectorAll('.filter-group:nth-child(2) input[type="checkbox"]');
+        const checkboxes = document.querySelectorAll('#weatherFilterGroup input[type="checkbox"]');
         checkboxes.forEach(cb => {
             if (!cb.id.includes('Only')) { // Only 들어간 것만 빼고
                 cb.checked = true;
@@ -317,6 +368,8 @@
     function resetFilters() {
         const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
         allCheckboxes.forEach(cb => cb.checked = false);
+        const areaAll = document.getElementById('fishAreaAll');
+        if (areaAll) areaAll.checked = true;
         document.getElementById('fishSearch').value = '';
         applyFilters();
     }
@@ -324,7 +377,8 @@
     function displayStats() {
         const totalFish = fishData.length;
         const habitats = [...new Set(fishData.map(f => f.habitat))].length;
-        const maxPrice = Math.max(...fishData.map(f => f.price));
+        const knownPrices = fishData.map(f => Number(f.price)).filter(price => Number.isFinite(price) && price > 0);
+        const maxPrice = knownPrices.length ? Math.max(...knownPrices) : 0;
         const statsHTML = `
             <div class="stat-card">
                 <div class="number">${totalFish}</div>
@@ -359,10 +413,13 @@
                 valueA = a.level;
                 valueB = b.level;
             } else if (column === 'price') {
-                valueA = a.price;
-                valueB = b.price;
+                valueA = Number.isFinite(Number(a.price)) && Number(a.price) > 0 ? Number(a.price) : Number.POSITIVE_INFINITY;
+                valueB = Number.isFinite(Number(b.price)) && Number(b.price) > 0 ? Number(b.price) : Number.POSITIVE_INFINITY;
             }
 
+            if (valueA === Number.POSITIVE_INFINITY && valueB === Number.POSITIVE_INFINITY) return 0;
+            if (valueA === Number.POSITIVE_INFINITY) return 1;
+            if (valueB === Number.POSITIVE_INFINITY) return -1;
             return order === 'asc' ? valueA - valueB : valueB - valueA;
         });
     }
@@ -378,11 +435,16 @@
     }
 
     function updatePrice(fishName, basePrice, selectElement) {
+        const priceSpan = selectElement.parentElement.querySelector('.price');
+        const numericBasePrice = Number(basePrice);
+        if (!Number.isFinite(numericBasePrice) || numericBasePrice <= 0) {
+            priceSpan.textContent = '정보 없음';
+            return;
+        }
         const star = parseInt(selectElement.value);
         const multiplier = starMultipliers[star];
-        const calculatedPrice = Math.floor(basePrice * multiplier);
+        const calculatedPrice = Math.floor(numericBasePrice * multiplier);
 
-        const priceSpan = selectElement.parentElement.querySelector('.price');
         priceSpan.textContent = `₩${calculatedPrice}`;
     }
 
@@ -402,6 +464,15 @@
         // 수집 완료 숨기기 필터: hideCollected가 true이면 수집된 항목 제외
         if (hideCollected) {
             filteredFish = filteredFish.filter(fish => !collectedFish.has(fish.name));
+        }
+
+        // 장소 고정 필터
+        // 강/호수/바다 버튼은 세부 서식지(habitat) 기준으로 묶어서 표시한다.
+        if (filters.areas.length > 0) {
+            filteredFish = filteredFish.filter(fish => {
+                const areaKeys = getFishAreaKeysByHabitat(fish.habitat);
+                return filters.areas.some(area => areaKeys.includes(area));
+            });
         }
 
         // 시간 필터
@@ -497,6 +568,9 @@ const timeDisplay = isAlwaysTime
 
             // 수집 완료 여부에 따라 행에 collected-row 클래스 부여 (흐리게 + 취소선 처리)
             const isCollected = collectedFish.has(fish.name);
+            const hasKnownPrice = Number.isFinite(Number(fish.price)) && Number(fish.price) > 0;
+            const priceValueForJs = hasKnownPrice ? Number(fish.price) : 0;
+            const priceText = hasKnownPrice ? `₩${Number(fish.price)}` : '정보 없음';
 
             html += `
             <tr class="${isCollected ? 'collected-row' : ''}">
@@ -513,14 +587,14 @@ const timeDisplay = isAlwaysTime
                 <td><span class="level-badge">Lv.${fish.level}</span></td>
                 <td><div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${fish.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${priceValueForJs}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>
                                     <option value="4">4성</option>
                                     <option value="5">5성</option>
                                 </select>
-                                <span class="price">₩${fish.price}</span>
+                                <span class="price">${priceText}</span>
                             </div></td>
                 <td>${timeDisplay}</td>
                 <td>${weatherDisplay}</td>
@@ -553,9 +627,32 @@ const timeDisplay = isAlwaysTime
 
     function getHabitatIcon(habitat) {
         const icons = {
+            '거목강': '🌊',
+            '거목 강': '🌊',
+            '고요한강': '🌊',
+            '고요한 강': '🌊',
+            '노을강': '🌊',
+            '노을 강': '🌊',
+            '얕은강': '🌊',
+            '얕은 강': '🌊',
+            '모든강': '🌊',
             '모든 강': '🌊',
+            '근교호수': '🏞️',
+            '근교 호수': '🏞️',
+            '숲속호수': '🏞️',
+            '숲속 호수': '🏞️',
+            '온천산호수': '🏞️',
+            '온천산 호수': '🏞️',
+            '초원호수': '🏞️',
+            '초원 호수': '🏞️',
+            '모든호수': '🏞️',
             '모든 호수': '🏞️',
-            '모든 바다': '🌅',
+            '고래바다': '⚓',
+            '고래 바다': '⚓',
+            '구해': '⚓',
+            '동해': '⚓',
+            '잔잔한바다': '⚓',
+            '잔잔한 바다': '⚓',
             '바다낚시': '⚓',
             '얼음 결정 물고기 사건': '❄️',
         };

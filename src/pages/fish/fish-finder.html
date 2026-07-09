@@ -64,7 +64,7 @@
 
             <div class="input-item">
                 <label for="level">🎣 취미 레벨</label>
-                <input id="level" max="10" min="1" type="number" value="10">
+                <input id="level" max="14" min="1" type="number" value="14">
             </div>
 
             <div class="input-item">
@@ -222,7 +222,7 @@
             }
 
             fishData = await response.json();
-            fishData = fishData.filter(f => f.level <= 10); // 인게임 해금 레벨 제한
+            fishData = fishData.filter(f => f.level <= 14); // 인게임 해금 레벨 제한
             console.log('물고기 데이터 로드 성공:', fishData.length + '종');
             filterFish();
         } catch (error) {
@@ -290,7 +290,7 @@
             }
 
             fishData = await response.json();
-            fishData = fishData.filter(f => f.level <= 10); // 인게임 해금 레벨 제한
+            fishData = fishData.filter(f => f.level <= 14); // 인게임 해금 레벨 제한
             loadedSeasons.clear();
 
             // 모든 추가 버튼을 다시 활성화
@@ -369,11 +369,16 @@
     }
 
     function updatePrice(fishName, basePrice, selectElement) {
+        const priceSpan = selectElement.parentElement.querySelector('.price');
+        const numericBasePrice = Number(basePrice);
+        if (!Number.isFinite(numericBasePrice) || numericBasePrice <= 0) {
+            priceSpan.textContent = '정보 없음';
+            return;
+        }
         const star = parseInt(selectElement.value);
         const multiplier = starMultipliers[star];
-        const calculatedPrice = Math.floor(basePrice * multiplier);
+        const calculatedPrice = Math.floor(numericBasePrice * multiplier);
 
-        const priceSpan = selectElement.parentElement.querySelector('.price');
         priceSpan.textContent = `₩${calculatedPrice}`;
     }
 
@@ -474,14 +479,14 @@
                         <td>
                             <div class="price-cell">
                                 <span>⭐</span>
-                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${fish.price}, this)">
+                                <select class="star-selector" onchange="updatePrice('${getLocalizedName(fish)}', ${priceValueForJs}, this)">
                                     <option value="1">1성</option>
                                     <option value="2">2성</option>
                                     <option value="3">3성</option>
                                     <option value="4">4성</option>
                                     <option value="5">5성</option>
                                 </select>
-                                <span class="price">₩${fish.price}</span>
+                                <span class="price">${priceText}</span>
                             </div>
                         </td>
                         <td>${timeDisplay}</td>

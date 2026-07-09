@@ -1302,3 +1302,13 @@ html[lang="ja"] .hero-content h1 {
   line-height: 1;
   white-space: nowrap;
 }
+
+/* 물고기 도감 장소 고정 필터 */
+.fish-area-group .checkbox-label {
+    color: var(--color-text-soft);
+}
+
+.fish-area-group .checkbox-label:has(input:checked) {
+    background: var(--color-primary-surface, #eef7ff);
+    border-color: var(--color-primary-light, #a7d7f9);
+}

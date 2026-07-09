@@ -1900,5 +1900,25 @@
     "special": false,
     "image": 999,
     "nameJa": "ライオンヘッド"
+  },
+  {
+    "name": "레나르디놀래기",
+    "level": 14,
+    "habitat": "동해",
+    "size": "중간",
+    "time": [
+      "아침",
+      "낮",
+      "저녁"
+    ],
+    "weather": [
+      "맑음",
+      "비",
+      "무지개"
+    ],
+    "price": null,
+    "priceUnknown": true,
+    "special": false,
+    "image": 1010
   }
 ]
