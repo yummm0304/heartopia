@@ -76,16 +76,16 @@
                 <h3>🧭 물고기 장소</h3>
                 <div class="checkbox-group">
                     <label class="checkbox-label">
-                        <input id="fishAreaAll" onchange="handleFishAreaAll(this)" type="checkbox" checked> 전체
+                        <input id="fishAreaAll" onchange="handleFishAreaAll(this)" type="checkbox" checked> 🐟 전체
                     </label>
                     <label class="checkbox-label">
-                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="river"> 강 물고기
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="river"> 🌊 강 물고기
                     </label>
                     <label class="checkbox-label">
-                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="lake"> 호수 물고기
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="lake"> 🏞️ 호수 물고기
                     </label>
                     <label class="checkbox-label">
-                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="sea"> 바다 물고기
+                        <input class="fish-area-checkbox" onchange="handleFishAreaOption()" type="checkbox" value="sea"> ⚓ 바다 물고기
                     </label>
                 </div>
             </div>
@@ -626,34 +626,17 @@ const timeDisplay = isAlwaysTime
     }
 
     function getHabitatIcon(habitat) {
+        // 목록의 세부 장소 이모지는 기존처럼 필요한 곳에만 표시한다.
+        // 새로 추가한 "물고기 장소" 체크박스 이모지와는 별개다.
         const icons = {
-            '거목강': '🌊',
-            '거목 강': '🌊',
-            '고요한강': '🌊',
-            '고요한 강': '🌊',
-            '노을강': '🌊',
-            '노을 강': '🌊',
-            '얕은강': '🌊',
-            '얕은 강': '🌊',
-            '모든강': '🌊',
             '모든 강': '🌊',
-            '근교호수': '🏞️',
-            '근교 호수': '🏞️',
-            '숲속호수': '🏞️',
-            '숲속 호수': '🏞️',
-            '온천산호수': '🏞️',
-            '온천산 호수': '🏞️',
-            '초원호수': '🏞️',
-            '초원 호수': '🏞️',
-            '모든호수': '🏞️',
+            '모든강': '🌊',
             '모든 호수': '🏞️',
-            '고래바다': '⚓',
-            '고래 바다': '⚓',
-            '구해': '⚓',
-            '동해': '⚓',
-            '잔잔한바다': '⚓',
-            '잔잔한 바다': '⚓',
+            '모든호수': '🏞️',
+            '모든 바다': '🌅',
+            '모든바다': '🌅',
             '바다낚시': '⚓',
+            '바다 낚시': '⚓',
             '얼음 결정 물고기 사건': '❄️',
         };
         return icons[habitat] || '';
