@@ -5,7 +5,7 @@
   const ALARM_SOUND_KEY = "heartopia_farm_alarm_sound_v1";
   // The repeat cadence is intentionally fixed so the alert stays urgent without extra settings.
   const REPEAT_ALARM_INTERVAL_MS = 850;
-  const BUILD_VERSION = "20260707-09";
+  const BUILD_VERSION = "20260707-11";
   const ALERT_GRACE_MS = 90 * 1000;
   // Lead the visual bar slightly so it is never behind a weed marker once that time has arrived.
   const PROGRESS_LEAD_MS = 0;
@@ -450,19 +450,28 @@
   }
   function progressPercent(timer, now = Date.now()) {
     const timeline = timelineData();
-    const harvest = getHarvestAt(timer);
-    const w4At = harvest + 60000;
+    const stages = stageData(timer);
+    const points = [
+      { at: timer.plantedAt, pos: 0 },
+      { at: stages[0].at, pos: timeline.w1 },
+      { at: stages[1].at, pos: timeline.w2 },
+      { at: stages[2].at, pos: timeline.w3 },
+      { at: stages[3].at, pos: timeline.warningEnd }
+    ];
 
-    // Before 0:00, the green bar grows normally and reaches W3 exactly at harvest.
-    if (now <= harvest) {
-      const grown = Math.max(0, now - timer.plantedAt);
-      return Math.max(0, Math.min(timeline.w3, (grown / timer.durationMs) * timeline.w3));
+    if (now <= points[0].at) return 0;
+    if (now >= points[points.length - 1].at) return timeline.warningEnd;
+
+    for (let i = 0; i < points.length - 1; i += 1) {
+      const start = points[i];
+      const end = points[i + 1];
+      if (now > end.at) continue;
+      const span = Math.max(1, end.at - start.at);
+      const ratio = Math.max(0, Math.min(1, (now - start.at) / span));
+      return start.pos + ratio * (end.pos - start.pos);
     }
 
-    // After W3, only the compact amber warning segment advances. It stops
-    // directly before the ellipsis and never fills the W4 lane.
-    const finalFraction = Math.max(0, Math.min(1, (now - harvest) / (w4At - harvest)));
-    return timeline.w3 + finalFraction * (timeline.warningEnd - timeline.w3);
+    return timeline.warningEnd;
   }
   function renderTimerCard(timer, options = {}) {
     const crop = getCrop(timer.cropId);
