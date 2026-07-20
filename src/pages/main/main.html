@@ -14,107 +14,62 @@
     <!-- 헤더 영역 -->
     <div id="header-placeholder"></div>
 
-    <div class="home-decor" aria-hidden="true">
-        <span>🌸</span><span>🌸</span><span>🌸</span>
-        <span>🌸</span><span>🌸</span><span>🌸</span>
-    </div>
-
     <!-- 메인 컨텐츠 -->
-    <main>
-        <!-- 히어로 섹션 -->
-        <section class="hero">
-            <img src="../../images/main/rooftop-city.jpg" alt="두근두근타운 메인" class="hero-image">
-            <div class="hero-content">
-                <h1 data-i18n="main.heroTitle" data-i18n-fallback="🍒 내가 편하게 보려고 만든 페이지 🍒">🍒 내가 편하게 보려고 만든 페이지 🍒</h1>
-            </div>
+    <main class="home-main">
+        <section class="approved-hero" aria-label="메인 배너">
+            <img src="../../images/main/approved-hero.png" alt="도시의 노을을 바라보는 인물" class="approved-hero-image">
         </section>
 
-        <!-- 카드 그리드 -->
-        <!-- BASE 변수는 common.js에서 정의 → 깊이 무관하게 절대경로로 이동 -->
-        <section class="cards-grid">
-            <div class="card card-fish" onclick="location.href=BASE+'/src/pages/fish/fish-list.html'">
-                <div class="card-icon" aria-hidden="true">🐟</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.fishBookTitle" data-i18n-fallback="어류 도감">어류 도감</h3>
-                    <p data-i18n="main.fishBookDescription" data-i18n-fallback="모든 물고기의 정보와 출현 조건을 확인하세요">모든 물고기의 정보와 출현 조건을 확인하세요</p>
-                </div>
-            </div>
+        <h1 class="approved-title" data-i18n="main.heroTitle" data-i18n-fallback="🍒 내가 편하게 보려고 만든 페이지 🍒">🍒 내가 편하게 보려고 만든 페이지 🍒</h1>
 
-            <div class="card card-butterfly" onclick="location.href=BASE+'/src/pages/insect/insect-list.html'">
-                <div class="card-icon" aria-hidden="true">🦋</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.insectBookTitle" data-i18n-fallback="곤충 도감">곤충 도감</h3>
-                    <p data-i18n="main.insectBookDescription" data-i18n-fallback="모든 벌레의 정보와 출현 조건을 확인하세요">모든 벌레의 정보와 출현 조건을 확인하세요</p>
-                </div>
-            </div>
-
-            <div class="card card-bird" onclick="location.href=BASE+'/src/pages/bird/bird-list.html'">
-                <div class="card-icon" aria-hidden="true">🐦</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.birdBookTitle" data-i18n-fallback="조류 도감">조류 도감</h3>
-                    <p data-i18n="main.birdBookDescription" data-i18n-fallback="모든 새의 정보와 출현 조건을 확인하세요">모든 새의 정보와 출현 조건을 확인하세요</p>
-                </div>
-            </div>
-
-            <div class="card card-search-fish" onclick="location.href=BASE+'/src/pages/fish/fish-finder.html'">
-                <div class="card-icon" aria-hidden="true">🔍</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.fishFinderTitle" data-i18n-fallback="물고기 찾기">물고기 찾기</h3>
-                    <p data-i18n="main.fishFinderDescription" data-i18n-fallback="현재 조건에 맞는 물고기를 빠르게 찾아보세요">현재 조건에 맞는 물고기를 빠르게 찾아보세요</p>
-                </div>
-            </div>
-
-            <div class="card card-search-insect" onclick="location.href=BASE+'/src/pages/insect/insect-finder.html'">
-                <div class="card-icon" aria-hidden="true">🔍</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.insectFinderTitle" data-i18n-fallback="벌레 찾기">벌레 찾기</h3>
-                    <p data-i18n="main.insectFinderDescription" data-i18n-fallback="현재 조건에 맞는 벌레를 빠르게 찾아보세요">현재 조건에 맞는 벌레를 빠르게 찾아보세요</p>
-                </div>
-            </div>
-
-            <div class="card card-search-bird" onclick="location.href=BASE+'/src/pages/bird/bird-finder.html'">
-                <div class="card-icon" aria-hidden="true">🔍</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.birdFinderTitle" data-i18n-fallback="새 찾기">새 찾기</h3>
-                    <p data-i18n="main.birdFinderDescription" data-i18n-fallback="현재 조건에 맞는 새를 빠르게 찾아보세요">현재 조건에 맞는 새를 빠르게 찾아보세요</p>
-                </div>
-            </div>
-
-            <div class="card card-crop" onclick="location.href=BASE+'/src/pages/crops/crops-list.html'">
-                <div class="card-icon" aria-hidden="true">🌾</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.cropBookTitle" data-i18n-fallback="작물 도감">작물 도감</h3>
-                    <p data-i18n="main.cropBookDescription" data-i18n-fallback="계절별 작물 정보와 수확 시간을 알아보세요">계절별 작물 정보와 수확 시간을 알아보세요</p>
-                </div>
-            </div>
-
-            <div class="card card-recipe" onclick="location.href=BASE+'/src/pages/recipe/recipe.html'">
-                <div class="card-icon" aria-hidden="true">🍳</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.recipeTitle" data-i18n-fallback="요리 레시피">요리 레시피</h3>
-                    <p data-i18n="main.recipeDescription" data-i18n-fallback="레시피별 수익, 재료비, 체력 효율을 한눈에 비교하세요">레시피별 수익, 재료비, 체력 효율을 한눈에 비교하세요</p>
-                </div>
-            </div>
-
-            <div class="card card-pet" onclick="location.href=BASE+'/src/pages/pet/pet-preference.html'">
-                <div class="card-icon" aria-hidden="true">🐾</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.petTitle" data-i18n-fallback="펫 먹이 찾기">펫 먹이 찾기</h3>
-                    <p data-i18n="main.petDescription" data-i18n-fallback="펫별로 먹여본 음식과 좋아하는 음식을 기록해보세요">펫별로 먹여본 음식과 좋아하는 음식을 기록해보세요</p>
-                </div>
-            </div>
-
-            <div class="card card-timer" onclick="location.href=BASE+'/src/pages/farm-timer/farm-timer.html?v=20260707-03'">
-                <div class="card-icon" aria-hidden="true">⏰</div>
-                <div class="card-copy">
-                    <h3 data-i18n="main.farmTimerTitle" data-i18n-fallback="농장 타이머">농장 타이머</h3>
-                    <p data-i18n="main.farmTimerDescription" data-i18n-fallback="잡초 시점과 수확 시간을 놓치지 않게 알려드려요">잡초 시점과 수확 시간을 놓치지 않게 알려드려요</p>
-                </div>
-            </div>
-
+        <section class="approved-cards">
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/fish/fish-list.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-fish.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.fishBookTitle">어류 도감</h3><p data-i18n="main.fishBookDescription">모든 물고기의 정보와 출현 조건을 확인하세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/insect/insect-list.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-insect.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.insectBookTitle">곤충 도감</h3><p data-i18n="main.insectBookDescription">모든 벌레의 정보와 출현 조건을 확인하세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/bird/bird-list.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-bird.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.birdBookTitle">조류 도감</h3><p data-i18n="main.birdBookDescription">모든 새의 정보와 출현 조건을 확인하세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/fish/fish-finder.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-fish-find.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.fishFinderTitle">물고기 찾기</h3><p data-i18n="main.fishFinderDescription">현재 조건에 맞는 물고기를 빠르게 찾아보세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/insect/insect-finder.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-insect-find.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.insectFinderTitle">벌레 찾기</h3><p data-i18n="main.insectFinderDescription">현재 조건에 맞는 벌레를 빠르게 찾아보세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/bird/bird-finder.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-bird-find.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.birdFinderTitle">새 찾기</h3><p data-i18n="main.birdFinderDescription">현재 조건에 맞는 새를 빠르게 찾아보세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/crops/crops-list.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-crop.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.cropBookTitle">작물 도감</h3><p data-i18n="main.cropBookDescription">작물별 재배 정보와 수확 기간을 알아보세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/recipe/recipe.html'">
+                <img class="approved-card-icon" src="../../images/main/icon-recipe.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.recipeTitle">요리 레시피</h3><p data-i18n="main.recipeDescription">레시피별 재료, 효과, 제작 확률을 한눈에 확인하세요</p></div>
+            </article>
+            <article class="approved-card" onclick="location.href=BASE+'/src/pages/pet/pet-preference.html?v=20260707-03'">
+                <img class="approved-card-icon" src="../../images/main/icon-pet.png" alt="">
+                <div class="approved-card-copy"><h3 data-i18n="main.petTitle">펫 먹이 찾기</h3><p data-i18n="main.petDescription">펫별로 가능한 음식과 좋아하는 음식을 가져가보세요</p></div>
+            </article>
+            <article class="approved-card approved-card-timer" onclick="location.href=BASE+'/src/pages/farm-timer/farm-timer.html?v=20260707-03'">
+                <div class="timer-icon" aria-hidden="true">⏰</div>
+                <div class="approved-card-copy"><h3 data-i18n="main.farmTimerTitle">농장 타이머</h3><p data-i18n="main.farmTimerDescription">잡초 시점과 수확 시간을 놓치지 않게 알려드려요</p></div>
+            </article>
         </section>
     </main>
 
+    <img class="blossom-decoration blossom-top-left" src="../../images/main/blossom-top-left.png" alt="">
+    <img class="blossom-decoration blossom-top-right" src="../../images/main/blossom-top-right.png" alt="">
+    <img class="blossom-decoration blossom-bottom-left" src="../../images/main/blossom-bottom-left.png" alt="">
+    <img class="blossom-decoration blossom-bottom-right" src="../../images/main/blossom-bottom-right.png" alt="">
     <!-- 푸터 영역 -->
     <div id="footer-placeholder"></div>
 
